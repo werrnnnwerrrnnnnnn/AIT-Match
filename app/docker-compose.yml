@@ -1,18 +1,18 @@
 services:
-  app_web:
+  match_web:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: app_web
-    image: app_web:0.1
+    container_name: match_web
+    image: match_web:0.1
     command: bash -c "bundle exec rake db:create && bundle exec rake db:migrate && ./bin/rails server -b 0.0.0.0 -p 3000"
     ports:
-      - "3000:3000"
+      - "3333:3000"
     networks:
-      - app_network
+      - match_network
     volumes:
       - ./:/rails
 
 networks:
-  app_network:
+  match_network:
     external: true

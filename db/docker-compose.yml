@@ -1,33 +1,33 @@
 services:
-  app_db:
+  match_db:
     image: postgres:latest
-    container_name: app_db
+    container_name: match_db
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
     ports:
       - "5432:5432"
     networks:
-      - app_network
+      - match_network
 
-  app_pgadmin:
+  match_pgadmin:
     image: dpage/pgadmin4
-    container_name: app_pgadmin
+    container_name: match_pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin123
     ports:
-      - "8080:80"
+      - "8333:80"
     depends_on:
-      - app_db
+      - match_db
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
-      - app_network
+      - match_network
 
 volumes:
   pgadmin_data:
 
 networks:
-  app_network:
+  match_network:
     external: true

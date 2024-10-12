@@ -18,12 +18,9 @@
   </head>
 
   <body>
-    <%
-=begin%>
- <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p> 
-<%
-=end%>
+    <% if show_navbar? %>
+      <%= render 'layouts/navbar_welcome_page' %> <!-- This includes the navbar only when the condition is true -->
+    <% end %>
 
     <% flash.each do |key, value| %>
       <div class="flash <%= key %>">

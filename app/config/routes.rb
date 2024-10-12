@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "welcome_page/index"
   devise_for :users#, controllers: { sessions: 'users/sessions' }
 
   resources :students
@@ -14,5 +15,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  root to: 'home#index'
+  root to: 'welcome_page#index'
 end

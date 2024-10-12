@@ -12,11 +12,11 @@ class User < ApplicationRecord
 
   #Validates for Sign up form
   validates :email, presence: { message: "Email can't be blank" },
-                    uniqueness: { message: "Email has already been taken" },
+                    uniqueness: { message: "has already been taken" },
                     format: { 
                       with: /\Ast\d{6}@(ait\.ac\.th|ait\.asia)\z/, 
-                      message: "must start with 'st' followed by 6 digits and end with '@ait.ac.th' or '@ait.asia'"
+                      message: "must follow AIT format"
                     }
 
-  validates :password, presence: { message: "Password can't be blank" }
+  validates :password, presence: { message: "can't be blank" }
 end

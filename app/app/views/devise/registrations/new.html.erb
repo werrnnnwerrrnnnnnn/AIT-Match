@@ -1,29 +1,173 @@
-<h2>Sign up</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        /* Same styles as the Sign-In page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF0F4;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .error-message {
+            color: #D9534F;
+            background-color: #F8D7DA;
+            border: 1px solid #F5C6CB;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+        .left-section {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+        .left-section h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+        .left-section p {
+            margin-bottom: 20px;
+            color: #888;
+        }
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
 
-<%= render "devise/shared/links" %>
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background-color: #617952;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #bbb;
+        }
+
+        .login-link {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #617952;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            color: #888;
+        }
+
+        .right-section {
+            flex: 1;
+            background-color: #617952;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+        }
+
+        .right-section img {
+            max-width: 100%;
+            border-radius: 20px;
+            transition: transform 0.3s ease; /* Smooth zoom effect */
+        }
+
+        .right-section img:hover {
+            transform: scale(1.1); /* Zoom in the image */
+        }
+
+        footer {
+            background-color: #617952;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Left Section (Sign-Up Form) -->
+        <div class="left-section">
+            <h2>Create an Account!</h2>
+            <p><em>Please use AIT email to sign up <br> (eg. st123456@ait.ac.th or st123456@ait.asia)</em></p>
+
+        <!-- Error Message -->
+            <% if resource.errors.any? %>
+                <div class="error-message">
+                    <% resource.errors.full_messages.each do |message| %>
+                        <p><%= message %></p>
+                    <% end %>
+                </div>
+            <% end %>
+
+            <!-- Sign-Up Form -->
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'signup-form' }) do |f| %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "AIT Email", class: "form-input" %>
+                
+                <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password", class: "form-input" %>
+                
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm Password", class: "form-input" %>
+
+                <%= f.submit "Sign Up", class: "btn btn-primary" %>
+            <% end %>
+
+            <div class="login-link">
+                <br>
+                Already a Member? <a href="<%= new_session_path(resource_name) %>">Log in to AIT Match</a>
+            </div>
+        </div>
+
+        <!-- Right Section (Illustration) -->
+        <div class="right-section">
+            <img src="<%= asset_path('find-your-perfect.png') %>" alt="Illustration">
+        </div>
+    </div>
+
+    <footer>
+        <p>AIT Match © 2024</p>
+    </footer>
+</body>
+</html>

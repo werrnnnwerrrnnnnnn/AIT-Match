@@ -1,26 +1,202 @@
-<h2>Log in</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* Your existing styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF0F4;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .error-message {
+            color: #D9534F; /* A red color for errors */
+            background-color: #F8D7DA; /* A light red background to indicate an error */
+            border: 1px solid #F5C6CB;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+        .left-section {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+        .left-section h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .left-section p {
+            margin-bottom: 20px;
+            color: #888;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        /* Style for 'Forgot Password?' link */
+        .options a {
+            text-decoration: none;
+            color: #617952; /* Match color with 'Sign up to AIT Match' */
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .options a:hover {
+            color: #888; /* Optional hover color */
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background-color: #617952;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #bbb;
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #617952;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            color: #888; /* Optional hover color */
+        }
+
+        .right-section {
+            flex: 1;
+            background-color: #617952;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+        }
+
+        .right-section img {
+            max-width: 100%;
+            border-radius: 20px;
+            transition: transform 0.3s ease; /* Smooth zoom effect */
+        }
+
+        .right-section img:hover {
+            transform: scale(1.1); /* Zoom in the image */
+        }
+
+        footer {
+            background-color: #617952;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+      <div class="container">
+    <!-- Left Section (Login Form) -->
+    <div class="left-section">
+        <h2>Welcome Back!</h2>
+        <p><em>Please use AIT email to log in <br> (eg. st123456@ait.ac.th or st123456@ait.asia)</em></p>
+
+        <!-- Error Message Inside the Form -->
+        <% if flash[:alert] %>
+          <div class="error-message">
+            <%= flash[:alert] %> <!-- Display the error message inside the form -->
+          </div>
+        <% end %>
+
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'login-form' }) do |f| %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "AIT Email", class: "form-input" %>
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "form-input" %>
+
+            <div class="options">
+                <% if devise_mapping.rememberable? %>
+                    <label>
+                        <%= f.check_box :remember_me, class: 'form-checkbox' %>
+                        Remember me
+                    </label>
+                <% end %>
+                <a href="<%= new_password_path(resource_name) %>">Forgot Password?</a>
+            </div>
+
+            <%= f.submit "Log In", class: "btn btn-primary" %>
+        <% end %>
+
+        <div class="signup-link">
+            <br>
+            Not a Member? <a href="<%= new_registration_path(resource_name) %>">Sign up to AIT Match</a>
+        </div>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+    <!-- Right Section (Illustration) -->
+    <div class="right-section">
+        <img src="<%= asset_path('find-your-perfect.png') %>" alt="Illustration">
+    </div>
+</div>
 
-<%= render "devise/shared/links" %>
+<footer>
+    <p>AIT Match © 2024</p>
+</footer>
+
+</body>
+</html>

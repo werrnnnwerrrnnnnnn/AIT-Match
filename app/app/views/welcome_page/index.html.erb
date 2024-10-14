@@ -25,7 +25,7 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.19);
         }
 
         .left-section {
@@ -88,6 +88,7 @@
         .left-section p {
             font-size: 18px;
             margin-bottom: 40px;
+            
         }
 
         /* Styling for "Get started" button with depth */
@@ -128,6 +129,64 @@
             width: 40px;
             height: 40px;
         }
+
+        /* Circular Progress Bar */
+        .progress-container {
+            position: relative;
+            width: 100px; /* SVG width */
+            height: 100px; /* SVG height */
+            margin-bottom: 40px;
+            
+        }
+
+
+        svg {
+            display: block; /* Ensure the SVG itself is centered */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .circle-background {
+            fill: none;
+            stroke: #DF9EB2;
+            stroke-width: 12;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke: #F1E4E8;
+            stroke-width: 12;
+            stroke-dasharray: 0 100;
+            transition: stroke-dasharray 1s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: white;
+            text-align: center;
+        }
+
+        /* Flex container for the progress bar and text */
+        .progress-wrapper {
+            display: flex;
+            align-items: center; /* Vertically center the text with the progress bar */
+            gap: 20px; /* Add space between the progress bar and the text */
+            margin-top: 0px
+        }
+
+        .progress-description {
+            font-size: 18px;
+            color: white;
+            margin-top: -15px
+        }
+
     </style>
 </head>
 <body>
@@ -149,6 +208,32 @@
             <!-- Animated Text -->
             <h1 class="animate-text" id="animatedText">Welcome to AIT Match</h1>
             <p>Where academic goals meet personal connections <br> — AIT Match, bridging hearts and minds.</p>
+
+            <!-- Circular Progress Bar -->
+            <!-- Circular Progress Bar and Text Wrapper -->
+            <div class="progress-wrapper">
+                <div class="progress-container" data-user-count="<%= @user_count %>">
+                    <svg width="150" height="150">
+                        <circle class="circle-background" cx="50" cy="50" r="40"></circle>
+                        <circle class="circle-progress" cx="50" cy="50" r="40"></circle>
+                    </svg>
+                    <div class="progress-text"><%= @user_count %></div>
+                </div>
+
+                <div class="progress-description">
+                    <p>
+                        <% if @user_count == 0 %>
+                            A quiet start — users will join AIT Match soon!
+                        <% elsif @user_count == 1 %>
+                            user has joined AIT Match!
+                        <% else %>
+                            users have joined AIT Match!
+                        <% end %>
+                    </p>
+                </div>
+            </div>
+
+            
             <%= link_to 'Join now', new_user_registration_path, class: 'btn-get-started' %>
         </div>
 
@@ -164,6 +249,52 @@
         animatedText.addEventListener('animationend', () => {
             animatedText.classList.add('finished');
         });
+
+        // Circular Progress Bar Logic with a slower animation using time-based approach
+        document.addEventListener("DOMContentLoaded", function() {
+        const progressCircle = document.querySelector('.circle-progress');
+        const progressText = document.querySelector('.progress-text');
+        const radius = progressCircle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+
+        // Get user count from the data attribute
+        const userCount = parseInt(document.querySelector('.progress-container').getAttribute('data-user-count'), 10);
+
+        // Set maximum progress (e.g., assume the target is 1000 users)
+        const maxUsers = 1000;
+        const percentage = Math.min((userCount / maxUsers) * 100, 100);  // Limit percentage to 100%
+
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = circumference;
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+            progressText.textContent = `${userCount}`;  // Display user count
+        }
+
+        let startTime = null;
+        const duration = 3000; // 10 seconds total animation duration
+
+        function animateProgress(timestamp) {
+            if (!startTime) startTime = timestamp;
+
+            const elapsed = timestamp - startTime;
+
+            // Calculate the current percentage based on elapsed time
+            const currentPercentage = Math.min((elapsed / duration) * percentage, percentage);
+
+            // Set the current progress
+            setProgress(currentPercentage);
+
+            if (elapsed < duration) {
+                requestAnimationFrame(animateProgress);  // Continue the animation
+            }
+        }
+
+        // Start the animation using requestAnimationFrame
+        requestAnimationFrame(animateProgress);
+    });
     </script>
 
 </body>

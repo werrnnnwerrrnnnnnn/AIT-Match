@@ -55,6 +55,16 @@
             color: #888;
         }
 
+        .error-message {
+          margin: 0;
+          padding: 0;
+          line-height: 1.8; /* Adjust the line height to control the spacing */
+        }
+
+        .error-message p {
+          margin: 0;  /* Removes the margin between individual error messages */
+        }
+
         .form-input {
             width: 100%;
             padding: 15px;
@@ -144,6 +154,7 @@
             <% end %>
 
             <!-- Sign-Up Form -->
+            <br>
             <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'signup-form' }) do |f| %>
                 <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "AIT Email", class: "form-input" %>
                 

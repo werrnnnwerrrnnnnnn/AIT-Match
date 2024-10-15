@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  first_name: MyString
+  last_name: MyString
+  user_name: MyString
+  age: 1
+  mbti: one
+  gender: one
+  degree: one
+  school: one
+  program: one
+  educational_background: MyText
+  profile_picture_url: MyText
+  preferred_min_age: 1
+  preferred_max_age: 1
+
+two:
+  user: two
+  first_name: MyString
+  last_name: MyString
+  user_name: MyString
+  age: 1
+  mbti: two
+  gender: two
+  degree: two
+  school: two
+  program: two
+  educational_background: MyText
+  profile_picture_url: MyText
+  preferred_min_age: 1
+  preferred_max_age: 1

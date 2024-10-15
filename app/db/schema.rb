@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_15_054241) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_15_133704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,31 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_15_054241) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "user_name"
+    t.integer "age"
+    t.bigint "mbti_id", null: false
+    t.bigint "gender_id", null: false
+    t.bigint "degree_id", null: false
+    t.bigint "school_id", null: false
+    t.bigint "program_id", null: false
+    t.text "educational_background"
+    t.text "profile_picture_url"
+    t.integer "preferred_min_age"
+    t.integer "preferred_max_age"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["degree_id"], name: "index_profiles_on_degree_id"
+    t.index ["gender_id"], name: "index_profiles_on_gender_id"
+    t.index ["mbti_id"], name: "index_profiles_on_mbti_id"
+    t.index ["program_id"], name: "index_profiles_on_program_id"
+    t.index ["school_id"], name: "index_profiles_on_school_id"
+    t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
   create_table "programs", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
@@ -95,4 +120,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_15_054241) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "profiles", "degrees"
+  add_foreign_key "profiles", "genders"
+  add_foreign_key "profiles", "mbtis"
+  add_foreign_key "profiles", "programs"
+  add_foreign_key "profiles", "schools"
+  add_foreign_key "profiles", "users"
 end

@@ -1,0 +1,66 @@
+<%= form_with(model: @profile, local: true) do |f| %>
+<br><br><br><br><br><br>
+  <div class="form-group">
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :user_name %>
+    <%= f.text_field :user_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :age %>
+    <%= f.number_field :age %>
+  </div>
+
+  <!-- MBTI Dropdown -->
+  <div class="form-group">
+    <%= f.label :mbti_id %>
+    <%= f.collection_select :mbti_id, Mbti.all, :id, :label, prompt: "Select your MBTI type" %>
+  </div>
+
+  <!-- Gender Dropdown -->
+  <div class="form-group">
+    <%= f.label :gender_id %>
+    <%= f.collection_select :gender_id, Gender.all, :id, :label, prompt: "Select your gender" %>
+  </div>
+
+  <!-- Degree Dropdown -->
+  <div class="form-group">
+    <%= f.label :degree_id %>
+    <%= f.collection_select :degree_id, Degree.all, :id, :label, prompt: "Select your degree" %>
+  </div>
+
+  <!-- School Dropdown -->
+  <div class="form-group">
+    <%= f.label :school_id %>
+    <%= f.collection_select :school_id, School.all, :id, :name, prompt: "Select your school" %>
+  </div>
+
+  <!-- Program Dropdown -->
+  <div class="form-group">
+    <%= f.label :program_id %>
+    <%= f.collection_select :program_id, Program.all, :id, :name, prompt: "Select your program" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :educational_background %>
+    <%= f.text_area :educational_background %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :profile_picture_url %>
+    <%= f.text_field :profile_picture_url %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Create Profile" %>
+  </div>
+<% end %>

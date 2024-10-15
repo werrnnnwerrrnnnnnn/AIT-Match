@@ -1,6 +1,8 @@
-<%= form_with(model: @profile, local: true) do |f| %>
-<br><br><br><br><br><br>
 
+
+<br><br><br><br><br><br>
+<h1>Welcome to Ait Match, create profile first</h1>
+<%= form_with(model: @profile, local: true) do |f| %>
 <!-- Display validation error messages -->
 <% if @profile.errors.any? %>
   <div id="error_explanation">

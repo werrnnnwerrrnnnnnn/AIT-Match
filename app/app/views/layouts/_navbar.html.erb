@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | AIT Match</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFF0F4;
+        }
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain; /* Keeps the aspect ratio */
+        }
+        nav {
+            background-color: #617952;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        ul li a {
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background-color: #F7DDE3;
+        }
+
+        ul li a:hover {
+            background-color: #bbb;
+        }
+
+        .right-buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-left: auto;
+            flex-shrink: 0;
+            max-width: 250px;
+        }
+
+        .right-buttons a {
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background-color: #F7DDE3;
+            white-space: nowrap;
+        }
+
+        .right-buttons a:hover {
+            background-color: #bbb;
+        }
+
+        .notification {
+            position: relative;
+        }
+
+        .notification-bell {
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #F7DDE3;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: black;
+            border: none;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: 0;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 3px 5px;
+            border-radius: 50%;
+        }
+
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 35px;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            width: 300px;
+            z-index: 100;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 10px 0;
+        }
+
+        .notification-dropdown p {
+            margin: 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .notification-dropdown p:last-child {
+            border-bottom: none;
+        }
+
+        .notification-dropdown p:hover {
+            background-color: #f7f7f7;
+        }
+
+        /* Hover effect to show dropdown */
+        .notification:hover .notification-dropdown {
+            display: block;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 14px;
+            padding: 5px 8px;
+            border-radius: 50%;
+        }
+
+        #page-title {
+            font-size: 18px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <%= image_tag 'logo-white.png', alt: 'AIT Match Logo', class: 'logo-img' %>
+            <ul>
+                <li><%= link_to 'Home', welcome_path %></li>
+                <li><%= link_to 'Profile', welcome_path %></li>
+                <li><%= link_to 'Matches', welcome_path %></li>
+                <li><%= link_to 'Messages', welcome_path %></li>
+                <li><%= link_to 'Events', welcome_path %></li>
+            </ul>
+        </div>
+
+        <div id="page-title" class="center-text">Events Page</div>
+
+        <div class="right-buttons">
+            <div class="notification">
+                <span class="notification-bell">🔔</span>
+                <span class="notification-count">3</span>
+                <div class="notification-dropdown">
+                    <p>John Doe liked your profile.</p>
+                    <p>Jane Smith sent you a message.</p>
+                    <p>Alice Johnson viewed your profile.</p>
+                </div>
+            </div>
+            <%= link_to 'Log out', welcome_path, method: :delete %>
+        </div>
+    </nav>
+
+</body>
+
+</html>

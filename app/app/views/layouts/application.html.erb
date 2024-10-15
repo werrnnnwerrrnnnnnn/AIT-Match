@@ -18,8 +18,11 @@
   </head>
 
   <body>
-    <% if show_navbar? %>
-      <%= render 'layouts/navbar_welcome_page' %> <!-- This includes the navbar only when the condition is true -->
+    <% case show_navbar? %>
+    <% when :navbar_welcome_page %>
+      <%= render 'layouts/navbar_welcome_page' %>
+    <% when :navbar %>
+      <%= render 'layouts/navbar' %>
     <% end %>
 
     <% flash.each do |key, value| %>
@@ -27,7 +30,7 @@
         <%= value %>
       </div>
     <% end %>
-    
+
     <%= yield %>
   </body>
 </html>

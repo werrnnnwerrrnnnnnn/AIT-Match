@@ -32,6 +32,7 @@ class ProfilesController < ApplicationController
   end
 
   def show
+    puts "Params: #{params.inspect}" 
     @profile = Profile.find(params[:id])
   end
 

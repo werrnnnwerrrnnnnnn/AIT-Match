@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users#, controllers: { sessions: 'users/sessions' }
-  resources :profiles
+  resources :profiles, only: [:new, :edit, :update, :show]
   resources :students
   
   get "up" => "rails/health#show", as: :rails_health_check
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'welcome', to: "welcome_page#index"
   get 'about', to: "about_page#index"
   get 'contact', to: "contact_page#index"
-  
+
   get 'new_profile',to: "profiles#new"
   get 'edit_profile',to: "profiles#edit"
   get 'show_profile',to: "profiles#show"

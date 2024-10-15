@@ -1,66 +1,136 @@
 <%= form_with(model: @profile, local: true) do |f| %>
 <br><br><br><br><br><br>
-  <div class="form-group">
-    <%= f.label :first_name %>
-    <%= f.text_field :first_name %>
-  </div>
 
-  <div class="form-group">
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name %>
+<!-- Display validation error messages -->
+<% if @profile.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+    <!-- 
+        <ul>
+        <% @profile.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+        </ul>
+    -->
   </div>
+<% end %>
 
-  <div class="form-group">
-    <%= f.label :user_name %>
-    <%= f.text_field :user_name %>
-  </div>
+<div class="form-group">
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name %>
+  <% if @profile.errors[:first_name].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:first_name].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <div class="form-group">
-    <%= f.label :age %>
-    <%= f.number_field :age %>
-  </div>
+<div class="form-group">
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name %>
+  <% if @profile.errors[:last_name].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:last_name].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <!-- MBTI Dropdown -->
-  <div class="form-group">
-    <%= f.label :mbti_id %>
-    <%= f.collection_select :mbti_id, Mbti.all, :id, :label, prompt: "Select your MBTI type" %>
-  </div>
+<div class="form-group">
+  <%= f.label :user_name %>
+  <%= f.text_field :user_name %>
+  <% if @profile.errors[:user_name].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:user_name].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <!-- Gender Dropdown -->
-  <div class="form-group">
-    <%= f.label :gender_id %>
-    <%= f.collection_select :gender_id, Gender.all, :id, :label, prompt: "Select your gender" %>
-  </div>
+<div class="form-group">
+  <%= f.label :age %>
+  <%= f.number_field :age %>
+  <% if @profile.errors[:age].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:age].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <!-- Degree Dropdown -->
-  <div class="form-group">
-    <%= f.label :degree_id %>
-    <%= f.collection_select :degree_id, Degree.all, :id, :label, prompt: "Select your degree" %>
-  </div>
+<!-- MBTI Dropdown -->
+<div class="form-group">
+  <%= f.label :mbti_id %>
+  <%= f.collection_select :mbti_id, Mbti.all, :id, :label, prompt: "Select your MBTI type" %>
+  <% if @profile.errors[:mbti_id].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:mbti_id].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <!-- School Dropdown -->
-  <div class="form-group">
-    <%= f.label :school_id %>
-    <%= f.collection_select :school_id, School.all, :id, :name, prompt: "Select your school" %>
-  </div>
+<!-- Gender Dropdown -->
+<div class="form-group">
+  <%= f.label :gender_id %>
+  <%= f.collection_select :gender_id, Gender.all, :id, :label, prompt: "Select your gender" %>
+  <% if @profile.errors[:gender_id].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:gender_id].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <!-- Program Dropdown -->
-  <div class="form-group">
-    <%= f.label :program_id %>
-    <%= f.collection_select :program_id, Program.all, :id, :name, prompt: "Select your program" %>
-  </div>
+<!-- Degree Dropdown -->
+<div class="form-group">
+  <%= f.label :degree_id %>
+  <%= f.collection_select :degree_id, Degree.all, :id, :label, prompt: "Select your degree" %>
+  <% if @profile.errors[:degree_id].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:degree_id].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <div class="form-group">
-    <%= f.label :educational_background %>
-    <%= f.text_area :educational_background %>
-  </div>
+<!-- School Dropdown -->
+<div class="form-group">
+  <%= f.label :school_id %>
+  <%= f.collection_select :school_id, School.all, :id, :name, prompt: "Select your school" %>
+  <% if @profile.errors[:school_id].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:school_id].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <div class="form-group">
-    <%= f.label :profile_picture_url %>
-    <%= f.text_field :profile_picture_url %>
-  </div>
+<!-- Program Dropdown -->
+<div class="form-group">
+  <%= f.label :program_id %>
+  <%= f.collection_select :program_id, Program.all, :id, :name, prompt: "Select your program" %>
+  <% if @profile.errors[:program_id].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:program_id].join(", ") %>
+    </div>
+  <% end %>
+</div>
 
-  <div class="form-group">
-    <%= f.submit "Create Profile" %>
-  </div>
+<div class="form-group">
+  <%= f.label :educational_background %>
+  <%= f.text_area :educational_background %>
+  <% if @profile.errors[:educational_background].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:educational_background].join(", ") %>
+    </div>
+  <% end %>
+</div>
+
+<div class="form-group">
+  <%= f.label :profile_picture_url %>
+  <%= f.text_field :profile_picture_url %>
+  <% if @profile.errors[:profile_picture_url].any? %>
+    <div class="error-message">
+      <%= @profile.errors[:profile_picture_url].join(", ") %>
+    </div>
+  <% end %>
+</div>
+
+<div class="form-group">
+  <%= f.submit "Create Profile" %>
+</div>
 <% end %>

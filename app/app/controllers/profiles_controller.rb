@@ -63,7 +63,7 @@ class ProfilesController < ApplicationController
   end
 
   def index
-    @profiles = Profile.includes(:user).all
+    @profiles = Profile.where.not(user: current_user)
   end
 
   private

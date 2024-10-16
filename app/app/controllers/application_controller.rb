@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   def show_navbar?
     welcome_navbar_actions = [
       ['sessions', 'new'],          # Sign in
+      ['registrations', 'new'],     # Sign up
       ['passwords', 'new'],         # Request password reset
       ['passwords', 'create'],      # Send password reset instructions
       ['confirmations', 'new'],     # Request email confirmation
@@ -38,14 +39,19 @@ class ApplicationController < ActionController::Base
         return :navbar
     end
 
+        Rails.logger.debug "No navbar to render"
+    nil
   end
 
   protected
   def after_sign_in_path_for(resource)
     if resource.profile.present?
-      show_profile_path(resource.profile) 
+      profiles_path(resource.profile) 
     else
       new_profile_path 
     end
   end
 end
+
+# <li><%= link_to 'Home', profiles_path(@profile) %></li>
+# <li><%= link_to 'Profile', profile_path(current_user.profile) %></li>  

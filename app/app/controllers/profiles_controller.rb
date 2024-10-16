@@ -8,14 +8,19 @@ class ProfilesController < ApplicationController
 
   def create
     @profile = Profile.new(profile_params)
-    @profile.user = current_user  # Assuming the user is already signed in
-
+    @profile.user = current_user
+  
+    puts "Profile Params: #{profile_params.inspect}" # Check the parameters being passed
+  
     if @profile.save
+      puts "Profile saved successfully."
       redirect_to @profile, notice: 'Profile was successfully created.'
     else
+      puts "Failed to save profile: #{@profile.errors.full_messages.join(", ")}"
       render :new
     end
   end
+  
 
   def edit
     @profile = current_user.profile
@@ -31,13 +36,20 @@ class ProfilesController < ApplicationController
     end
   end
 
+  # def show
+  #   puts "Params: #{params.inspect}" 
+  #   @profile = Profile.find(params[:id])
+  # end
+
   def show
-    puts "Params: #{params.inspect}" 
-    @profile = Profile.find(params[:id])
+    @profile = Profile.find_by(id: params[:id])
+    if @profile.nil?
+      redirect_to profiles_path, alert: "Profile not found."
+    end
   end
 
   def index
-    @profiles = Profile.all
+    @profiles = Profile.includes(:user).all
   end
 
   private

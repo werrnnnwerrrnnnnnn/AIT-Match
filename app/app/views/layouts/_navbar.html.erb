@@ -163,15 +163,19 @@
         <div class="nav-left">
             <%= image_tag 'logo-white.png', alt: 'AIT Match Logo', class: 'logo-img' %>
             <ul>
-                <li><%= link_to 'Home', welcome_path %></li>
-                <li><%= link_to 'Profile', welcome_path %></li>
+                <li><%= link_to 'Home', profiles_path %></li>
+                <li>
+                    <% if current_user.profile && current_user.profile.id.present? %>
+                        <%= link_to 'Profile', profile_path(current_user.profile) %>
+                    <% else %>
+                        <%= link_to 'Create Profile', new_profile_path %>
+                    <% end %>
+                </li>   
                 <li><%= link_to 'Matches', welcome_path %></li>
                 <li><%= link_to 'Messages', welcome_path %></li>
                 <li><%= link_to 'Events', welcome_path %></li>
             </ul>
         </div>
-
-        <div id="page-title" class="center-text">Events Page</div>
 
         <div class="right-buttons">
             <div class="notification">

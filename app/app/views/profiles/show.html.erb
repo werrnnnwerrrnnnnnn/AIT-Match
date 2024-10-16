@@ -13,3 +13,31 @@
 <p>Degree: <%= @profile.degree.label %></p>
 <p>Educational Background: <%= @profile.educational_background %></p>
 <p>Profile Picture URL: <%= @profile.profile_picture_url %></p>
+
+<!-- app/views/profiles/show.html.erb -->
+<% if @profile.user == current_user %>
+  <%= form_with(url: profile_path(@profile), method: :delete, local: true, id: "profileDeletionForm") do %>
+    <div class="form-group">
+      <label for="username_confirmation">Type your username to confirm deletion:</label>
+      <%= text_field_tag :username_confirmation, nil, placeholder: "Enter your username", class: "form-control", required: true %>
+    </div>
+    <%= submit_tag 'Delete Profile', class: "btn btn-danger" %>
+  <% end %>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById("profileDeletionForm");
+      form.addEventListener("submit", function(event) {
+        const usernameInput = event.target.querySelector("input[name='username_confirmation']");
+        const enteredUsername = usernameInput.value;
+        const currentUsername = "<%= current_user.profile.user_name  %>";
+
+        if (enteredUsername !== currentUsername) {
+          alert("Username does not match. Please type your correct username to confirm.");
+          event.preventDefault(); // Prevent form submission
+        }
+      });
+    });
+  </script>
+<% end %>
+

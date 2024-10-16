@@ -1,6 +1,8 @@
 class ProfilesController < ApplicationController
   # Only allow signed-in users to access profile actions
   before_action :authenticate_user!
+  before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def new
     if current_user.profile.present?
@@ -66,7 +68,26 @@ class ProfilesController < ApplicationController
     @profiles = Profile.where.not(user: current_user)
   end
 
+  def destroy
+    if @profile.destroy
+      redirect_to root_path, notice: 'Profile was successfully deleted.'
+    else
+      redirect_to profile_path(@profile), alert: 'Something went wrong. Unable to delete profile.'
+    end
+  end
+
   private
+
+  def set_profile
+    @profile = Profile.find(params[:id])
+  end
+
+  def authorize_user!
+    # Redirects the user if they attempt to access a profile that isn't their own
+    unless @profile.user == current_user
+      redirect_to profiles_path, alert: 'You are not authorized to perform this action.'
+    end
+  end
 
   def profile_params
     puts params.inspect

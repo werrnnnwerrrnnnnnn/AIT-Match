@@ -21,6 +21,13 @@ class Profile < ApplicationRecord
   validates :educational_background, presence: { message: "cannot be blank." }
   validates :profile_picture_url, presence: { message: "cannot be blank." }
 
+  validate :single_profile_per_user
+  private
+  def single_profile_per_user
+    if user.present? && Profile.where(user_id: user.id).exists?
+      errors.add(:base, "You can only have one profile.")
+    end
+  end
          
                   
   belongs_to :user

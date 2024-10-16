@@ -41,10 +41,19 @@ class ProfilesController < ApplicationController
   #   @profile = Profile.find(params[:id])
   # end
 
+  # def show
+  #   @profile = Profile.find_by(id: params[:id])
+  #   if @profile.nil?
+  #     redirect_to profiles_path, alert: "Profile not found."
+  #   end
+  # end
+
   def show
     @profile = Profile.find_by(id: params[:id])
     if @profile.nil?
       redirect_to profiles_path, alert: "Profile not found."
+    else
+      @user = @profile.user # Get the user associated with the profile
     end
   end
 

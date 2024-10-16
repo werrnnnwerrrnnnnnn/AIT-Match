@@ -63,7 +63,7 @@
 <!-- MBTI Dropdown -->
 <div class="form-group">
   <%= f.label :mbti_id %>
-  <%= f.collection_select :mbti_id, Mbti.all, :id, :label, prompt: "Select your MBTI type" %>
+  <%= f.collection_select :mbti_id, Mbti.all, :id, :combined_value_label, prompt: "Select your MBTI type" %>
   <% if @profile.errors[:mbti_id].any? %>
     <div class="error-message">
       <%= @profile.errors[:mbti_id].join(", ") %>
@@ -96,7 +96,7 @@
 <!-- School Dropdown -->
 <div class="form-group">
   <%= f.label :school_id %>
-  <%= f.collection_select :school_id, School.all, :id, :name, prompt: "Select your school" %>
+  <%= f.collection_select :school_id, School.all, :id, :combined_name_abbreviation, prompt: "Select your school" %>
   <% if @profile.errors[:school_id].any? %>
     <div class="error-message">
       <%= @profile.errors[:school_id].join(", ") %>
@@ -107,7 +107,7 @@
 <!-- Program Dropdown -->
 <div class="form-group">
   <%= f.label :program_id %>
-  <%= f.collection_select :program_id, Program.all, :id, :name, prompt: "Select your program" %>
+  <%= f.collection_select :program_id, Program.all, :id, :combined_name_abbreviation, prompt: "Select your program" %>
   <% if @profile.errors[:program_id].any? %>
     <div class="error-message">
       <%= @profile.errors[:program_id].join(", ") %>

@@ -1,12 +1,15 @@
-
 <br><br><br><br><br>
 <h1>Welcome Back!</h1>
 <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
 
 <p>Email: <%= @user.email %></p> <!-- Display user's email -->
+<p>Role: <%= @user.role %></p>
 <p>Username: <%= @profile.user_name %></p>
 <p>Age: <%= @profile.age %></p>
 <p>Gender: <%= @profile.gender.label %></p>
 <p>MBTI: <%= @profile.mbti.label %></p>
 <p>School: <%= @profile.school.name %></p>
-<!-- Display other profile information -->
+<p>Program: <%= @profile.program.name %></p>
+<p>Degree: <%= @profile.degree.label %></p>
+<p>Educational Background: <%= @profile.educational_background %></p>
+<p>Profile Picture URL: <%= @profile.profile_picture_url %></p>

@@ -13,6 +13,7 @@
   <% end %>
 </p>
 <p>Gender: <%= @profile.gender.label %></p>
+<p>Age: <%= @profile.age %></p> <!-- Display the calculated age -->
 <p>MBTI: <%= @profile.mbti.combined_value_label %></p>
 <p>School: <%= @profile.school.combined_name_abbreviation %></p>
 <p>Program: <%= @profile.program.combined_name_abbreviation %></p>

@@ -17,7 +17,7 @@ class Profile < ApplicationRecord
   validates :profile_picture_url, presence: { message: "cannot be blank." }
   validate :single_profile_per_user   
   validate :interest_count_within_limit   
-  validates :birthday, presence: { message: "must be provided" }, on: :update
+  validates :birthday, presence: { message: "must be provided" }
   
                   
   belongs_to :user
@@ -37,6 +37,13 @@ class Profile < ApplicationRecord
   has_many :interests, through: :profile_interests
 
   # before_save :calculate_age
+  
+  def age
+    return "Birthday not provided" unless birthday.present?
+
+    today = Date.today
+    today.year - birthday.year - ((today.month > birthday.month || (today.month == birthday.month && today.day >= birthday.day)) ? 0 : 1)
+  end
 
   private
   def single_profile_per_user

@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  preference: one
+  preferred_mbti: one
+
+two:
+  preference: two
+  preferred_mbti: two

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_17_083927) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_17_185038) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,9 +41,31 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_083927) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "preferences", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "preferred_min_age"
+    t.integer "preferred_max_age"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_preferences_on_user_id"
+  end
+
+  create_table "preferred_degrees", force: :cascade do |t|
+    t.string "value"
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "preferred_genders", force: :cascade do |t|
     t.string "value"
     t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "preferred_interests", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -55,9 +77,23 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_083927) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "preferred_programs", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "preferred_relationships", force: :cascade do |t|
     t.string "name"
     t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "preferred_schools", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -175,6 +211,70 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_083927) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "users_preferred_degrees", force: :cascade do |t|
+    t.bigint "preference_id", null: false
+    t.bigint "preferred_degree_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preference_id"], name: "index_users_preferred_degrees_on_preference_id"
+    t.index ["preferred_degree_id"], name: "index_users_preferred_degrees_on_preferred_degree_id"
+  end
+
+  create_table "users_preferred_genders", force: :cascade do |t|
+    t.bigint "preference_id", null: false
+    t.bigint "preferred_gender_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preference_id"], name: "index_users_preferred_genders_on_preference_id"
+    t.index ["preferred_gender_id"], name: "index_users_preferred_genders_on_preferred_gender_id"
+  end
+
+  create_table "users_preferred_interests", force: :cascade do |t|
+    t.bigint "preference_id", null: false
+    t.bigint "preferred_interest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preference_id"], name: "index_users_preferred_interests_on_preference_id"
+    t.index ["preferred_interest_id"], name: "index_users_preferred_interests_on_preferred_interest_id"
+  end
+
+  create_table "users_preferred_mbtis", force: :cascade do |t|
+    t.bigint "preference_id", null: false
+    t.bigint "preferred_mbti_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preference_id"], name: "index_users_preferred_mbtis_on_preference_id"
+    t.index ["preferred_mbti_id"], name: "index_users_preferred_mbtis_on_preferred_mbti_id"
+  end
+
+  create_table "users_preferred_programs", force: :cascade do |t|
+    t.bigint "preference_id", null: false
+    t.bigint "preferred_program_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preference_id"], name: "index_users_preferred_programs_on_preference_id"
+    t.index ["preferred_program_id"], name: "index_users_preferred_programs_on_preferred_program_id"
+  end
+
+  create_table "users_preferred_relationships", force: :cascade do |t|
+    t.bigint "preference_id", null: false
+    t.bigint "preferred_relationship_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preference_id"], name: "index_users_preferred_relationships_on_preference_id"
+    t.index ["preferred_relationship_id"], name: "idx_on_preferred_relationship_id_395b56ecab"
+  end
+
+  create_table "users_preferred_schools", force: :cascade do |t|
+    t.bigint "preference_id", null: false
+    t.bigint "preferred_school_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preference_id"], name: "index_users_preferred_schools_on_preference_id"
+    t.index ["preferred_school_id"], name: "index_users_preferred_schools_on_preferred_school_id"
+  end
+
+  add_foreign_key "preferences", "users"
   add_foreign_key "profile_interests", "interests"
   add_foreign_key "profile_interests", "profiles"
   add_foreign_key "profile_preferred_genders", "genders"
@@ -193,4 +293,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_083927) do
   add_foreign_key "profiles", "programs"
   add_foreign_key "profiles", "schools"
   add_foreign_key "profiles", "users"
+  add_foreign_key "users_preferred_degrees", "preferences"
+  add_foreign_key "users_preferred_degrees", "preferred_degrees"
+  add_foreign_key "users_preferred_genders", "preferences"
+  add_foreign_key "users_preferred_genders", "preferred_genders"
+  add_foreign_key "users_preferred_interests", "preferences"
+  add_foreign_key "users_preferred_interests", "preferred_interests"
+  add_foreign_key "users_preferred_mbtis", "preferences"
+  add_foreign_key "users_preferred_mbtis", "preferred_mbtis"
+  add_foreign_key "users_preferred_programs", "preferences"
+  add_foreign_key "users_preferred_programs", "preferred_programs"
+  add_foreign_key "users_preferred_relationships", "preferences"
+  add_foreign_key "users_preferred_relationships", "preferred_relationships"
+  add_foreign_key "users_preferred_schools", "preferences"
+  add_foreign_key "users_preferred_schools", "preferred_schools"
 end

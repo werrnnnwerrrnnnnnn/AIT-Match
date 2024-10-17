@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  preferred_min_age: 1
+  preferred_max_age: 1
+
+two:
+  user: two
+  preferred_min_age: 1
+  preferred_max_age: 1

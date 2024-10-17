@@ -1,4 +1,8 @@
 class PreferredRelationship < ApplicationRecord
-  validates :name, presence: true, uniqueness: true
-  validates :description, presence: true
+  # Associations
+  has_many :user_preferred_relationships, dependent: :destroy
+  has_many :users, through: :user_preferred_relationships
+
+  # Add any validations if needed
+  validates :label, presence: true
 end

@@ -1,4 +1,3 @@
-<br><br><br><br><br>
 <h1>Profiles#index</h1>
 <p>Find me in app/views/profiles/index.html.erb</p>
 
@@ -25,6 +24,7 @@
       <td>
         <%= link_to 'Show', profile_path(current_user.profile) %>
         <%= link_to 'Edit', edit_profile_path(current_user.profile) %>
+        <%= link_to 'Delete', profile_path(current_user.profile), method: :delete, data: { confirm: 'Are you sure?' } %>
       </td>
     </tr>
   </tbody>
@@ -45,18 +45,18 @@
   </thead>
   <tbody>
     <% @profiles.each do |profile| %>
-      <tr>
-        <td><%= profile.user.email %></td> <!-- Display email here -->
-        <td><%= profile.first_name %></td>
-        <td><%= profile.last_name %></td>
-        <td><%= profile.user_name %></td>
-        <td><%= profile.age %></td>
-        <td>
-          <%= link_to 'Show', profile_path(profile) %>
-          <%= link_to 'Edit', edit_profile_path(profile) %>
-          <%= link_to 'Delete', profile_path(profile), method: :delete, data: { confirm: 'Are you sure?' } %>
-        </td>
-      </tr>
+      <% unless profile.user == current_user %> <!-- Only show other profiles -->
+        <tr>
+          <td><%= profile.user.email %></td>
+          <td><%= profile.first_name %></td>
+          <td><%= profile.last_name %></td>
+          <td><%= profile.user_name %></td>
+          <td><%= profile.age %></td>
+          <td>
+            <%= link_to 'Show', profile_path(profile) %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

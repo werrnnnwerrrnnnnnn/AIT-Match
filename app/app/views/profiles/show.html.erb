@@ -5,6 +5,13 @@
 <p>Email: <%= @user.email %></p> <!-- Display user's email -->
 <p>Role: <%= @user.role %></p>
 <p>Username: <%= @profile.user_name %></p>
+<p>Birthday: 
+  <% if @profile.birthday.present? %>
+    <%= @profile.birthday.strftime('%d %m %Y') %>
+  <% else %>
+    Not provided
+  <% end %>
+</p>
 <p>Age: <%= @profile.age %></p>
 <p>Gender: <%= @profile.gender.label %></p>
 <p>MBTI: <%= @profile.mbti.combined_value_label %></p>

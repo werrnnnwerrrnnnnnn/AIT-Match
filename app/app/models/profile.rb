@@ -17,6 +17,8 @@ class Profile < ApplicationRecord
   validates :profile_picture_url, presence: { message: "cannot be blank." }
   validate :single_profile_per_user   
   validate :interest_count_within_limit   
+  validates :birthday, presence: { message: "must be provided" }, on: :update
+  
                   
   belongs_to :user
   belongs_to :mbti, optional: true
@@ -34,6 +36,8 @@ class Profile < ApplicationRecord
   has_many :profile_interests, dependent: :destroy
   has_many :interests, through: :profile_interests
 
+  before_save :calculate_age
+
   private
   def single_profile_per_user
     if user.present? && Profile.where(user_id: user.id).where.not(id: id).exists?
@@ -43,5 +47,12 @@ class Profile < ApplicationRecord
 
   def interest_count_within_limit
     errors.add(:interests, "can only select up to 5") if interests.size > 5
+  end
+
+  def calculate_age
+    if birthday.present?
+      today = Date.today
+      self.age = today.year - birthday.year - ((today.month > birthday.month || (today.month == birthday.month && today.day >= birthday.day)) ? 0 : 1)
+    end
   end
 end

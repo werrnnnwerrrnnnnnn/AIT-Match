@@ -96,6 +96,6 @@ class ProfilesController < ApplicationController
                                     :age, :mbti_id, :gender_id, :degree_id, 
                                     :school_id, :program_id, :educational_background, 
                                     :profile_picture_url, :preferred_min_age, :preferred_max_age,
-                                    interest_ids: [])
+                                    :birthday, interest_ids: [])
   end
 end

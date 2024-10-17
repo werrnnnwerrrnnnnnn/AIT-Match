@@ -16,6 +16,9 @@
 
 <!-- app/views/profiles/show.html.erb -->
 <% if @profile.user == current_user %>
+ <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn btn-primary" %>
+ <!--   <a href="<%= edit_profile_path(@profile) %>" class="btn btn-primary">Edit Profile</a>     -->
+
   <%= form_with(url: profile_path(@profile), method: :delete, local: true, id: "profileDeletionForm") do %>
     <div class="form-group">
       <label for="username_confirmation">Type your username to confirm deletion:</label>

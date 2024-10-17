@@ -60,7 +60,6 @@
   <% end %>
 </div>
 
-
   <!-- MBTI Dropdown -->
   <div class="form-group">
     <%= f.label :mbti_id %>
@@ -136,18 +135,45 @@
     <% end %>
   </div>
 
-  <div class="form-group">
+<!-- Interests Section -->
+<div class="form-group">
   <%= f.label :interest_ids, "Select your interests (up to 5)" %>
-  
-  <!-- Button to open dropdown -->
-  <button type="button" class="btn btn-primary" onclick="toggleDropdown()">Select Interests</button>
-
-  <!-- Dropdown (initially hidden) -->
-  <div id="interestDropdown" style="display: none; margin-top: 10px;">
-    <%= f.collection_select :interest_ids, Interest.all, :id, :name, { prompt: "Select interests", multiple: true }, { class: "form-control", size: 5 } %>
+  <button type="button" class="btn btn-primary" onclick="toggleDropdown('interestDropdown')">Select Interests</button>
+  <div id="interestDropdown" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background: white;">
+    <% Interest.all.each do |interest| %>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="interest_<%= interest.id %>" name="profile[interest_ids][]" value="<%= interest.id %>"
+               <%= @profile.interests.include?(interest) ? 'checked' : '' %>>
+        <label class="form-check-label" for="interest_<%= interest.id %>">
+          <%= interest.name %>
+        </label>
+      </div>
+    <% end %>
     <% if @profile.errors[:interests].any? %>
       <div class="error-message">
         <%= @profile.errors[:interests].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Relationship Section -->
+<div class="form-group">
+  <%= f.label :relationship_ids, "Select Your Preferred Relationship Type" %>
+  <button type="button" class="btn btn-primary" onclick="toggleDropdown('relationshipDropdown')">Select Preferred Relationship Type</button>
+  <div id="relationshipDropdown" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background: white;">
+    <% Relationship.all.each do |relationship| %>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input relationship-checkbox" id="relationship_<%= relationship.id %>" name="profile[relationship_ids][]" value="<%= relationship.id %>"
+               <%= @profile.relationships.include?(relationship) ? 'checked' : '' %>>
+        <label class="form-check-label" for="relationship_<%= relationship.id %>">
+          <%= relationship.name %>
+        </label>
+      </div>
+    <% end %>
+    <% if @profile.errors[:relationships].any? %>
+      <div class="error-message">
+        <%= @profile.errors[:relationships].join(", ") %>
       </div>
     <% end %>
   </div>
@@ -159,12 +185,33 @@
 <% end %>
 
 <script>
-  function toggleDropdown() {
-    const dropdown = document.getElementById("interestDropdown");
+  function toggleDropdown(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
     if (dropdown.style.display === "none" || dropdown.style.display === "") {
       dropdown.style.display = "block";
     } else {
       dropdown.style.display = "none";
     }
   }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll('.relationship-checkbox');
+    const openToAllCheckbox = document.querySelector('#relationship_<%= Relationship.find_by(name: "Open to all").id %>');
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        if (openToAllCheckbox.checked) {
+          checkboxes.forEach(box => {
+            if (box !== openToAllCheckbox) {
+              box.disabled = true;
+            }
+          });
+        } else {
+          checkboxes.forEach(box => {
+            box.disabled = false;
+          });
+        }
+      });
+    });
+  });
 </script>

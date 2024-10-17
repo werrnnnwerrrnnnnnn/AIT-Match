@@ -30,7 +30,19 @@
   </ul>
 <% else %>
   <p>No interests selected.</p>
-<% end %> <br>
+<% end %>
+
+<h3>Preferred Relationship Types:</h3>
+<% if @profile.relationships.any? %>
+  <ul>
+    <% @profile.relationships.each do |relationship| %>
+      <li><%= relationship.name %> - <%= relationship.description %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No preferred relationships selected.</p>
+<% end %>
+
 
 <!-- app/views/profiles/show.html.erb -->
 <% if @profile.user == current_user %>
@@ -43,7 +55,7 @@
       <%= text_field_tag :username_confirmation, nil, placeholder: "Enter your username", class: "form-control", required: true %>
     </div>
     <%= submit_tag 'Delete Profile', class: "btn btn-danger" %>
-  <% end %>
+  <% end %> <br><br><br><br>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {

@@ -21,17 +21,20 @@ class Profile < ApplicationRecord
   belongs_to :school, optional: true
   belongs_to :program, optional: true
 
-  has_many :profile_interests
+  # Direct associations with dependent destroy
+  has_many :profile_interests, dependent: :destroy
+  has_many :profile_relationships, dependent: :destroy
+  has_many :profile_preferred_mbtis, dependent: :destroy
+  has_many :profile_preferred_genders, dependent: :destroy
+  has_many :profile_preferred_interests, dependent: :destroy
+  has_many :profile_preferred_relationships, dependent: :destroy
+
+  # Through associations
   has_many :interests, through: :profile_interests
-  has_many :profile_relationships
   has_many :relationships, through: :profile_relationships
-  has_many :profile_preferred_mbtis
   has_many :preferred_mbti, through: :profile_preferred_mbtis
-  has_many :profile_preferred_genders
   has_many :preferred_genders, through: :profile_preferred_genders, source: :gender
-  has_many :profile_preferred_interests
   has_many :preferred_interests, through: :profile_preferred_interests, source: :interest
-  has_many :profile_preferred_relationships
   has_many :preferred_relationships, through: :profile_preferred_relationships, source: :preferred_relationship
 
   # has_many :interests, through: :profile_interests

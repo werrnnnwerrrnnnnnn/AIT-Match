@@ -28,8 +28,7 @@ class ApplicationController < ActionController::Base
     ]
     
     Rails.logger.debug "Controller: #{controller_name}, Action: #{action_name}"
-    if  welcome_navbar_actions.include?([controller_name, action_name]) && 
-        !(controller_name == 'registrations' && action_name == 'new')
+    if  welcome_navbar_actions.include?([controller_name, action_name])
         Rails.logger.debug "Rendering welcome navbar"
         return :navbar_welcome_page
     end

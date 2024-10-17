@@ -3,6 +3,7 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :check_profile_completion, only: [:index, :show, :edit, :update]
 
   def new
     if current_user.profile.present?
@@ -97,5 +98,12 @@ class ProfilesController < ApplicationController
                                     :school_id, :program_id, :educational_background, 
                                     :profile_picture_url, :preferred_min_age, :preferred_max_age,
                                     :birthday, interest_ids: [], relationship_ids: [])
+  end
+
+  def check_profile_completion
+    if current_user.profile.nil?
+      flash[:alert] = "Please complete your profile before accessing this page."
+      redirect_to new_profile_path
+    end
   end
 end

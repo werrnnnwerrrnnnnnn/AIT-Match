@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_17_070817) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_17_083927) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,51 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_070817) do
     t.datetime "updated_at", null: false
     t.index ["interest_id"], name: "index_profile_interests_on_interest_id"
     t.index ["profile_id"], name: "index_profile_interests_on_profile_id"
+  end
+
+  create_table "profile_preferred_genders", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "gender_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gender_id"], name: "index_profile_preferred_genders_on_gender_id"
+    t.index ["profile_id"], name: "index_profile_preferred_genders_on_profile_id"
+  end
+
+  create_table "profile_preferred_interests", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "interest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interest_id"], name: "index_profile_preferred_interests_on_interest_id"
+    t.index ["profile_id"], name: "index_profile_preferred_interests_on_profile_id"
+  end
+
+  create_table "profile_preferred_mbtis", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "preferred_mbti_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preferred_mbti_id"], name: "index_profile_preferred_mbtis_on_preferred_mbti_id"
+    t.index ["profile_id"], name: "index_profile_preferred_mbtis_on_profile_id"
+  end
+
+  create_table "profile_preferred_relationships", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "preferred_relationship_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["preferred_relationship_id"], name: "idx_on_preferred_relationship_id_54c504a6a3"
+    t.index ["profile_id"], name: "index_profile_preferred_relationships_on_profile_id"
+  end
+
+  create_table "profile_relationships", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "relationship_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_profile_relationships_on_profile_id"
+    t.index ["relationship_id"], name: "index_profile_relationships_on_relationship_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -132,6 +177,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_070817) do
 
   add_foreign_key "profile_interests", "interests"
   add_foreign_key "profile_interests", "profiles"
+  add_foreign_key "profile_preferred_genders", "genders"
+  add_foreign_key "profile_preferred_genders", "profiles"
+  add_foreign_key "profile_preferred_interests", "interests"
+  add_foreign_key "profile_preferred_interests", "profiles"
+  add_foreign_key "profile_preferred_mbtis", "preferred_mbtis"
+  add_foreign_key "profile_preferred_mbtis", "profiles"
+  add_foreign_key "profile_preferred_relationships", "preferred_relationships"
+  add_foreign_key "profile_preferred_relationships", "profiles"
+  add_foreign_key "profile_relationships", "profiles"
+  add_foreign_key "profile_relationships", "relationships"
   add_foreign_key "profiles", "degrees"
   add_foreign_key "profiles", "genders"
   add_foreign_key "profiles", "mbtis"

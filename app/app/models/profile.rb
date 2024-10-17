@@ -15,7 +15,8 @@ class Profile < ApplicationRecord
   validates :program_id, presence: { message: "must be selected." }
   validates :educational_background, presence: { message: "cannot be blank." }
   validates :profile_picture_url, presence: { message: "cannot be blank." }
-  validate :single_profile_per_user      
+  validate :single_profile_per_user   
+  validate :interest_count_within_limit   
                   
   belongs_to :user
   belongs_to :mbti, optional: true
@@ -29,11 +30,18 @@ class Profile < ApplicationRecord
   has_many :profile_preferred_interests
   has_many :profile_relationships
   has_many :profile_preferred_relationships
+  
+  has_many :profile_interests, dependent: :destroy
+  has_many :interests, through: :profile_interests
 
   private
   def single_profile_per_user
     if user.present? && Profile.where(user_id: user.id).where.not(id: id).exists?
       errors.add(:base, "You can only have one profile.")
     end
+  end
+
+  def interest_count_within_limit
+    errors.add(:interests, "can only select up to 5") if interests.size > 5
   end
 end

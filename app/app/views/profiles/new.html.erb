@@ -135,7 +135,37 @@
   <% end %>
 </div>
 
+
+  <div class="form-group">
+  <%= f.label :interest_ids, "Select your interests (up to 5)" %>
+  
+  <!-- Button to open dropdown -->
+  <button type="button" class="btn btn-primary" onclick="toggleDropdown()">Select Interests</button>
+
+  <!-- Dropdown (initially hidden) -->
+  <div id="interestDropdown" style="display: none; margin-top: 10px;">
+    <%= f.collection_select :interest_ids, Interest.all, :id, :name, { prompt: "Select interests", multiple: true }, { class: "form-control", size: 5 } %>
+    <% if @profile.errors[:interests].any? %>
+      <div class="error-message">
+        <%= @profile.errors[:interests].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
 <div class="form-group">
   <%= f.submit "Create Profile" %>
 </div>
 <% end %>
+
+<script>
+  function toggleDropdown() {
+    const dropdown = document.getElementById("interestDropdown");
+    if (dropdown.style.display === "none" || dropdown.style.display === "") {
+      dropdown.style.display = "block";
+    } else {
+      dropdown.style.display = "none";
+    }
+  }
+</script>

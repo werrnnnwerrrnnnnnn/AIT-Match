@@ -57,6 +57,7 @@ class ProfilesController < ApplicationController
 
   def show
     @profile = Profile.find_by(id: params[:id])
+    @interests = @profile.interests
     if @profile.nil?
       redirect_to profiles_path, alert: "Profile not found."
     else
@@ -91,6 +92,10 @@ class ProfilesController < ApplicationController
 
   def profile_params
     puts params.inspect
-    params.require(:profile).permit(:first_name, :last_name, :user_name, :age, :mbti_id, :gender_id, :degree_id, :school_id, :program_id, :educational_background, :profile_picture_url, :preferred_min_age, :preferred_max_age)
+    params.require(:profile).permit(:first_name, :last_name, :user_name, 
+                                    :age, :mbti_id, :gender_id, :degree_id, 
+                                    :school_id, :program_id, :educational_background, 
+                                    :profile_picture_url, :preferred_min_age, :preferred_max_age,
+                                    interest_ids: [])
   end
 end

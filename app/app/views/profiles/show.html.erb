@@ -14,6 +14,17 @@
 <p>Educational Background: <%= @profile.educational_background %></p>
 <p>Profile Picture URL: <%= @profile.profile_picture_url %></p>
 
+<h3>Interests</h3>
+<% if @interests.any? %>
+  <ul>
+    <% @interests.each do |interest| %>
+      <li><%= interest.name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No interests selected.</p>
+<% end %> <br>
+
 <!-- app/views/profiles/show.html.erb -->
 <% if @profile.user == current_user %>
  <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn btn-primary" %>

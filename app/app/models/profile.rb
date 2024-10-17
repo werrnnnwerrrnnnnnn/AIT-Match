@@ -6,8 +6,8 @@ class Profile < ApplicationRecord
                           format: { with: /\A[a-zA-Z\s'-]+\z/, message: "can only contain letters, spaces, hyphens, and apostrophes." }
   validates :last_name,   presence: { message: "cannot be blank" },
                           format: { with: /\A[a-zA-Z\s'-]+\z/, message: "can only contain letters, spaces, hyphens, and apostrophes." }
-  validates :age,         presence: { message: "cannot be blank" },
-                          numericality: { greater_than_or_equal_to: 18, message: "must be 18 or older." }
+  # validates :age,         presence: { message: "cannot be blank" },
+  #                         numericality: { greater_than_or_equal_to: 18, message: "must be 18 or older." }
   validates :mbti_id, presence: { message: "must be selected." }
   validates :gender_id, presence: { message: "must be selected." }
   validates :degree_id, presence: { message: "must be selected." }
@@ -36,7 +36,7 @@ class Profile < ApplicationRecord
   has_many :profile_interests, dependent: :destroy
   has_many :interests, through: :profile_interests
 
-  before_save :calculate_age
+  # before_save :calculate_age
 
   private
   def single_profile_per_user
@@ -49,10 +49,10 @@ class Profile < ApplicationRecord
     errors.add(:interests, "can only select up to 5") if interests.size > 5
   end
 
-  def calculate_age
-    if birthday.present?
-      today = Date.today
-      self.age = today.year - birthday.year - ((today.month > birthday.month || (today.month == birthday.month && today.day >= birthday.day)) ? 0 : 1)
-    end
-  end
+  # def calculate_age
+  #   if birthday.present?
+  #     today = Date.today
+  #     self.age = today.year - birthday.year - ((today.month > birthday.month || (today.month == birthday.month && today.day >= birthday.day)) ? 0 : 1)
+  #   end
+  # end
 end

@@ -172,21 +172,35 @@
 
     <nav>
         <div class="nav-left">
-            <%= image_tag 'logo-white.png', alt: 'AIT Match Logo', class: 'logo-img' %>
-            <ul>
-                <li><%= link_to 'Home', profiles_path %></li>
-                <li>
-                    <% if current_user.profile && current_user.profile.id.present? %>
-                        <%= link_to 'Profile', profile_path(current_user.profile) %>
-                    <% else %>
-                        <%= link_to 'Create Profile', new_profile_path %>
-                    <% end %>
-                </li>   
-                <li><%= link_to 'Matches', welcome_path %></li>
-                <li><%= link_to 'Messages', welcome_path %></li>
-                <li><%= link_to 'Events', welcome_path %></li>
-            </ul>
-        </div>
+    <%= image_tag 'logo-white.png', alt: 'AIT Match Logo', class: 'logo-img' %>
+    <ul>
+        <li><%= link_to 'Home', profiles_path %></li>
+        
+        <!-- Profile link logic -->
+        <li>
+            <% if current_user.profile && current_user.profile.id.present? %>
+                <%= link_to 'Profile', profile_path(current_user.profile) %>
+            <% else %>
+                <%= link_to 'Create Profile', new_profile_path %>
+            <% end %>
+        </li>  
+        
+        <!-- New button for 'Edit Preferences' -->
+        <li>
+            <% if current_user.preference.present? %>
+                <%= link_to 'Preferences', edit_preference_path(current_user.preference), class: 'btn btn-secondary' %>
+            <% else %>
+                <%= link_to 'Preferences', new_preference_path, class: 'btn btn-secondary' %>
+            <% end %>
+        </li>
+        
+        <!-- Other navigation links -->
+        <li><%= link_to 'Matches', welcome_path %></li>
+        <li><%= link_to 'Messages', welcome_path %></li>
+        <li><%= link_to 'Events', welcome_path %></li>
+    </ul>
+</div>
+
 
         <div class="right-buttons">
             <div class="notification">

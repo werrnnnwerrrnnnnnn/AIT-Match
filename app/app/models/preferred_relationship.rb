@@ -4,5 +4,5 @@ class PreferredRelationship < ApplicationRecord
   has_many :users, through: :user_preferred_relationships
 
   # Add any validations if needed
-  validates :label, presence: true
+  validates :name, presence: true
 end

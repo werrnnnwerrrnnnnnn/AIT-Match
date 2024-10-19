@@ -5,4 +5,5 @@ class PreferredDegree < ApplicationRecord
 
   # Add any validations if needed
   validates :label, presence: true
+  validates :value, presence: true
 end

@@ -4,5 +4,5 @@ class PreferredProgram < ApplicationRecord
   has_many :users, through: :user_preferred_programs
 
   # Add any validations if needed
-  validates :label, presence: true
+  validates :name, presence: true
 end

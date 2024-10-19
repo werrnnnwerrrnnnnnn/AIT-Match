@@ -18,18 +18,15 @@ class ProfilesController < ApplicationController
     @profile = Profile.new(profile_params)
     @profile.user = current_user
   
-    puts "Profile Params: #{profile_params.inspect}" # Check the parameters being passed
-  
     if @profile.save
-      puts "Profile saved successfully."
+      
       redirect_to @profile, notice: 'Profile was successfully created.'
     else
-      puts "Failed to save profile: #{@profile.errors.full_messages.join(", ")}"
       render :new
     end
   end
-  
 
+  
   def edit
     @profile = current_user.profile
   end
@@ -44,18 +41,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  # def show
-  #   puts "Params: #{params.inspect}" 
-  #   @profile = Profile.find(params[:id])
-  # end
-
-  # def show
-  #   @profile = Profile.find_by(id: params[:id])
-  #   if @profile.nil?
-  #     redirect_to profiles_path, alert: "Profile not found."
-  #   end
-  # end
-
   def show
     @profile = Profile.find_by(id: params[:id])
     @interests = @profile.interests
@@ -67,7 +52,63 @@ class ProfilesController < ApplicationController
   end
 
   def index
+    # Fetch all profiles, excluding the current user's own profile
     @profiles = Profile.where.not(user: current_user)
+  
+    # Initialize @filtered_profiles as all profiles, then apply filters
+    @filtered_profiles = @profiles
+  
+    # Apply filtering only if the current user has set preferences
+    if current_user.preference.present?
+      preference = current_user.preference
+      puts "Applying filters based on preferences: #{preference.inspect}" # Debugging log
+  
+      # Filter by age range
+      if preference.preferred_min_age.present? && preference.preferred_max_age.present?
+        @filtered_profiles = @filtered_profiles.where("age >= ? AND age <= ?", preference.preferred_min_age, preference.preferred_max_age)
+        puts "Filtered by age: #{@filtered_profiles.size} profiles remaining" # Debugging log
+      end
+  
+      # Filter by gender preferences
+      if preference.preferred_genders.any?
+        @filtered_profiles = @filtered_profiles.joins(:gender).where(genders: { id: preference.preferred_gender_ids })
+        puts "Filtered by gender: #{@filtered_profiles.size} profiles remaining" # Debugging log
+      end
+  
+      # Filter by interest preferences
+      if preference.preferred_interests.any?
+        @filtered_profiles = @filtered_profiles.joins(:interests).where(interests: { id: preference.preferred_interest_ids })
+        puts "Filtered by interests: #{@filtered_profiles.size} profiles remaining" # Debugging log
+      end
+  
+      # Filter by relationship preferences
+      if preference.preferred_relationships.any?
+        @filtered_profiles = @filtered_profiles.joins(:relationships).where(relationships: { id: preference.preferred_relationship_ids })
+        puts "Filtered by relationships: #{@filtered_profiles.size} profiles remaining" # Debugging log
+      end
+  
+      # Filter by MBTI preferences
+      if preference.preferred_mbti.any?
+        @filtered_profiles = @filtered_profiles.joins(:mbti).where(mbtis: { id: preference.preferred_mbti_ids })
+        puts "Filtered by MBTI: #{@filtered_profiles.size} profiles remaining" # Debugging log
+      end
+  
+      # Filter by school preferences
+      if preference.preferred_schools.any?
+        @filtered_profiles = @filtered_profiles.joins(:school).where(schools: { id: preference.preferred_school_ids })
+        puts "Filtered by schools: #{@filtered_profiles.size} profiles remaining" # Debugging log
+      end
+  
+      # Filter by program preferences
+      if preference.preferred_programs.any?
+        @filtered_profiles = @filtered_profiles.joins(:program).where(programs: { id: preference.preferred_program_ids })
+        puts "Filtered by programs: #{@filtered_profiles.size} profiles remaining" # Debugging log
+      end
+    else
+      # If no preferences are set, show random profiles
+      @filtered_profiles = @filtered_profiles.order("RANDOM()").limit(10)
+      puts "Showing random profiles: #{@filtered_profiles.size}" # Debugging log
+    end
   end
 
   def destroy
@@ -85,14 +126,12 @@ class ProfilesController < ApplicationController
   end
 
   def authorize_user!
-    # Redirects the user if they attempt to access a profile that isn't their own
     unless @profile.user == current_user
       redirect_to profiles_path, alert: 'You are not authorized to perform this action.'
     end
   end
 
   def profile_params
-    puts params.inspect
     params.require(:profile).permit(:first_name, :last_name, :user_name, 
                                     :mbti_id, :gender_id, :degree_id, 
                                     :school_id, :program_id, :educational_background, 
@@ -104,6 +143,43 @@ class ProfilesController < ApplicationController
     if current_user.profile.nil?
       flash[:alert] = "Please complete your profile before accessing this page."
       redirect_to new_profile_path
+    end
+  end
+
+  def apply_filters(preference)
+    # Filter by age range
+    if preference.preferred_min_age.present? && preference.preferred_max_age.present?
+      @profiles = @profiles.where("age >= ? AND age <= ?", preference.preferred_min_age, preference.preferred_max_age)
+    end
+
+    # Filter by gender preferences
+    if preference.preferred_genders.any?
+      @profiles = @profiles.joins(:gender).where(genders: { id: preference.preferred_gender_ids })
+    end
+
+    # Filter by interest preferences
+    if preference.preferred_interests.any?
+      @profiles = @profiles.joins(:interests).where(interests: { id: preference.preferred_interest_ids })
+    end
+
+    # Filter by relationship preferences
+    if preference.preferred_relationships.any?
+      @profiles = @profiles.joins(:relationships).where(relationships: { id: preference.preferred_relationship_ids })
+    end
+
+    # Filter by MBTI preferences
+    if preference.preferred_mbti.any?
+      @profiles = @profiles.joins(:mbti).where(mbtis: { id: preference.preferred_mbti_ids })
+    end
+
+    # Filter by school preferences
+    if preference.preferred_schools.any?
+      @profiles = @profiles.joins(:school).where(schools: { id: preference.preferred_school_ids })
+    end
+
+    # Filter by program preferences
+    if preference.preferred_programs.any?
+      @profiles = @profiles.joins(:program).where(programs: { id: preference.preferred_program_ids })
     end
   end
 end

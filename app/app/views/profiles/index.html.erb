@@ -1,3 +1,4 @@
+<br><br><br><br><br>
 <h1>Profiles#index</h1>
 <p>Find me in app/views/profiles/index.html.erb</p>
 
@@ -30,6 +31,7 @@
   </tbody>
 </table>
 
+ <!-- All Profiles -->
 <h1>Other Profiles</h1>
 
 <table>
@@ -60,3 +62,103 @@
     <% end %>
   </tbody>
 </table>
+
+ <!-- Filtered details -->
+<% if current_user.preference.present? %>
+  <h1>You are looking for:</h1>
+
+  <!-- Age -->
+  <% if current_user.preference.preferred_min_age.present? && current_user.preference.preferred_max_age.present? %>
+    <p>Age: <%= current_user.preference.preferred_min_age %> - <%= current_user.preference.preferred_max_age %></p>
+  <% else %>
+    <p>Age: No age preference. Showing random profiles.</p>
+  <% end %>
+
+  <!-- Gender -->
+  <% if current_user.preference.preferred_genders.present? && current_user.preference.preferred_genders.any? %>
+    <p>Gender: <%= current_user.preference.preferred_genders.pluck(:label).join(", ") %></p>
+  <% else %>
+    <p>Gender: No gender preference. Showing random profiles.</p>
+  <% end %>
+
+  <!-- Interests -->
+  <% if current_user.preference.preferred_interests.present? && current_user.preference.preferred_interests.any? %>
+    <p>Interests: <%= current_user.preference.preferred_interests.pluck(:name).join(", ") %></p>
+  <% else %>
+    <p>Interests: No interest preference. Showing random profiles.</p>
+  <% end %>
+
+  <!-- Relationships -->
+  <% if current_user.preference.preferred_relationships.present? && current_user.preference.preferred_relationships.any? %>
+    <p>Relationships: <%= current_user.preference.preferred_relationships.pluck(:name).join(", ") %></p>
+  <% else %>
+    <p>Relationships: No relationship preference. Showing random profiles.</p>
+  <% end %>
+
+  <!-- MBTI -->
+  <% if current_user.preference.preferred_mbti.present? && current_user.preference.preferred_mbti.any? %>
+    <p>MBTI: <%= current_user.preference.preferred_mbti.pluck(:label).join(", ") %></p>
+  <% else %>
+    <p>MBTI: No MBTI preference. Showing random profiles.</p>
+  <% end %>
+
+  <!-- Schools -->
+  <% if current_user.preference.preferred_schools.present? && current_user.preference.preferred_schools.any? %>
+    <p>Schools: <%= current_user.preference.preferred_schools.pluck(:name).join(", ") %></p>
+  <% else %>
+    <p>Schools: No school preference. Showing random profiles.</p>
+  <% end %>
+
+  <!-- Programs -->
+  <% if current_user.preference.preferred_programs.present? && current_user.preference.preferred_programs.any? %>
+    <p>Programs: <%= current_user.preference.preferred_programs.pluck(:name).join(", ") %></p>
+  <% else %>
+    <p>Programs: No program preference. Showing random profiles.</p>
+  <% end %>
+
+<% else %>
+  <p>You haven't set any preferences yet. Showing random profiles:</p>
+<% end %>
+
+ <!-- Filtered Profiles -->
+<h1>Filtered Profiles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>User Name</th>
+      <th>Age</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @filtered_profiles.each do |profile| %> <!-- Use filtered profiles here -->
+      <tr>
+        <td><%= profile.user.email %></td>
+        <td><%= profile.first_name %></td>
+        <td><%= profile.last_name %></td>
+        <td><%= profile.user_name %></td>
+        <td><%= profile.age %></td>
+        <td>
+          <%= link_to 'Show', profile_path(profile) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Filtered Profiles -->
+<!-- Toggle between Profiles Index and Filtered Preferences -->
+<div class="toggle-switch">
+  <!-- Link to Profiles Index (Show all profiles) -->
+  <input type="radio" id="showAllProfiles" name="toggle" <%= "checked" if current_page?(profiles_path) %> onclick="window.location.href='<%= profiles_path %>'">
+  <label for="showAllProfiles">All Profiles</label>
+
+  <!-- Link to Preferences Index (Show filtered profiles by preferences) -->
+  <input type="radio" id="showFilteredProfiles" name="toggle" <%= "checked" if current_page?(preferences_path) %> onclick="window.location.href='<%= preferences_path %>'">
+  <label for="showFilteredProfiles">Filtered Profiles</label>
+</div>
+<br><br><br><br><br>

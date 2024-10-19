@@ -4,5 +4,5 @@ class PreferredSchool < ApplicationRecord
   has_many :users, through: :user_preferred_schools
 
   # Add any validations if needed
-  validates :label, presence: true
+  validates :name, presence: true
 end

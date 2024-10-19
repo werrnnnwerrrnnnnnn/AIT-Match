@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users#, controllers: { sessions: 'users/sessions' }
   resources :profiles
   # resources :profiles, only: [:new, :create, :edit, :update, :show, :index]
+  resources :preferences
+  # resources :preferences, only: [:edit, :update]
   resources :students
+
+
 
   # get "profiles/new"
   # get "profiles/create"

@@ -11,11 +11,13 @@
             padding: 0;
             background-color: #FFF0F4;
         }
+
         .logo-img {
             width: 50px;
             height: 50px;
             object-fit: contain; /* Keeps the aspect ratio */
         }
+
         nav {
             background-color: #617952;
             padding: 10px 20px;
@@ -43,17 +45,28 @@
             gap: 15px;
         }
 
-        ul li a {
-            color: black;
-            text-decoration: none;
+        /* Common styling for buttons and links with depth */
+        ul li a, 
+        .right-buttons a {
+            background-color: #F7DDE3;
+            color: #617952;
             font-weight: bold;
+            border: none;
             padding: 10px 20px;
             border-radius: 20px;
-            background-color: #F7DDE3;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
         }
 
-        ul li a:hover {
-            background-color: #bbb;
+        ul li a:hover, 
+        .right-buttons a:hover {
+            background-color: #FBCAD0;
+            color: #617952;
+            transform: translateY(-5px); /* Bounce effect */
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
         }
 
         .right-buttons {
@@ -62,27 +75,13 @@
             align-items: center;
             margin-left: auto;
             flex-shrink: 0;
-            max-width: 250px;
-        }
-
-        .right-buttons a {
-            color: black;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 20px;
-            background-color: #F7DDE3;
-            white-space: nowrap;
-        }
-
-        .right-buttons a:hover {
-            background-color: #bbb;
         }
 
         .notification {
             position: relative;
         }
 
+        /* Notification bell styling with bounce effect */
         .notification-bell {
             font-size: 16px;
             cursor: pointer;
@@ -91,6 +90,14 @@
             border-radius: 20px;
             color: black;
             border: none;
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification-bell:hover {
+            transform: translateY(-5px); /* Bounce effect */
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
         }
 
         .notification-count {
@@ -139,7 +146,6 @@
         .notification:hover .notification-dropdown {
             display: block;
         }
-
         .notification-count {
             position: absolute;
             top: -5px;
@@ -200,8 +206,6 @@
         <li><%= link_to 'Events', welcome_path %></li>
     </ul>
 </div>
-
-
         <div class="right-buttons">
             <div class="notification">
                 <span class="notification-bell">🔔</span>
@@ -220,6 +224,4 @@
     <p>AIT Match © 2024</p>
 </footer>
 
-</body>
-
-</html>
+</body></html>

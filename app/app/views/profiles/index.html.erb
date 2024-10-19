@@ -1,4 +1,54 @@
-<br><br><br><br><br>
+<!-- HTML + CSS combined -->
+
+<!-- Add this CSS inside a <style> block or your main CSS file -->
+<style>
+  body {
+    margin-top: 80px; /* Adjust this value to match the height of your navbar */
+  }
+
+  /* Alternatively, if you have a main content wrapper, you can add padding like this */
+  .main-content {
+    padding-top: 80px; /* Adjust this value to match the height of your navbar */
+  }
+  .main-content {
+    display: flex;
+    justify-content: space-between; /* Aligns the content and sidebar next to each other */
+    padding: 20px;
+  }
+
+  .profiles-section {
+    flex: 2; /* Occupies more space for the profile content */
+  }
+
+  .sidebar {
+    flex: 1; /* Occupies less space for the sidebar */
+    padding: 20px;
+    background-color: #617952;  /*background container*/
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px; /* Sidebar width */
+    margin-left: 20px;
+  }
+
+  .sidebar h2 {
+    background-color: #FDEDF1; /* Dark green background */
+    color: #617952;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .sidebar p {
+    color: white; /* Match the green theme */
+    font-size: 16px;
+  }
+</style>
+
+<!-- Main HTML content -->
+<div class="main-content">
+  <div class="profiles-section">
+    <!-- Your original profile content -->
+    
+
 <h1>Profiles#index</h1>
 <p>Find me in app/views/profiles/index.html.erb</p>
 
@@ -62,65 +112,72 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
- <!-- Filtered details -->
+
+ <!-- Sidebar Filtered details -->
+<div class="sidebar">
 <% if current_user.preference.present? %>
-  <h1>You are looking for:</h1>
 
+  <div class="filter-details">
+    <h2>You are looking for:</h2>
   <!-- Age -->
   <% if current_user.preference.preferred_min_age.present? && current_user.preference.preferred_max_age.present? %>
     <p>Age: <%= current_user.preference.preferred_min_age %> - <%= current_user.preference.preferred_max_age %></p>
   <% else %>
-    <p>Age: No age preference. Showing random profiles.</p>
+    <p>Age: No age preference. Showing random ages.</p>
   <% end %>
-
+    
   <!-- Gender -->
   <% if current_user.preference.preferred_genders.present? && current_user.preference.preferred_genders.any? %>
     <p>Gender: <%= current_user.preference.preferred_genders.pluck(:label).join(", ") %></p>
   <% else %>
-    <p>Gender: No gender preference. Showing random profiles.</p>
+    <p>Gender: No gender preference. Showing random Genders.</p>
   <% end %>
 
   <!-- Interests -->
   <% if current_user.preference.preferred_interests.present? && current_user.preference.preferred_interests.any? %>
     <p>Interests: <%= current_user.preference.preferred_interests.pluck(:name).join(", ") %></p>
   <% else %>
-    <p>Interests: No interest preference. Showing random profiles.</p>
+    <p>Interests: No interest preference. Showing random interests</p>
   <% end %>
 
   <!-- Relationships -->
   <% if current_user.preference.preferred_relationships.present? && current_user.preference.preferred_relationships.any? %>
     <p>Relationships: <%= current_user.preference.preferred_relationships.pluck(:name).join(", ") %></p>
   <% else %>
-    <p>Relationships: No relationship preference. Showing random profiles.</p>
+    <p>Relationships: No relationship preference. Showing random realtionships</p>
   <% end %>
 
   <!-- MBTI -->
   <% if current_user.preference.preferred_mbti.present? && current_user.preference.preferred_mbti.any? %>
     <p>MBTI: <%= current_user.preference.preferred_mbti.pluck(:label).join(", ") %></p>
   <% else %>
-    <p>MBTI: No MBTI preference. Showing random profiles.</p>
+    <p>MBTI: No MBTI preference. Showing random Mbti</p>
   <% end %>
 
   <!-- Schools -->
   <% if current_user.preference.preferred_schools.present? && current_user.preference.preferred_schools.any? %>
     <p>Schools: <%= current_user.preference.preferred_schools.pluck(:name).join(", ") %></p>
   <% else %>
-    <p>Schools: No school preference. Showing random profiles.</p>
+    <p>Schools: No school preference. Showing random schools</p>
   <% end %>
 
   <!-- Programs -->
   <% if current_user.preference.preferred_programs.present? && current_user.preference.preferred_programs.any? %>
     <p>Programs: <%= current_user.preference.preferred_programs.pluck(:name).join(", ") %></p>
   <% else %>
-    <p>Programs: No program preference. Showing random profiles.</p>
+    <p>Programs: No program preference.Showing random Prgrams</p>
   <% end %>
 
+  </div>
 <% else %>
-  <p>You haven't set any preferences yet. Showing random profiles:</p>
-<% end %>
+  <p>No preferences set. Showing random profiles.</p>
+    <% end %>
+  </div>
+</div>
 
- <!-- Filtered Profiles -->
+<!-- Filtered Profiles -->
 <h1>Filtered Profiles</h1>
 
 <table>
@@ -149,16 +206,3 @@
     <% end %>
   </tbody>
 </table>
-
-<!-- Filtered Profiles -->
-<!-- Toggle between Profiles Index and Filtered Preferences -->
-<div class="toggle-switch">
-  <!-- Link to Profiles Index (Show all profiles) -->
-  <input type="radio" id="showAllProfiles" name="toggle" <%= "checked" if current_page?(profiles_path) %> onclick="window.location.href='<%= profiles_path %>'">
-  <label for="showAllProfiles">All Profiles</label>
-
-  <!-- Link to Preferences Index (Show filtered profiles by preferences) -->
-  <input type="radio" id="showFilteredProfiles" name="toggle" <%= "checked" if current_page?(preferences_path) %> onclick="window.location.href='<%= preferences_path %>'">
-  <label for="showFilteredProfiles">Filtered Profiles</label>
-</div>
-<br><br><br><br><br>

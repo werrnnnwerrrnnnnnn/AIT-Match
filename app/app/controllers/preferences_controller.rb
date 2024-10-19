@@ -1,5 +1,6 @@
 class PreferencesController < ApplicationController
   before_action :set_preference, only: [:edit, :update]
+  before_action :authenticate_user!
 
   def new
     @preference = Preference.new
@@ -54,4 +55,53 @@ class PreferencesController < ApplicationController
       preferred_mbti_ids: []
     )
   end
+   
+  def index
+    # Fetch all profiles excluding the current user's own profile
+    @filtered_profiles = Profile.where.not(user: current_user)
+
+    # Apply filtering only if the current user has set preferences
+    if current_user.preference.present?
+      preference = current_user.preference
+
+      # Filter by age range
+      if preference.preferred_min_age.present? && preference.preferred_max_age.present?
+        @filtered_profiles = @filtered_profiles.where("age >= ? AND age <= ?", preference.preferred_min_age, preference.preferred_max_age)
+      end
+
+      # Filter by gender preferences
+      if preference.preferred_genders.any?
+        @filtered_profiles = @filtered_profiles.joins(:gender).where(genders: { id: preference.preferred_gender_ids })
+      end
+
+      # Filter by interest preferences
+      if preference.preferred_interests.any?
+        @filtered_profiles = @filtered_profiles.joins(:interests).where(interests: { id: preference.preferred_interest_ids })
+      end
+
+      # Filter by relationship preferences
+      if preference.preferred_relationships.any?
+        @filtered_profiles = @filtered_profiles.joins(:relationships).where(relationships: { id: preference.preferred_relationship_ids })
+      end
+
+      # Filter by MBTI preferences
+      if preference.preferred_mbti.any?
+        @filtered_profiles = @filtered_profiles.joins(:mbti).where(mbtis: { id: preference.preferred_mbti_ids })
+      end
+
+      # Filter by school preferences
+      if preference.preferred_schools.any?
+        @filtered_profiles = @filtered_profiles.joins(:school).where(schools: { id: preference.preferred_school_ids })
+      end
+
+      # Filter by program preferences
+      if preference.preferred_programs.any?
+        @filtered_profiles = @filtered_profiles.joins(:program).where(programs: { id: preference.preferred_program_ids })
+      end
+    else
+      # If no preferences are set, show random profiles
+      @filtered_profiles = @filtered_profiles.order("RANDOM()").limit(10)
+    end
+  end
+  
 end

@@ -25,6 +25,12 @@ class ApplicationController < ActionController::Base
       ['profiles', 'edit'],          
       ['profiles', 'update'],    
       ['profiles', 'show'],
+      ['preferences', 'index'], 
+      ['preferences', 'new'],      
+      ['preferences', 'create'],      
+      ['preferences', 'edit'],          
+      ['preferences', 'update'],    
+      ['preferences', 'show'],
     ]
     
     Rails.logger.debug "Controller: #{controller_name}, Action: #{action_name}"

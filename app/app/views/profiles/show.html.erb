@@ -1,86 +1,197 @@
-<br><br><br><br><br>
-<h1>Welcome Back!</h1>
-<p>Profile Picture:</p>
+<!-- CSS -->
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
 
-<% if @profile.profile_picture_url.present? %>
-  <!-- Simply display the image using the URL provided by the user -->
-  <img src="<%= @profile.profile_picture_url %>" alt="Profile Picture" class="profile-picture" width="150" height="150">
-  <p>Image URL: <%= @profile.profile_picture_url %></p>
-<% else %>
-  <p>No profile picture provided.</p>
-<% end %>
+  .profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    background-color: #f8f0f1;
+    margin-top: 100px; /* Add margin to avoid navbar overlap */
+    margin-bottom: 100px; /* Add margin to avoid footer overlap */
+  }
 
-<h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
+  .profile-card {
+    width: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+  }
 
-<p>Email: <%= @user.email %></p> <!-- Display user's email -->
-<p>Role: <%= @user.role %></p>
-<p>Username: <%= @profile.user_name %></p>
-<p>Birthday: 
-  <% if @profile.birthday.present? %>
-    <%= @profile.birthday.strftime('%d %m %Y') %>
-  <% else %>
-    Not provided
-  <% end %>
-</p>
-<p>Gender: <%= @profile.gender.label %></p>
-<p>Age: <%= @profile.age %></p> <!-- Display the calculated age -->
-<p>MBTI: <%= @profile.mbti.combined_value_label %></p>
-<p>School: <%= @profile.school.combined_name_abbreviation %></p>
-<p>Program: <%= @profile.program.combined_name_abbreviation %></p>
-<p>Degree: <%= @profile.degree.label %></p>
-<p>Educational Background: <%= @profile.educational_background %></p>
-<p>Profile Picture URL: <%= @profile.profile_picture_url %></p>
+  .profile-picture {
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
 
-<h3>Interests</h3>
-<% if @interests.any? %>
-  <ul>
-    <% @interests.each do |interest| %>
-      <li><%= interest.name %></li>
+  .profile-card h2 {
+    margin-bottom: 10px;
+  }
+
+  .profile-card p {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .profile-card .btn {
+    width: 100px;
+    margin: 5px;
+  }
+
+  .profile-card table {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .profile-card table td {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .profile-card h3 {
+    text-align: left;
+    margin-top: 30px;
+    color: #617952;
+  }
+
+  .profile-card ul {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+  }
+
+  .profile-card ul li {
+    padding: 5px 0;
+  }
+
+  .btn-back {
+    margin-top: 20px;
+    background-color: #617952;
+    color: white;
+  }
+</style>
+
+<!-- HTML -->
+<div class="profile-container">
+  <div class="profile-card">
+    <!-- Display Profile Picture -->
+    <p>Profile Picture:</p>
+    <% if @profile.profile_picture_url.present? %>
+      <img src="<%= @profile.profile_picture_url %>" alt="Profile Picture" class="profile-picture" width="150" height="150">
+    <% else %>
+      <p>No profile picture provided.</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>No interests selected.</p>
-<% end %>
 
-<h3>Preferred Relationship Types:</h3>
-<% if @profile.relationships.any? %>
-  <ul>
-    <% @profile.relationships.each do |relationship| %>
-      <li><%= relationship.name %> - <%= relationship.description %></li>
+    <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
+
+    <table>
+      <tr>
+        <td>Age:</td>
+        <td><%= @profile.age %></td>
+      </tr>
+      <tr>
+        <td>Birthday:</td>
+        <td><%= @profile.birthday.present? ? @profile.birthday.strftime('%d %m %Y') : "Not provided" %></td>
+      </tr>
+      <tr>
+        <td>Gender:</td>
+        <td><%= @profile.gender.label %></td>
+      </tr>
+      <tr>
+        <td>Degree:</td>
+        <td><%= @profile.degree.label %></td>
+      </tr>
+      <tr>
+        <td>Major:</td>
+        <td><%= @profile.program.combined_name_abbreviation %></td>
+      </tr>
+      <tr>
+        <td>Department:</td>
+        <td><%= @profile.school.combined_name_abbreviation %></td>
+      </tr>
+      <tr>
+        <td>MBTI:</td>
+        <td><%= @profile.mbti.combined_value_label %></td>
+      </tr>
+      <tr>
+        <td>Bio:</td>
+        <td><%= @profile.educational_background %></td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td>Role:</td>
+        <td><%= @user.role %></td>
+      </tr>
+      <tr>
+        <td>Username:</td>
+        <td><%= @profile.user_name %></td>
+      </tr>
+    </table>
+
+    <h3>Preferences</h3>
+    <% if @profile.relationships.any? %>
+      <ul>
+        <% @profile.relationships.each do |relationship| %>
+          <li><%= relationship.name %> - <%= relationship.description %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No preferences provided.</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>No preferred relationships selected.</p>
-<% end %>
 
+    <h3>Interests</h3>
+    <% if @interests.any? %>
+      <ul>
+        <% @interests.each do |interest| %>
+          <li><%= interest.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No interests selected.</p>
+    <% end %>
 
-<!-- app/views/profiles/show.html.erb -->
-<% if @profile.user == current_user %>
- <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn btn-primary" %>
- <!--   <a href="<%= edit_profile_path(@profile) %>" class="btn btn-primary">Edit Profile</a>     -->
-
-  <%= form_with(url: profile_path(@profile), method: :delete, local: true, id: "profileDeletionForm") do %>
-    <div class="form-group">
-      <label for="username_confirmation">Type your username to confirm deletion:</label>
-      <%= text_field_tag :username_confirmation, nil, placeholder: "Enter your username", class: "form-control", required: true %>
+    <!-- Buttons for Back and Edit -->
+    <div>
+      <%= link_to 'Back', profiles_path, class: "btn btn-back" %>
+      <% if @profile.user == current_user %>
+        <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn btn-primary" %>
+      <% end %>
     </div>
-    <%= submit_tag 'Delete Profile', class: "btn btn-danger" %>
-  <% end %> <br><br><br><br>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const form = document.getElementById("profileDeletionForm");
-      form.addEventListener("submit", function(event) {
-        const usernameInput = event.target.querySelector("input[name='username_confirmation']");
-        const enteredUsername = usernameInput.value;
-        const currentUsername = "<%= current_user.profile.user_name  %>";
+    <!-- Delete Profile Confirmation -->
+    <% if @profile.user == current_user %>
+      <%= form_with(url: profile_path(@profile), method: :delete, local: true, id: "profileDeletionForm") do %>
+        <div class="form-group">
+          <label for="username_confirmation">Type your username to confirm deletion:</label>
+          <%= text_field_tag :username_confirmation, nil, placeholder: "Enter your username", class: "form-control", required: true %>
+        </div>
+        <%= submit_tag 'Delete Profile', class: "btn btn-danger" %>
+      <% end %>
 
-        if (enteredUsername !== currentUsername) {
-          alert("Username does not match. Please type your correct username to confirm.");
-          event.preventDefault(); // Prevent form submission
-        }
-      });
-    });
-  </script>
-<% end %>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const form = document.getElementById("profileDeletionForm");
+          form.addEventListener("submit", function(event) {
+            const usernameInput = event.target.querySelector("input[name='username_confirmation']");
+            const enteredUsername = usernameInput.value;
+            const currentUsername = "<%= current_user.profile.user_name %>";
 
+            if (enteredUsername !== currentUsername) {
+              alert("Username does not match. Please type your correct username to confirm.");
+              event.preventDefault(); // Prevent form submission
+            }
+          });
+        });
+      </script>
+    <% end %>
+  </div>
+</div>

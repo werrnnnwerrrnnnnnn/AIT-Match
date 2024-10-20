@@ -9,6 +9,8 @@ services:
       - "5432:5432"
     networks:
       - match_network
+    volumes:
+      - pg_data:/var/lib/postgresql/data  # Mount volume for PostgreSQL data
 
   match_pgadmin:
     image: dpage/pgadmin4
@@ -26,7 +28,8 @@ services:
       - match_network
 
 volumes:
-  pgadmin_data:
+  pgadmin_data:  # Keeps PgAdmin-related data
+  pg_data:       # Keeps PostgreSQL database data
 
 networks:
   match_network:

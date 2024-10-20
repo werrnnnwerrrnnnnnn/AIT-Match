@@ -1,5 +1,15 @@
 <br><br><br><br><br>
 <h1>Welcome Back!</h1>
+<p>Profile Picture:</p>
+
+<% if @profile.profile_picture_url.present? %>
+  <!-- Simply display the image using the URL provided by the user -->
+  <img src="<%= @profile.profile_picture_url %>" alt="Profile Picture" class="profile-picture" width="150" height="150">
+  <p>Image URL: <%= @profile.profile_picture_url %></p>
+<% else %>
+  <p>No profile picture provided.</p>
+<% end %>
+
 <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
 
 <p>Email: <%= @user.email %></p> <!-- Display user's email -->

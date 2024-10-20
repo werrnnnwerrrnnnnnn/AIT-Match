@@ -41,13 +41,18 @@
     color: white; /* Match the green theme */
     font-size: 16px;
   }
+  
+  /* Style for profile pictures */
+  .profile-picture {
+    border-radius: 50%;
+    object-fit: cover;
+  }
 </style>
 
 <!-- Main HTML content -->
 <div class="main-content">
   <div class="profiles-section">
     <!-- Your original profile content -->
-    
 
 <h1>Profiles#index</h1>
 <p>Find me in app/views/profiles/index.html.erb</p>
@@ -57,6 +62,7 @@
 <table>
   <thead>
     <tr>
+      <th>Profile Picture</th>
       <th>Email</th>
       <th>First Name</th>
       <th>Last Name</th>
@@ -67,6 +73,13 @@
   </thead>
   <tbody>
     <tr>
+      <td>
+        <% if current_user.profile.profile_picture_url.present? %>
+          <%= image_tag(current_user.profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
+        <% else %>
+          <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
+        <% end %>
+      </td>
       <td><%= current_user.email %></td>
       <td><%= current_user.profile.first_name %></td>
       <td><%= current_user.profile.last_name %></td>
@@ -87,6 +100,7 @@
 <table>
   <thead>
     <tr>
+      <th>Profile Picture</th>
       <th>Email</th>
       <th>First Name</th>
       <th>Last Name</th>
@@ -99,6 +113,13 @@
     <% @profiles.each do |profile| %>
       <% unless profile.user == current_user %> <!-- Only show other profiles -->
         <tr>
+          <td>
+            <% if profile.profile_picture_url.present? %>
+              <%= image_tag(profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
+            <% else %>
+              <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
+            <% end %>
+          </td>
           <td><%= profile.user.email %></td>
           <td><%= profile.first_name %></td>
           <td><%= profile.last_name %></td>
@@ -113,7 +134,6 @@
   </tbody>
 </table>
 </div>
-
 
  <!-- Sidebar Filtered details -->
 <div class="sidebar">
@@ -167,14 +187,14 @@
   <% if current_user.preference.preferred_programs.present? && current_user.preference.preferred_programs.any? %>
     <p>Programs: <%= current_user.preference.preferred_programs.pluck(:name).join(", ") %></p>
   <% else %>
-    <p>Programs: No program preference.Showing random Prgrams</p>
+    <p>Programs: No program preference. Showing random Programs</p>
   <% end %>
 
   </div>
 <% else %>
   <p>No preferences set. Showing random profiles.</p>
-    <% end %>
-  </div>
+<% end %>
+</div>
 </div>
 
 <!-- Filtered Profiles -->
@@ -183,6 +203,7 @@
 <table>
   <thead>
     <tr>
+      <th>Profile Picture</th>
       <th>Email</th>
       <th>First Name</th>
       <th>Last Name</th>
@@ -194,6 +215,13 @@
   <tbody>
     <% @filtered_profiles.each do |profile| %> <!-- Use filtered profiles here -->
       <tr>
+        <td>
+          <% if profile.profile_picture_url.present? %>
+            <%= image_tag(profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
+          <% else %>
+            <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
+          <% end %>
+        </td>
         <td><%= profile.user.email %></td>
         <td><%= profile.first_name %></td>
         <td><%= profile.last_name %></td>

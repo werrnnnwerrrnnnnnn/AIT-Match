@@ -49,6 +49,13 @@ class ProfilesController < ApplicationController
     else
       @user = @profile.user # Get the user associated with the profile
     end
+  
+    # Extract the Google Drive file ID if the URL is from Google Drive
+    if @profile.profile_picture_url.present? && @profile.profile_picture_url.include?("drive.google.com")
+      @drive_image_id = @profile.profile_picture_url.split('/d/')[1].split('/')[0]
+    else
+      @drive_image_id = nil
+    end
   end
 
   def index

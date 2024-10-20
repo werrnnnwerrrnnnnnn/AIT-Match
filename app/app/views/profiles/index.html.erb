@@ -1,16 +1,11 @@
-<!-- HTML + CSS combined -->
-
 <!-- Add this CSS inside a <style> block or your main CSS file -->
 <style>
   body {
     margin-top: 80px; /* Adjust this value to match the height of your navbar */
   }
 
-  /* Alternatively, if you have a main content wrapper, you can add padding like this */
   .main-content {
     padding-top: 80px; /* Adjust this value to match the height of your navbar */
-  }
-  .main-content {
     display: flex;
     justify-content: space-between; /* Aligns the content and sidebar next to each other */
     padding: 20px;
@@ -41,7 +36,7 @@
     color: white; /* Match the green theme */
     font-size: 16px;
   }
-  
+
   /* Style for profile pictures */
   .profile-picture {
     border-radius: 50%;
@@ -52,185 +47,155 @@
 <!-- Main HTML content -->
 <div class="main-content">
   <div class="profiles-section">
-    <!-- Your original profile content -->
-
-<h1>Profiles#index</h1>
-<p>Find me in app/views/profiles/index.html.erb</p>
-
-<h1>Your Profile</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Profile Picture</th>
-      <th>Email</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>User Name</th>
-      <th>Age</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <% if current_user.profile.profile_picture_url.present? %>
-          <%= image_tag(current_user.profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
-        <% else %>
-          <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
-        <% end %>
-      </td>
-      <td><%= current_user.email %></td>
-      <td><%= current_user.profile.first_name %></td>
-      <td><%= current_user.profile.last_name %></td>
-      <td><%= current_user.profile.user_name %></td>
-      <td><%= current_user.profile.age %></td>
-      <td>
-        <%= link_to 'Show', profile_path(current_user.profile) %>
-        <%= link_to 'Edit', edit_profile_path(current_user.profile) %>
-        <%= link_to 'Delete', profile_path(current_user.profile), method: :delete, data: { confirm: 'Are you sure?' } %>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
- <!-- All Profiles -->
-<h1>Other Profiles</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Profile Picture</th>
-      <th>Email</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>User Name</th>
-      <th>Age</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @profiles.each do |profile| %>
-      <% unless profile.user == current_user %> <!-- Only show other profiles -->
-        <tr>
-          <td>
-            <% if profile.profile_picture_url.present? %>
-              <%= image_tag(profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
-            <% else %>
-              <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
-            <% end %>
-          </td>
-          <td><%= profile.user.email %></td>
-          <td><%= profile.first_name %></td>
-          <td><%= profile.last_name %></td>
-          <td><%= profile.user_name %></td>
-          <td><%= profile.age %></td>
-          <td>
-            <%= link_to 'Show', profile_path(profile) %>
-          </td>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
-</div>
-
- <!-- Sidebar Filtered details -->
-<div class="sidebar">
-<% if current_user.preference.present? %>
-
-  <div class="filter-details">
-    <h2>You are looking for:</h2>
-  <!-- Age -->
-  <% if current_user.preference.preferred_min_age.present? && current_user.preference.preferred_max_age.present? %>
-    <p>Age: <%= current_user.preference.preferred_min_age %> - <%= current_user.preference.preferred_max_age %></p>
-  <% else %>
-    <p>Age: No age preference. Showing random ages.</p>
-  <% end %>
     
-  <!-- Gender -->
-  <% if current_user.preference.preferred_genders.present? && current_user.preference.preferred_genders.any? %>
-    <p>Gender: <%= current_user.preference.preferred_genders.pluck(:label).join(", ") %></p>
-  <% else %>
-    <p>Gender: No gender preference. Showing random Genders.</p>
-  <% end %>
+    <!-- Search form -->
+    <%= form_with(url: search_profiles_path, method: :get, local: true) do %>
+      <div class="field">
+        <%= label_tag :username, "Search by Username" %>
+        <%= text_field_tag :username, params[:username], placeholder: "Enter username..." %>
+      </div>
+      <div class="actions">
+        <%= submit_tag "Search", class: "btn btn-primary" %>
+      </div>
+    <% end %>
 
-  <!-- Interests -->
-  <% if current_user.preference.preferred_interests.present? && current_user.preference.preferred_interests.any? %>
-    <p>Interests: <%= current_user.preference.preferred_interests.pluck(:name).join(", ") %></p>
-  <% else %>
-    <p>Interests: No interest preference. Showing random interests</p>
-  <% end %>
+    <!-- Action buttons with disable_filters -->
+    <div class="actions">
+      <%= link_to 'Show Profiles A-Z', profiles_path(order: 'asc', disable_filters: true), class: "btn btn-secondary" %>
+      <%= link_to 'Show Profiles Z-A', profiles_path(order: 'desc', disable_filters: true), class: "btn btn-secondary" %>
+      <%= link_to 'Show Profiles Random', profiles_path(order: 'random', disable_filters: true), class: "btn btn-secondary" %>
+    </div>
 
-  <!-- Relationships -->
-  <% if current_user.preference.preferred_relationships.present? && current_user.preference.preferred_relationships.any? %>
-    <p>Relationships: <%= current_user.preference.preferred_relationships.pluck(:name).join(", ") %></p>
-  <% else %>
-    <p>Relationships: No relationship preference. Showing random realtionships</p>
-  <% end %>
+    <!-- Display the appropriate heading based on the current state -->
+    <% if @no_profiles_found %>
+      <h2>No profiles found</h2>
+    <% elsif @searching %>
+      <h2>Showing results for "<%= params[:username] %>"</h2>
+    <% elsif @filtering %>
+      <h2>Showing profiles based on your preferences</h2>
+    <% elsif @sorted_az %>
+      <h2>Showing all profiles by A-Z</h2>
+    <% elsif @sorted_za %>
+      <h2>Showing all profiles by Z-A</h2>
+    <% elsif @showing_random %>
+      <h2>Showing all profiles by random</h2>
+    <% else %>
+      <h2>Showing all profiles</h2>
+    <% end %>
 
-  <!-- MBTI -->
-  <% if current_user.preference.preferred_mbti.present? && current_user.preference.preferred_mbti.any? %>
-    <p>MBTI: <%= current_user.preference.preferred_mbti.pluck(:label).join(", ") %></p>
-  <% else %>
-    <p>MBTI: No MBTI preference. Showing random Mbti</p>
-  <% end %>
-
-  <!-- Schools -->
-  <% if current_user.preference.preferred_schools.present? && current_user.preference.preferred_schools.any? %>
-    <p>Schools: <%= current_user.preference.preferred_schools.pluck(:name).join(", ") %></p>
-  <% else %>
-    <p>Schools: No school preference. Showing random schools</p>
-  <% end %>
-
-  <!-- Programs -->
-  <% if current_user.preference.preferred_programs.present? && current_user.preference.preferred_programs.any? %>
-    <p>Programs: <%= current_user.preference.preferred_programs.pluck(:name).join(", ") %></p>
-  <% else %>
-    <p>Programs: No program preference. Showing random Programs</p>
-  <% end %>
+    <!-- Profiles Table -->
+    <% unless @no_profiles_found %>
+      <h1>Profiles</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Profile Picture</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>User Name</th>
+            <th>Age</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @filtered_profiles.each do |profile| %>
+            <% unless profile.user == current_user %> <!-- Only show other profiles -->
+              <tr>
+                <td>
+                  <% if profile.profile_picture_url.present? %>
+                    <%= image_tag(profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
+                  <% else %>
+                    <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
+                  <% end %>
+                </td>
+                <td><%= profile.user.email %></td>
+                <td><%= profile.first_name %></td>
+                <td><%= profile.last_name %></td>
+                <td><%= profile.user_name %></td>
+                <td><%= profile.age %></td>
+                <td>
+                  <%= link_to 'Show', profile_path(profile) %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
 
   </div>
-<% else %>
-  <p>No preferences set. Showing random profiles.</p>
-<% end %>
-</div>
-</div>
 
-<!-- Filtered Profiles -->
-<h1>Filtered Profiles</h1>
+  <!-- Sidebar Filtered details -->
+  <div class="sidebar">
+    <% if @searching %>
+      <h2>Showing results for "<%= params[:username] %>"</h2>
+    <% elsif @filtering && current_user.preference.present? %>
+      <h2>You are looking for:</h2>
+      <!-- Age -->
+      <% if current_user.preference.preferred_min_age.present? && current_user.preference.preferred_max_age.present? %>
+        <p>Age: <%= current_user.preference.preferred_min_age %> - <%= current_user.preference.preferred_max_age %></p>
+      <% else %>
+        <p>Age: - </p>
+      <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Profile Picture</th>
-      <th>Email</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>User Name</th>
-      <th>Age</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @filtered_profiles.each do |profile| %> <!-- Use filtered profiles here -->
-      <tr>
-        <td>
-          <% if profile.profile_picture_url.present? %>
-            <%= image_tag(profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
-          <% else %>
-            <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
-          <% end %>
-        </td>
-        <td><%= profile.user.email %></td>
-        <td><%= profile.first_name %></td>
-        <td><%= profile.last_name %></td>
-        <td><%= profile.user_name %></td>
-        <td><%= profile.age %></td>
-        <td>
-          <%= link_to 'Show', profile_path(profile) %>
-        </td>
-      </tr>
+      <!-- Gender -->
+      <% if current_user.preference.preferred_genders.present? && current_user.preference.preferred_genders.any? %>
+        <p>Gender: <%= current_user.preference.preferred_genders.pluck(:label).join(", ") %></p>
+      <% else %>
+        <p>Gender: - </p>
+      <% end %>
+
+      <!-- Interests -->
+      <% if current_user.preference.preferred_interests.present? && current_user.preference.preferred_interests.any? %>
+        <p>Interests: <%= current_user.preference.preferred_interests.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Interests: - </p>
+      <% end %>
+
+      <!-- Relationships -->
+      <% if current_user.preference.preferred_relationships.present? && current_user.preference.preferred_relationships.any? %>
+        <p>Relationships: <%= current_user.preference.preferred_relationships.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Relationships: - </p>
+      <% end %>
+
+      <!-- MBTI -->
+      <% if current_user.preference.preferred_mbti.present? && current_user.preference.preferred_mbti.any? %>
+        <p>MBTI: <%= current_user.preference.preferred_mbti.pluck(:label).join(", ") %></p>
+      <% else %>
+        <p>MBTI: - </p>
+      <% end %>
+
+      <!-- Schools -->
+      <% if current_user.preference.preferred_schools.present? && current_user.preference.preferred_schools.any? %>
+        <p>Schools: <%= current_user.preference.preferred_schools.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Schools: - </p>
+      <% end %>
+
+      <!-- Programs -->
+      <% if current_user.preference.preferred_programs.present? && current_user.preference.preferred_programs.any? %>
+        <p>Programs: <%= current_user.preference.preferred_programs.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Programs: - </p>
+      <% end %>
+
+      <!-- Degrees -->
+      <% if current_user.preference.preferred_degrees.present? && current_user.preference.preferred_degrees.any? %>
+        <p>Degrees: <%= current_user.preference.preferred_degrees.pluck(:label).join(", ") %></p>
+      <% else %>
+        <p>Degrees: - </p>
+      <% end %>
+
+    <% elsif @sorted_az %>
+      <h2>Showing all profiles by A-Z</h2>
+    <% elsif @sorted_za %>
+      <h2>Showing all profiles by Z-A</h2>
+    <% elsif @showing_random %>
+      <h2>Showing all profiles by random</h2>
+    <% else %>
+      <h2>Showing all profiles</h2>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>

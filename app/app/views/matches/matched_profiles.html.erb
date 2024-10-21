@@ -1,0 +1,15 @@
+<br><br><br><br><br>
+<h1>Matched Profiles</h1>
+
+<% if @matched_profiles.any? %>
+  <ul>
+    <% @matched_profiles.each do |profile| %>
+      <li>
+        <%= profile.user.email %>
+        <%= link_to 'View Profile', profile_path(profile) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no matches yet.</p>
+<% end %>

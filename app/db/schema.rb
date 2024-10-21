@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_21_115802) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_21_124609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_21_115802) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "requestor_id", null: false
+    t.bigint "receiver_id", null: false
+    t.string "status", default: "pending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_matches_on_receiver_id"
+    t.index ["requestor_id", "receiver_id"], name: "index_matches_on_requestor_id_and_receiver_id", unique: true
+    t.index ["requestor_id"], name: "index_matches_on_requestor_id"
   end
 
   create_table "mbtis", force: :cascade do |t|
@@ -272,6 +283,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_21_115802) do
     t.index ["preferred_school_id"], name: "index_users_preferred_schools_on_preferred_school_id"
   end
 
+  add_foreign_key "matches", "profiles", column: "receiver_id"
+  add_foreign_key "matches", "profiles", column: "requestor_id"
   add_foreign_key "preferences", "users"
   add_foreign_key "profile_interests", "interests"
   add_foreign_key "profile_interests", "profiles"

@@ -203,7 +203,14 @@
                 <td><%= profile.age %></td>
                 <td>
                   <%= link_to 'Show', profile_path(profile) %>
+                  <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
+                    <!-- <%= button_to 'Send Match Request', profile_matches_path(profile, receiver_id: profile.id), method: :post %> -->
+                    <%= button_to 'Send Match Request', profile_matches_path(profile_id: profile.id), method: :post %>
+                  <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
+                    <p>Match request already sent.</p>
+                  <% end %>
                 </td>
+
               </tr>
             <% end %>
           <% end %>

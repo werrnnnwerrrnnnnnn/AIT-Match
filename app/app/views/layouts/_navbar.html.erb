@@ -201,12 +201,15 @@
         </li>
         
         <!-- Other navigation links -->
-        <li><%= link_to 'Matches', welcome_path %></li>
+        <!-- Modify the Matches button to link to matched profiles -->
+        <li><%= link_to 'Matches', matches_matched_profiles_path %></li>
         <li><%= link_to 'Messages', welcome_path %></li>
         <li><%= link_to 'Events', welcome_path %></li>
     </ul>
 </div>
         <div class="right-buttons">
+            <!-- Modify the 👥 button to go to match requests -->
+            <%= link_to '👥', matches_requests_path, class: 'notification-bell' %>
             <div class="notification">
                 <span class="notification-bell">🔔</span>
                 <span class="notification-count">3</span>

@@ -9,10 +9,27 @@ Rails.application.routes.draw do
 
   resources :profiles do
     collection do
-      get 'search', to: 'profiles#search'  # Define the search action correctly
-      get 'show_all', to: 'profiles#show_all'  # Define the action to reset filters and show all profiles
+      get 'search', to: 'profiles#search' 
+      get 'show_all', to: 'profiles#show_all'
     end
+    resources :matches, only: [:create]
   end
+
+  # Matches routes with custom actions for accepting and declining matches
+  resources :matches, only: [:index, :create] do
+    collection do
+      get 'requests', to: 'matches#requests'   # For match requests
+      get 'matched_profiles', to: 'matches#matched_profiles'   # For matched profiles
+    end
+      post 'accept', on: :member  # POST /matches/:id/accept
+      post 'decline', on: :member  # POST /matches/:id/decline
+  end
+
+  # Route for matched profiles
+  get 'matches/matched_profiles', to: 'matches#matched_profiles', as: 'matches_matched_profiles'
+
+  # Route for match requests
+  get 'matches/requests', to: 'matches#requests', as: 'matches_requests'
 
   # get "profiles/new"
   # get "profiles/create"

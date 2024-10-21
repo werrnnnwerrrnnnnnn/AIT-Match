@@ -1,0 +1,17 @@
+<!-- app/views/matches/requests.html.erb -->
+<br><br><br><br><br>
+<h1>Match Requests</h1>
+
+<% if @matches.any? %>
+  <ul>
+    <% @matches.each do |match| %>
+      <li>
+        <%= match.requestor.user.email %>
+        <%= button_to 'Accept', accept_match_path(match), method: :post %>
+        <%= button_to 'Decline', decline_match_path(match), method: :post %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No pending match requests.</p>
+<% end %>

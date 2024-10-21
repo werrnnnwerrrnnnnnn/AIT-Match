@@ -100,6 +100,25 @@
   }
 </style>
 
+<!-- JavaScript to ensure minimum age is not greater than maximum age -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const minAgeInput = document.querySelector("#preference_preferred_min_age");
+    const maxAgeInput = document.querySelector("#preference_preferred_max_age");
+    const form = minAgeInput.closest("form");
+
+    form.addEventListener("submit", function(event) {
+      const minAge = parseInt(minAgeInput.value, 10);
+      const maxAge = parseInt(maxAgeInput.value, 10);
+
+      if (minAge > maxAge) {
+        alert("Minimum age cannot be greater than Maximum age.");
+        event.preventDefault(); // Prevent form submission
+      }
+    });
+  });
+</script>
+
 <h1>Edit Preferences</h1>
 
 <div class="profile-display-container">
@@ -109,14 +128,14 @@
     <div class="profile-section">
       <%= form.label :preferred_min_age, "Minimum Age" %>
       <div>
-        <%= form.number_field :preferred_min_age, class: "form-control" %>
+        <%= form.number_field :preferred_min_age, class: "form-control", min: 0, step: 1 %>
       </div>
     </div>
 
     <div class="profile-section">
       <%= form.label :preferred_max_age, "Maximum Age" %>
       <div>
-        <%= form.number_field :preferred_max_age, class: "form-control" %>
+        <%= form.number_field :preferred_max_age, class: "form-control", min: 0, step: 1 %>
       </div>
     </div>
 

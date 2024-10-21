@@ -13,14 +13,14 @@
         }
 
         .logo-img {
-            width: 50px;
-            height: 50px;
+            width: 35px; /* Smaller logo */
+            height: 35px;
             object-fit: contain; /* Keeps the aspect ratio */
         }
 
         nav {
             background-color: #617952;
-            padding: 10px 20px;
+            padding: 5px 15px; /* Reduce padding */
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -29,12 +29,13 @@
             top: 0;
             z-index: 1000;
             box-sizing: border-box;
+            height: 50px; /* Reduce height */
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 10px; /* Reduce gap */
         }
 
         ul {
@@ -45,14 +46,14 @@
             gap: 15px;
         }
 
-        /* Common styling for buttons and links with depth */
         ul li a, 
         .right-buttons a {
             background-color: #F7DDE3;
             color: #617952;
             font-weight: bold;
+            font-size: 15px;
             border: none;
-            padding: 10px 20px;
+            padding: 5px 15px; /* Reduce padding inside buttons */
             border-radius: 20px;
             cursor: pointer;
             text-decoration: none;
@@ -71,7 +72,7 @@
 
         .right-buttons {
             display: flex;
-            gap: 20px;
+            gap: 15px; /* Reduced gap */
             align-items: center;
             margin-left: auto;
             flex-shrink: 0;
@@ -81,12 +82,11 @@
             position: relative;
         }
 
-        /* Notification bell styling with bounce effect */
         .notification-bell {
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             background-color: #F7DDE3;
-            padding: 10px 20px;
+            padding: 5px 15px; /* Reduce padding */
             border-radius: 20px;
             color: black;
             border: none;
@@ -152,13 +152,13 @@
             right: -5px;
             background-color: red;
             color: white;
-            font-size: 14px;
+            font-size: 11px;
             padding: 5px 8px;
             border-radius: 50%;
         }
 
         #page-title {
-            font-size: 18px;
+            font-size: 16px; /* Slightly reduce font size */
             color: white;
         }
 
@@ -166,7 +166,7 @@
             background-color: #617952;
             color: white;
             text-align: center;
-            padding: 10px;
+            padding: 0px;
             position: fixed;
             width: 100%;
             bottom: 0;
@@ -227,4 +227,5 @@
     <p>AIT Match © 2024</p>
 </footer>
 
-</body></html>
+</body>
+</html>

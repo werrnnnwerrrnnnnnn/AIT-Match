@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_17_185038) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_21_115802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -164,8 +164,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_17_185038) do
     t.bigint "program_id", null: false
     t.text "educational_background"
     t.text "profile_picture_url"
-    t.integer "preferred_min_age"
-    t.integer "preferred_max_age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "birthday"

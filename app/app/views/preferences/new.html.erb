@@ -1,0 +1,205 @@
+<!-- Add CSS to style similar to your reference -->
+<style>
+  .profile-display-container {
+    background-color: white;
+    width: 800px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 50px auto; /* Adjust top and bottom margin to avoid navbar and footer hiding content */
+  }
+
+  .profile-display-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .profile-section label {
+    width: 150px;
+    margin-right: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .profile-section div {
+    width: calc(100% - 200px);
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .form-check {
+    margin-bottom: 10px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .buttons .btn-primary {
+    background-color: #617952;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .buttons .btn-primary:hover {
+    background-color: #4a5e41;
+  }
+
+  /* Dropdown Styles for Checkbox Groups */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .dropdown-btn {
+    background-color: white;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .dropdown-content input {
+    margin-right: 10px;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+</style>
+
+<h1>Edit Preferences</h1>
+
+<div class="profile-display-container">
+  <%= form_with(model: @preference, local: true) do |form| %>
+
+    <!-- Preferred Age Range -->
+    <div class="profile-section">
+      <%= form.label :preferred_min_age, "Minimum Age" %>
+      <div>
+        <%= form.number_field :preferred_min_age, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <%= form.label :preferred_max_age, "Maximum Age" %>
+      <div>
+        <%= form.number_field :preferred_max_age, class: "form-control" %>
+      </div>
+    </div>
+
+    <!-- Preferred Genders (Dropdown with checkboxes) -->
+    <div class="profile-section">
+      <%= form.label :preferred_genders, "Preferred Genders" %>
+      <div class="dropdown">
+        <div class="dropdown-btn">Select Genders</div>
+        <div class="dropdown-content">
+          <%= form.collection_check_boxes :preferred_gender_ids, @preferred_genders, :id, :label %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferred Interests (Dropdown with checkboxes) -->
+    <div class="profile-section">
+      <%= form.label :preferred_interests, "Preferred Interests" %>
+      <div class="dropdown">
+        <div class="dropdown-btn">Select Interests</div>
+        <div class="dropdown-content">
+          <%= form.collection_check_boxes :preferred_interest_ids, @preferred_interests, :id, :name %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferred Relationships (Dropdown with checkboxes) -->
+    <div class="profile-section">
+      <%= form.label :preferred_relationships, "Preferred Relationships" %>
+      <div class="dropdown">
+        <div class="dropdown-btn">Select Relationships</div>
+        <div class="dropdown-content">
+          <%= form.collection_check_boxes :preferred_relationship_ids, @preferred_relationships, :id, :name %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferred MBTI (Dropdown with checkboxes) -->
+    <div class="profile-section">
+      <%= form.label :preferred_mbti, "Preferred MBTI" %>
+      <div class="dropdown">
+        <div class="dropdown-btn">Select MBTI</div>
+        <div class="dropdown-content">
+          <%= form.collection_check_boxes :preferred_mbti_ids, @preferred_mbti, :id, :label %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferred Degrees (Dropdown with checkboxes) -->
+    <div class="profile-section">
+      <%= form.label :preferred_degrees, "Preferred Degrees" %>
+      <div class="dropdown">
+        <div class="dropdown-btn">Select Degrees</div>
+        <div class="dropdown-content">
+          <%= form.collection_check_boxes :preferred_degree_ids, @preferred_degrees, :id, :label %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferred Schools (Dropdown with checkboxes) -->
+    <div class="profile-section">
+      <%= form.label :preferred_schools, "Preferred Schools" %>
+      <div class="dropdown">
+        <div class="dropdown-btn">Select Schools</div>
+        <div class="dropdown-content">
+          <%= form.collection_check_boxes :preferred_school_ids, @preferred_schools, :id, :name %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferred Programs (Dropdown with checkboxes) -->
+    <div class="profile-section">
+      <%= form.label :preferred_programs, "Preferred Programs" %>
+      <div class="dropdown">
+        <div class="dropdown-btn">Select Programs</div>
+        <div class="dropdown-content">
+          <%= form.collection_check_boxes :preferred_program_ids, @preferred_programs, :id, :name %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="buttons">
+      <%= form.submit "Save Preferences", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

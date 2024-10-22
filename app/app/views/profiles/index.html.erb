@@ -1,3 +1,155 @@
+<!-- Main HTML content -->
+<div class="main-content">
+  <div class="profiles-section">
+
+    <!-- Container wrapping the search bar and the action buttons -->
+    <div class="container-box">
+    
+      <!-- Search form with custom search bar and search button inside -->
+      <%= form_with(url: search_profiles_path, method: :get, local: true, html: {class: "custom-search-bar"}) do %>
+        <div class="field">
+          <%= text_field_tag :username, params[:username], placeholder: "Search by Username", class: "form-control" %>
+        </div>
+        <!-- Search button with magnifying glass emoji inside the input -->
+        <button type="submit">🔍</button>
+      <% end %>
+
+      <!-- Sort dropdown placed next to the search bar -->
+      <select class="sort-dropdown" onchange="window.location.href=this.value;">
+        <option>Sort Profiles</option>
+        <option value="<%= profiles_path(order: 'asc', disable_filters: true) %>">Show Profiles A-Z</option>
+        <option value="<%= profiles_path(order: 'desc', disable_filters: true) %>">Show Profiles Z-A</option>
+        <option value="<%= profiles_path(order: 'random', disable_filters: true) %>">Show Profiles Random</option>
+      </select>
+    </div>
+
+    <!-- Display the appropriate heading based on the current state -->
+    <% if @no_profiles_found %>
+      <h2>No profiles found</h2>
+    <% elsif @searching %>
+      <h2>Showing results for "<%= params[:username] %>"</h2>
+    <% elsif @filtering %>
+      <h2>Showing profiles based on your preferences</h2>
+    <% elsif @sorted_az %>
+      <h2>Showing all profiles by A-Z</h2>
+    <% elsif @sorted_za %>
+      <h2>Showing all profiles by Z-A</h2>
+    <% elsif @showing_random %>
+      <h2>Showing all profiles by random</h2>
+    <% else %>
+      <h2>Showing all profiles</h2>
+    <% end %>
+
+    <!-- Profiles Section -->
+    <% unless @no_profiles_found %>
+      <div class="suggested-profiles">
+        <% @filtered_profiles.each do |profile| %>
+          <% unless profile.user == current_user %> <!-- Only show other profiles -->
+            <div class="profile-card">
+              <div class="profile-info">
+                <div class="profile-photo">
+                  <% if profile.profile_picture_url.present? %>
+                    <%= image_tag(profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
+                  <% else %>
+                    <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
+                  <% end %>
+                </div>
+                <div class="profile-details">
+                  <p><strong><%= profile.first_name %> <%= profile.last_name %></strong></p>
+                  <p>Major: <%= profile.program.name %></p>
+                  <p>Age: <%= profile.age %></p>
+                </div>
+              </div>
+              <div class="profile-actions">
+                <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %>
+                <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
+                  <%= button_to 'Match', profile_matches_path(profile_id: profile.id), method: :post, class: 'match-btn' %>
+                <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
+                  <p>Match request already sent.</p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <!-- Sidebar Filtered details -->
+  <div class="sidebar">
+    <% if @searching %>
+      <h2>Showing results for "<%= params[:username] %>"</h2>
+    <% elsif @filtering && current_user.preference.present? %>
+      <h2>You are looking for:</h2>
+      <!-- Age -->
+      <% if current_user.preference.preferred_min_age.present? && current_user.preference.preferred_max_age.present? %>
+        <p>Age: <%= current_user.preference.preferred_min_age %> - <%= current_user.preference.preferred_max_age %></p>
+      <% else %>
+        <p>Age: - </p>
+      <% end %>
+
+      <!-- Gender -->
+      <% if current_user.preference.preferred_genders.present? && current_user.preference.preferred_genders.any? %>
+        <p>Gender: <%= current_user.preference.preferred_genders.pluck(:label).join(", ") %></p>
+      <% else %>
+        <p>Gender: - </p>
+      <% end %>
+
+      <!-- Interests -->
+      <% if current_user.preference.preferred_interests.present? && current_user.preference.preferred_interests.any? %>
+        <p>Interests: <%= current_user.preference.preferred_interests.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Interests: - </p>
+      <% end %>
+
+      <!-- Relationships -->
+      <% if current_user.preference.preferred_relationships.present? && current_user.preference.preferred_relationships.any? %>
+        <p>Relationships: <%= current_user.preference.preferred_relationships.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Relationships: - </p>
+      <% end %>
+
+      <!-- MBTI -->
+      <% if current_user.preference.preferred_mbti.present? && current_user.preference.preferred_mbti.any? %>
+        <p>MBTI: <%= current_user.preference.preferred_mbti.pluck(:label).join(", ") %></p>
+      <% else %>
+        <p>MBTI: - </p>
+      <% end %>
+
+      <!-- Schools -->
+      <% if current_user.preference.preferred_schools.present? && current_user.preference.preferred_schools.any? %>
+        <p>Schools: <%= current_user.preference.preferred_schools.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Schools: - </p>
+      <% end %>
+
+      <!-- Programs -->
+      <% if current_user.preference.preferred_programs.present? && current_user.preference.preferred_programs.any? %>
+        <p>Programs: <%= current_user.preference.preferred_programs.pluck(:name).join(", ") %></p>
+      <% else %>
+        <p>Programs: - </p>
+      <% end %>
+
+      <!-- Degrees -->
+      <% if current_user.preference.preferred_degrees.present? && current_user.preference.preferred_degrees.any? %>
+        <p>Degrees: <%= current_user.preference.preferred_degrees.pluck(:label).join(", ") %></p>
+      <% else %>
+        <p>Degrees: - </p>
+      <% end %>
+
+    <% elsif @sorted_az %>
+      <h2>Showing all profiles by A-Z</h2>
+    <% elsif @sorted_za %>
+      <h2>Showing all profiles by Z-A</h2>
+    <% elsif @showing_random %>
+      <h2>Showing all profiles by random</h2>
+    <% else %>
+      <h2>Showing all profiles</h2>
+    <% end %>
+  </div>
+</div>
+
 <!-- CSS for the custom search bar with magnifying glass icon inside the input -->
 <style>
   /* Main container that wraps the search bar and buttons */
@@ -146,168 +298,55 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
+  /* Profile section design (added) */
+  .suggested-profiles {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between profile cards */
+  }
+
+  .profile-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .profile-photo img {
+    border-radius: 50%;
+  }
+
+  .profile-details {
+    font-size: 16px;
+    color: #333;
+  }
+
+  .profile-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .view-profile-btn, .match-btn {
+    background-color: #617952;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .view-profile-btn:hover, .match-btn:hover {
+    background-color: #4a5e41;
+  }
 </style>
-
-<!-- Main HTML content -->
-<div class="main-content">
-  <div class="profiles-section">
-
-    <!-- Container wrapping the search bar and the action buttons -->
-    <div class="container-box">
-    
-      <!-- Search form with custom search bar and search button inside -->
-      <%= form_with(url: search_profiles_path, method: :get, local: true, html: {class: "custom-search-bar"}) do %>
-        <div class="field">
-          <%= text_field_tag :username, params[:username], placeholder: "Search by Username", class: "form-control" %>
-        </div>
-        <!-- Search button with magnifying glass emoji inside the input -->
-        <button type="submit">🔍</button>
-      <% end %>
-
-      <!-- Sort dropdown placed next to the search bar -->
-      <select class="sort-dropdown" onchange="window.location.href=this.value;">
-        <option>Sort Profiles</option>
-        <option value="<%= profiles_path(order: 'asc', disable_filters: true) %>">Show Profiles A-Z</option>
-        <option value="<%= profiles_path(order: 'desc', disable_filters: true) %>">Show Profiles Z-A</option>
-        <option value="<%= profiles_path(order: 'random', disable_filters: true) %>">Show Profiles Random</option>
-      </select>
-    </div>
-
-    <!-- Display the appropriate heading based on the current state -->
-    <% if @no_profiles_found %>
-      <h2>No profiles found</h2>
-    <% elsif @searching %>
-      <h2>Showing results for "<%= params[:username] %>"</h2>
-    <% elsif @filtering %>
-      <h2>Showing profiles based on your preferences</h2>
-    <% elsif @sorted_az %>
-      <h2>Showing all profiles by A-Z</h2>
-    <% elsif @sorted_za %>
-      <h2>Showing all profiles by Z-A</h2>
-    <% elsif @showing_random %>
-      <h2>Showing all profiles by random</h2>
-    <% else %>
-      <h2>Showing all profiles</h2>
-    <% end %>
-
-    <!-- Profiles Table -->
-    <% unless @no_profiles_found %>
-      <h1>Profiles</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Profile Picture</th>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>User Name</th>
-            <th>Age</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @filtered_profiles.each do |profile| %>
-            <% unless profile.user == current_user %> <!-- Only show other profiles -->
-              <tr>
-                <td>
-                  <% if profile.profile_picture_url.present? %>
-                    <%= image_tag(profile.profile_picture_url, alt: 'Profile Picture', class: 'profile-picture', size: '50x50') %>
-                  <% else %>
-                    <%= image_tag('default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '50x50') %>
-                  <% end %>
-                </td>
-                <td><%= profile.user.email %></td>
-                <td><%= profile.first_name %></td>
-                <td><%= profile.last_name %></td>
-                <td><%= profile.user_name %></td>
-                <td><%= profile.age %></td>
-                <td>
-                  <%= link_to 'Show', profile_path(profile) %>
-                  <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
-                    <%= button_to 'Send Match Request', profile_matches_path(profile_id: profile.id), method: :post %>
-                  <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
-                    <p>Match request already sent.</p>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
-    <% end %>
-
-  </div>
-
-  <!-- Sidebar Filtered details -->
-  <div class="sidebar">
-    <% if @searching %>
-      <h2>Showing results for "<%= params[:username] %>"</h2>
-    <% elsif @filtering && current_user.preference.present? %>
-      <h2>You are looking for:</h2>
-      <!-- Age -->
-      <% if current_user.preference.preferred_min_age.present? && current_user.preference.preferred_max_age.present? %>
-        <p>Age: <%= current_user.preference.preferred_min_age %> - <%= current_user.preference.preferred_max_age %></p>
-      <% else %>
-        <p>Age: - </p>
-      <% end %>
-
-      <!-- Gender -->
-      <% if current_user.preference.preferred_genders.present? && current_user.preference.preferred_genders.any? %>
-        <p>Gender: <%= current_user.preference.preferred_genders.pluck(:label).join(", ") %></p>
-      <% else %>
-        <p>Gender: - </p>
-      <% end %>
-
-      <!-- Interests -->
-      <% if current_user.preference.preferred_interests.present? && current_user.preference.preferred_interests.any? %>
-        <p>Interests: <%= current_user.preference.preferred_interests.pluck(:name).join(", ") %></p>
-      <% else %>
-        <p>Interests: - </p>
-      <% end %>
-
-      <!-- Relationships -->
-      <% if current_user.preference.preferred_relationships.present? && current_user.preference.preferred_relationships.any? %>
-        <p>Relationships: <%= current_user.preference.preferred_relationships.pluck(:name).join(", ") %></p>
-      <% else %>
-        <p>Relationships: - </p>
-      <% end %>
-
-      <!-- MBTI -->
-      <% if current_user.preference.preferred_mbti.present? && current_user.preference.preferred_mbti.any? %>
-        <p>MBTI: <%= current_user.preference.preferred_mbti.pluck(:label).join(", ") %></p>
-      <% else %>
-        <p>MBTI: - </p>
-      <% end %>
-
-      <!-- Schools -->
-      <% if current_user.preference.preferred_schools.present? && current_user.preference.preferred_schools.any? %>
-        <p>Schools: <%= current_user.preference.preferred_schools.pluck(:name).join(", ") %></p>
-      <% else %>
-        <p>Schools: - </p>
-      <% end %>
-
-      <!-- Programs -->
-      <% if current_user.preference.preferred_programs.present? && current_user.preference.preferred_programs.any? %>
-        <p>Programs: <%= current_user.preference.preferred_programs.pluck(:name).join(", ") %></p>
-      <% else %>
-        <p>Programs: - </p>
-      <% end %>
-
-      <!-- Degrees -->
-      <% if current_user.preference.preferred_degrees.present? && current_user.preference.preferred_degrees.any? %>
-        <p>Degrees: <%= current_user.preference.preferred_degrees.pluck(:label).join(", ") %></p>
-      <% else %>
-        <p>Degrees: - </p>
-      <% end %>
-
-    <% elsif @sorted_az %>
-      <h2>Showing all profiles by A-Z</h2>
-    <% elsif @sorted_za %>
-      <h2>Showing all profiles by Z-A</h2>
-    <% elsif @showing_random %>
-      <h2>Showing all profiles by random</h2>
-    <% else %>
-      <h2>Showing all profiles</h2>
-    <% end %>
-  </div>
-</div>

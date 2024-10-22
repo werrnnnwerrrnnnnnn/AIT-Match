@@ -6,8 +6,9 @@
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 50px auto; /* Adjust top and bottom margin to avoid navbar and footer hiding content */
-  }
+    margin: 50px auto; /* Center the container */
+    margin-top: 80px; /* Adjust this value to create space below the navbar */
+}
 
   .profile-display-container h2 {
     text-align: center;
@@ -103,39 +104,47 @@
 <!-- JavaScript to ensure minimum age is not greater than maximum age -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const minAgeInput = document.querySelector("#preference_preferred_min_age");
-    const maxAgeInput = document.querySelector("#preference_preferred_max_age");
-    const form = minAgeInput.closest("form");
+    const minAgeInput = document.querySelector("#ageRangeMin");
+    const maxAgeInput = document.querySelector("#ageRangeMax");
+    const ageDisplay = document.querySelector("#ageRangeDisplay");
 
-    form.addEventListener("submit", function(event) {
-      const minAge = parseInt(minAgeInput.value, 10);
-      const maxAge = parseInt(maxAgeInput.value, 10);
+    function updateAgeDisplay() {
+      const minAge = minAgeInput.value;
+      const maxAge = maxAgeInput.value;
+      ageDisplay.textContent = `${minAge} - ${maxAge}`;
+    }
 
-      if (minAge > maxAge) {
-        alert("Minimum age cannot be greater than Maximum age.");
-        event.preventDefault(); // Prevent form submission
+    minAgeInput.addEventListener("input", function() {
+      if (parseInt(minAgeInput.value) > parseInt(maxAgeInput.value)) {
+        minAgeInput.value = maxAgeInput.value;
       }
+      updateAgeDisplay();
     });
+
+    maxAgeInput.addEventListener("input", function() {
+      if (parseInt(maxAgeInput.value) < parseInt(minAgeInput.value)) {
+        maxAgeInput.value = minAgeInput.value;
+      }
+      updateAgeDisplay();
+    });
+
+    // Initialize display on load
+    updateAgeDisplay();
   });
 </script>
 
-<h1>Edit Preferences</h1>
 
 <div class="profile-display-container">
   <%= form_with(model: @preference, local: true) do |form| %>
 
-    <!-- Preferred Age Range -->
+    <h1>Edit Preferences</h1>
+    <!-- Preferred Age Range (Sliding Bar) -->
     <div class="profile-section">
-      <%= form.label :preferred_min_age, "Minimum Age" %>
+      <%= form.label :preferred_min_age, "Age Range" %>
       <div>
-        <%= form.number_field :preferred_min_age, class: "form-control", min: 0, step: 1 %>
-      </div>
-    </div>
-
-    <div class="profile-section">
-      <%= form.label :preferred_max_age, "Maximum Age" %>
-      <div>
-        <%= form.number_field :preferred_max_age, class: "form-control", min: 0, step: 1 %>
+        <input type="range" id="ageRangeMin" name="preference[preferred_min_age]" min="18" max="100" value="18" step="1">
+        <input type="range" id="ageRangeMax" name="preference[preferred_max_age]" min="18" max="100" value="100" step="1">
+        <span id="ageRangeDisplay">18 - 100+</span>
       </div>
     </div>
 

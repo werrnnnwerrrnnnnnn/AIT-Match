@@ -1,170 +1,250 @@
-<!-- CSS -->
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Page</title>
+  <!-- CSS -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #FDEDF1; /* Ensure the body background color is consistent */
+    }
 
-  .profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px;
-    background-color: #f8f0f1;
-    margin-top: 100px; /* Add margin to avoid navbar overlap */
-    margin-bottom: 100px; /* Add margin to avoid footer overlap */
-  }
+    .profile-container {
+      display: flex;
+      align-items: flex-start;
+      padding: 50px;
+      background-color: #FDEDF1; /* Match background to body */
+      margin-top: 40px;
+      margin-bottom: 100px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 20px;
+      /* Remove any background color that makes it look like it’s showing between cards */
+    }
 
-  .profile-card {
-    width: 500px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    text-align: center;
-  }
+    .profile-card, .academic-info, .preferences-container {
+      background-color: #fff; /* Ensure sections have a solid background */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-  .profile-picture {
-    border-radius: 50%;
-    margin-bottom: 20px;
-  }
+    .profile-card {
+      width: 300px;
+      padding: 30px;
+      text-align: center;
+    }
 
-  .profile-card h2 {
-    margin-bottom: 10px;
-  }
+    .profile-picture {
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
 
-  .profile-card p {
-    margin-bottom: 10px;
-    font-size: 16px;
-  }
+    .profile-card h2 {
+      margin-bottom: 10px;
+    }
 
-  .profile-card .btn {
-    width: 100px;
-    margin: 5px;
-  }
+    .profile-card table {
+      width: 100%;
+      margin-bottom: 20px;
+      border-collapse: collapse;
+    }
 
-  .profile-card table {
-    width: 100%;
-    text-align: left;
-    margin-bottom: 20px;
-  }
+    .profile-card table td {
+      padding: 8px 0;
+    }
 
-  .profile-card table td {
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-  }
+    .profile-card table td:first-child {
+      font-weight: bold;
+      text-align: right;
+      padding-right: 10px;
+    }
 
-  .profile-card h3 {
-    text-align: left;
-    margin-top: 30px;
-    color: #617952;
-  }
+    .profile-card table td:last-child {
+      text-align: left;
+    }
 
-  .profile-card ul {
-    text-align: left;
-    list-style: none;
-    padding: 0;
-  }
+    .profile-card .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 50px;
+      background-color: #617952;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-  .profile-card ul li {
-    padding: 5px 0;
-  }
+    .profile-card .btn:hover {
+      background-color: #4a5c41;
+    }
 
-  .btn-back {
-    margin-top: 20px;
-    background-color: #617952;
-    color: white;
-  }
-</style>
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 20px;
+    }
 
-<!-- HTML -->
-<div class="profile-container">
-  <div class="profile-card">
-    <!-- Display Profile Picture -->
-    <p>Profile Picture:</p>
-    <% if @profile.profile_picture_url.present? %>
-      <img src="<%= @profile.profile_picture_url %>" alt="Profile Picture" class="profile-picture" width="150" height="150">
-    <% else %>
-      <p>No profile picture provided.</p>
-    <% end %>
+    .academic-info, .preferences-container {
+      padding: 20px;
+    }
 
-    <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
+    .academic-info h3, .preferences-container h3 {
+      color: #617952;
+      margin-bottom: 20px;
+    }
 
-    <table>
-      <tr>
-        <td>Age:</td>
-        <td><%= @profile.age %></td>
-      </tr>
-      <tr>
-        <td>Birthday:</td>
-        <td><%= @profile.birthday.present? ? @profile.birthday.strftime('%d %m %Y') : "Not provided" %></td>
-      </tr>
-      <tr>
-        <td>Gender:</td>
-        <td><%= @profile.gender.label %></td>
-      </tr>
-      <tr>
-        <td>Degree:</td>
-        <td><%= @profile.degree.label %></td>
-      </tr>
-      <tr>
-        <td>Major:</td>
-        <td><%= @profile.program.combined_name_abbreviation %></td>
-      </tr>
-      <tr>
-        <td>Department:</td>
-        <td><%= @profile.school.combined_name_abbreviation %></td>
-      </tr>
-      <tr>
-        <td>MBTI:</td>
-        <td><%= @profile.mbti.combined_value_label %></td>
-      </tr>
-      <tr>
-        <td>Bio:</td>
-        <td><%= @profile.educational_background %></td>
-      </tr>
-      <tr>
-        <td>Email:</td>
-        <td><%= @user.email %></td>
-      </tr>
-      <tr>
-        <td>Role:</td>
-        <td><%= @user.role %></td>
-      </tr>
-      <tr>
-        <td>Username:</td>
-        <td><%= @profile.user_name %></td>
-      </tr>
-    </table>
+    .badge {
+      display: inline-block;
+      padding: 10px 15px;
+      border-radius: 20px;
+      background-color: #f3f3f3;
+      margin: 5px 5px 0 0;
+      font-size: 14px;
+      color: #333;
+      border: 1px solid #ddd;
+    }
 
-    <h3>Preferences</h3>
-    <% if @profile.relationships.any? %>
-      <ul>
-        <% @profile.relationships.each do |relationship| %>
-          <li><%= relationship.name %> - <%= relationship.description %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>No preferences provided.</p>
-    <% end %>
+    .badge-emoji {
+      margin-right: 8px;
+    }
 
-    <h3>Interests</h3>
-    <% if @interests.any? %>
-      <ul>
-        <% @interests.each do |interest| %>
-          <li><%= interest.name %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>No interests selected.</p>
-    <% end %>
+    .preferences-section, .interests-section {
+      margin-bottom: 20px;
+    }
 
-    <!-- Buttons for Back and Edit -->
-    <div>
-      <%= link_to 'Back', profiles_path, class: "btn btn-back" %>
-      <% if @profile.user == current_user %>
-        <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn btn-primary" %>
+    .preferences-container .section-content {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .no-data {
+      color: #666;
+    }
+
+    .btn-back {
+      background-color: #4a5c41;
+      margin-top: 20px;
+    }
+
+    /* Ensure consistent backgrounds */
+    .academic-info, .preferences-container {
+      width: 100%;
+      background-color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- HTML -->
+  <div class="profile-container">
+    <!-- Left Side: Profile Information -->
+    <div class="profile-card">
+      <!-- Display Profile Picture -->
+      <% if @profile.profile_picture_url.present? %>
+        <img src="<%= @profile.profile_picture_url %>" alt="Profile Picture" class="profile-picture" width="100" height="100">
+      <% else %>
+        <p>No profile picture provided.</p>
       <% end %>
+
+      <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
+
+      <table>
+        <tr>
+          <td><strong>Role:</strong></td>
+          <td><%= @user.role %></td>
+        </tr>
+        <tr>
+          <td><strong>Name:</strong></td>
+          <td><%= @profile.first_name %> <%= @profile.last_name %></td>
+        </tr>
+        <tr>
+          <td><strong>Username:</strong></td>
+          <td><%= @profile.user_name %></td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong></td>
+          <td><%= @user.email %></td>
+        </tr>
+        <tr>
+          <td><strong>Birthday:</strong></td>
+          <td><%= @profile.birthday.present? ? @profile.birthday.strftime('%d %m %Y') : "Not provided" %></td>
+        </tr>
+        <tr>
+          <td><strong>Age:</strong></td>
+          <td><%= @profile.age %></td>
+        </tr>
+        <tr>
+          <td><strong>Gender:</strong></td>
+          <td><%= @profile.gender.label %></td>
+        </tr>
+        <tr>
+          <td><strong>MBTI:</strong></td>
+          <td><%= @profile.mbti.combined_value_label %></td>
+        </tr>
+      </table>
+
+      <!-- Buttons for Back and Edit -->
+      <div>
+        <%= link_to 'Back', profiles_path, class: "btn btn-back" %>
+        <% if @profile.user == current_user %>
+          <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn btn" %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Right Side: Academic Info and Preferences -->
+    <div class="right-column">
+      <!-- Academic Information Section -->
+      <div class="academic-info">
+        <h3>Academic Information:</h3>
+        <p><strong>Degree:</strong> <%= @profile.degree.label %></p>
+        <p><strong>School:</strong> <%= @profile.program.combined_name_abbreviation %></p>
+        <p><strong>Program:</strong> <%= @profile.school.combined_name_abbreviation %></p>
+        <p><strong>Educational Background:</strong></p>
+        <p><%= @profile.educational_background %></p>
+      </div>
+
+      <!-- Preferences and Interests Container -->
+      <div class="preferences-container">
+        <h3>Preferences and Interests</h3>
+        <!-- Preferences Section -->
+        <div class="preferences-section">
+          <h4>Preferences</h4>
+          <% if @profile.relationships.any? %>
+            <div class="section-content">
+              <% @profile.relationships.each do |relationship| %>
+                <span class="badge"><span class="badge-emoji">💑</span><%= relationship.name %></span>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="no-data">No preferences provided.</p>
+          <% end %>
+        </div>
+
+        <!-- Interests Section -->
+        <div class="interests-section">
+          <h4>Interests</h4>
+          <% if @interests.any? %>
+            <div class="section-content">
+              <% @interests.each do |interest| %>
+                <span class="badge"><span class="badge-emoji">🎨</span><%= interest.name %></span>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="no-data">No interests selected.</p>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</body>
+</html>

@@ -1,122 +1,143 @@
-<!-- CSS for the custom search bar with magnifying glass button and 3 buttons under -->
+<!-- CSS for the custom search bar with magnifying glass icon inside the input -->
 <style>
   /* Main container that wraps the search bar and buttons */
   .container-box {
-    border: 2px solid #617952;
+    border: 2px solid white;
     background-color: white;
     border-radius: 20px;
     padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  /* Container for the search form */
-  .custom-search-bar {
+    width: 80%; /* Adjusted width to 40% to match the example */
+    max-width: 605px;
+    margin-left: 0; /* Align to the left */
+    margin-right: auto;
+    text-align: left; /* Align text to the left */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    background-color: #FBCAD0;
+    justify-content: space-between; /* Ensure the button stays next to the search bar */
+  }
+
+  /* For responsiveness, ensure the section scales down properly on smaller screens */
+  @media (max-width: 768px) {
+    .container-box {
+      width: 100%; /* Full width on smaller screens */
+      margin: 0 auto; /* Centered in smaller screens */
+      flex-direction: column; /* Stack vertically on small screens */
+    }
+  }
+
+  /* Container for the search input */
+  .custom-search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #F5F5F5;
     padding: 0px;
     border-radius: 50px;
-    width: 100%;
-    border: 2px solid #617952;
+    width: 60%;
+    height: 30px; /* Reduced height for the search bar */
+    border: 0px solid #000;
     transition: all 0.4s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   /* Search input */
   .custom-search-bar input[type="text"] {
     flex: 1;
     border: none;
-    background-color: white;
-    padding: 10px 100px;
-    margin-left: 7px;
+    background-color: transparent;
+    padding: 6px 13px; /* Reduced padding for a smaller height */
     font-size: 14px;
     border-radius: 50px;
     outline: none;
+    padding-right: 150px; /* Makes room for the icon */
+    text-align: left; /* Align text to the left */
     transition: all 0.4s ease-in-out;
+    color: #000;
+    margin: 10px 0px; /* Add margin around the input */
   }
 
+  /* Placeholder */
   .custom-search-bar input[type="text"]::placeholder {
-    color: #aaa;
-    font-size: 16px;
+    color: #bbb;
+    font-size: 14px;
   }
 
-  /* Style for search button */
+  /* Style for the search button inside the input */
   .custom-search-bar button {
-    width: 50px;
-    height: 50px;
-    background-color: #617952;
+    position: absolute;
+    right: 10px; /* Align the button on the right inside the input */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    background-color: transparent; /* Make button background transparent */
     border: none;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 10px;
     cursor: pointer;
+    font-size: 18px; /* Adjust the icon size */
+    color: #000;
   }
 
-  .custom-search-bar button img {
-    width: 20px;
-    height: 20px;
-  }
-
-  /* Action buttons at the bottom */
-  .action-buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .action-buttons a {
-    text-decoration: none;
-    color: #617952;
-    padding: 10px 30px;
+  /* Sort button styling to match the search bar */
+  .sort-dropdown {
+    background-color: #F5F5F5;
     border-radius: 50px;
-    border: 2px solid #617952;
-    background-color: white;
-    transition: all 0.3s ease;
-  }
+    padding: 6px 0px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    outline: none;
+    color: #bbb; /* Change the text color to black or any preferred color */
+    position: relative;
+    padding-right: 40px; /* Space for the custom arrow */
+    text-align: left; /* Align text to the left */
+    padding-left: 20px; /* Add left padding to move the text to the left */
+  } 
 
-  .action-buttons a:hover {
-    background-color: #617952;
-    color: white;
+
+  .sort-dropdown:hover {
+    background-color: #E0E0E0; /* Lighter shade on hover */
   }
 
   body {
-    margin-top: 80px; /* Adjust this value to match the height of your navbar */
+    margin-top: 50px;
   }
 
   .main-content {
-    padding-top: 80px; /* Adjust this value to match the height of your navbar */
+    padding-top: 80px;
     display: flex;
-    justify-content: space-between; /* Aligns the content and sidebar next to each other */
+    justify-content: space-between;
     padding: 20px;
   }
 
   .profiles-section {
-    flex: 2; /* Occupies more space for the profile content */
+    flex: 2;
   }
 
   .sidebar {
-    flex: 1; /* Occupies less space for the sidebar */
+    flex: 1;
     padding: 20px;
-    background-color: #617952;  /*background container*/
+    background-color: #617952;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 300px; /* Sidebar width */
+    max-width: 300px;
     margin-left: 20px;
   }
 
   .sidebar h2 {
-    background-color: #FDEDF1; /* Dark green background */
+    background-color: #FDEDF1;
     color: #617952;
     padding: 10px;
     border-radius: 5px;
   }
 
   .sidebar p {
-    color: white; /* Match the green theme */
+    color: white;
     font-size: 16px;
   }
 
@@ -139,18 +160,17 @@
         <div class="field">
           <%= text_field_tag :username, params[:username], placeholder: "Search by Username", class: "form-control" %>
         </div>
-        <!-- Search button -->
-        <button type="submit">
-          <img src="path_to_your_magnifying_glass_icon" alt="Search">
-        </button>
+        <!-- Search button with magnifying glass emoji inside the input -->
+        <button type="submit">🔍</button>
       <% end %>
 
-      <!-- Action buttons with disable_filters, now displayed as buttons under the search bar -->
-      <div class="action-buttons">
-        <%= link_to 'Show Profiles A-Z', profiles_path(order: 'asc', disable_filters: true), class: "btn btn-secondary" %>
-        <%= link_to 'Show Profiles Z-A', profiles_path(order: 'desc', disable_filters: true), class: "btn btn-secondary" %>
-        <%= link_to 'Show Profiles Random', profiles_path(order: 'random', disable_filters: true), class: "btn btn-secondary" %>
-      </div>
+      <!-- Sort dropdown placed next to the search bar -->
+      <select class="sort-dropdown" onchange="window.location.href=this.value;">
+        <option>Sort Profiles</option>
+        <option value="<%= profiles_path(order: 'asc', disable_filters: true) %>">Show Profiles A-Z</option>
+        <option value="<%= profiles_path(order: 'desc', disable_filters: true) %>">Show Profiles Z-A</option>
+        <option value="<%= profiles_path(order: 'random', disable_filters: true) %>">Show Profiles Random</option>
+      </select>
     </div>
 
     <!-- Display the appropriate heading based on the current state -->
@@ -204,13 +224,11 @@
                 <td>
                   <%= link_to 'Show', profile_path(profile) %>
                   <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
-                    <!-- <%= button_to 'Send Match Request', profile_matches_path(profile, receiver_id: profile.id), method: :post %> -->
                     <%= button_to 'Send Match Request', profile_matches_path(profile_id: profile.id), method: :post %>
                   <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
                     <p>Match request already sent.</p>
                   <% end %>
                 </td>
-
               </tr>
             <% end %>
           <% end %>

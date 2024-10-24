@@ -4,49 +4,27 @@ class ApplicationController < ActionController::Base
   helper_method :show_navbar?
 
   def show_navbar?
-    welcome_navbar_actions = [
-      ['sessions', 'new'],          # Sign in
-      ['registrations', 'new'],     # Sign up
-      ['passwords', 'new'],         # Request password reset
-      ['passwords', 'create'],      # Send password reset instructions
-      ['confirmations', 'new'],     # Request email confirmation
-      ['confirmations', 'create'],  # Send confirmation instructions
-      ['confirmations', 'show'],    # Confirm account
-      ['unlocks', 'new'],           # Request unlock instructions
-      ['unlocks', 'create'],        # Unlock account
-      ['about_page', 'index'],
-      ['contact_page', 'index']
+    welcome_navbar_controllers = [
+      'sessions', 'registrations', 'passwords', 
+      'confirmations', 'unlocks', 'about_page', 
+      'contact_page'
     ]
-
-    navbar_actions = [
-      ['profiles', 'index'], 
-      ['profiles', 'new'],      
-      ['profiles', 'create'],      
-      ['profiles', 'edit'],          
-      ['profiles', 'update'],    
-      ['profiles', 'show'],
-      ['preferences', 'index'], 
-      ['preferences', 'new'],      
-      ['preferences', 'create'],      
-      ['preferences', 'edit'],          
-      ['preferences', 'update'],    
-      ['preferences', 'show'],
-      ['matches', 'requests'],
-      ['matches', 'matched_profiles']
-    ]
-    
-    Rails.logger.debug "Controller: #{controller_name}, Action: #{action_name}"
-    if  welcome_navbar_actions.include?([controller_name, action_name])
-        Rails.logger.debug "Rendering welcome navbar"
-        return :navbar_welcome_page
+  
+    # Controllers that should display the welcome navbar
+    if welcome_navbar_controllers.include?(controller_name)
+      Rails.logger.debug "Rendering welcome navbar"
+      return :navbar_welcome_page
     end
-
-    if  navbar_actions.include?([controller_name, action_name])
-        Rails.logger.debug "Rendering default navbar"
-        return :navbar
+  
+    # Controllers that should display the default navbar for all actions
+    navbar_controllers = ['profiles', 'preferences', 'matches']
+  
+    if navbar_controllers.include?(controller_name)
+      Rails.logger.debug "Rendering default navbar"
+      return :navbar
     end
-
-        Rails.logger.debug "No navbar to render"
+  
+    Rails.logger.debug "No navbar to render"
     nil
   end
 

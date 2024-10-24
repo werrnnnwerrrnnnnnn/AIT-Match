@@ -2,7 +2,7 @@ class ConversationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # Display all conversations where the current user's profile is either the sender or receiver
+    # Fetch all conversations where the current user's profile is either the sender or receiver
     @conversations = Conversation.where("sender_id = ? OR receiver_id = ?", current_user.profile.id, current_user.profile.id)
   end
 

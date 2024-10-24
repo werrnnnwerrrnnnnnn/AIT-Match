@@ -1,8 +1,90 @@
-<h1>Your Conversations</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages | AIT Match</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #FFF0F4;
+    }
 
-<% @conversations.each do |conversation| %>
-  <div>
-    <p>Conversation with: <%= conversation.receiver == current_user.profile ? conversation.sender.user_name : conversation.receiver.user_name %></p>
-    <%= link_to 'View Conversation', conversation_path(conversation) %>
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: 80px auto;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #617952;
+    }
+
+    .conversation-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .conversation-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background-color: #F7DDE3;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .conversation-item:hover {
+      background-color: #FBCAD0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .conversation-item a {
+      text-decoration: none;
+      color: #617952;
+      font-weight: bold;
+    }
+
+    .conversation-item .last-message {
+      color: #888;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Messages Page</h1>
+
+    <% if @conversations.any? %>
+      <ul class="conversation-list">
+        <% @conversations.each do |conversation| %>
+          <li class="conversation-item">
+            <%# Determine the other user in the conversation %>
+            <% other_user = conversation.sender == current_user.profile ? conversation.receiver : conversation.sender %>
+
+            <div>
+              <strong><%= other_user.user_name %></strong>
+              <p class="last-message">
+                <% last_message = conversation.messages.order(created_at: :desc).first %>
+                <%= last_message.present? ? last_message.body.truncate(50) : "No messages yet" %>
+              </p>
+            </div>
+
+            <%= link_to 'View', conversation_path(conversation) %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>You have no conversations yet.</p>
+    <% end %>
   </div>
-<% end %>
+</body>
+</html>

@@ -6,7 +6,10 @@
     <% @matched_profiles.each do |profile| %>
       <li>
         <%= profile.user.email %>
-        <%= link_to 'View Profile', profile_path(profile) %>
+        <%= link_to 'View Profile', profile_path(profile), class: 'btn btn-secondary' %>
+
+        <!-- Add button to start conversation -->
+        <%= button_to 'Start Conversation', start_conversation_path(receiver_id: profile.id), method: :post, class: 'btn btn-primary' %>
       </li>
     <% end %>
   </ul>

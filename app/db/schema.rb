@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_21_124609) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_24_032146) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "receiver_id", null: false
+    t.bigint "match_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_conversations_on_match_id"
+    t.index ["receiver_id"], name: "index_conversations_on_receiver_id"
+    t.index ["sender_id"], name: "index_conversations_on_sender_id"
+  end
 
   create_table "degrees", force: :cascade do |t|
     t.string "value"
@@ -50,6 +61,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_21_124609) do
     t.string "label"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "profile_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["profile_id"], name: "index_messages_on_profile_id"
   end
 
   create_table "preferences", force: :cascade do |t|
@@ -283,8 +304,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_21_124609) do
     t.index ["preferred_school_id"], name: "index_users_preferred_schools_on_preferred_school_id"
   end
 
+  add_foreign_key "conversations", "matches"
+  add_foreign_key "conversations", "profiles", column: "receiver_id"
+  add_foreign_key "conversations", "profiles", column: "sender_id"
   add_foreign_key "matches", "profiles", column: "receiver_id"
   add_foreign_key "matches", "profiles", column: "requestor_id"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "profiles"
   add_foreign_key "preferences", "users"
   add_foreign_key "profile_interests", "interests"
   add_foreign_key "profile_interests", "profiles"

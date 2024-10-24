@@ -4,10 +4,11 @@ class MatchesController < ApplicationController
 
   def accept
     @match = Match.find(params[:id])
-    
     if @match.receiver == current_user.profile && @match.status == 'pending'
       @match.update(status: 'accepted')
-      redirect_to matches_requests_path, notice: 'Match accepted.'
+      # Create a conversation after the match is accepted
+      Conversation.between(@match.requestor.id, @match.receiver.id, @match)
+      redirect_to matches_requests_path, notice: 'Match accepted. Conversation created!'
     else
       redirect_to matches_requests_path, alert: 'You are not authorized to modify this match.'
     end

@@ -1,0 +1,17 @@
+<h1>Conversation with <%= @conversation.receiver == current_user.profile ? @conversation.sender.user_name : @conversation.receiver.user_name %></h1>
+
+<div>
+  <% @messages.each do |message| %>
+    <p><strong><%= message.profile.user_name %>:</strong> <%= message.body %></p>
+  <% end %>
+</div>
+
+<h2>Send a Message</h2>
+<%= form_with(model: [@conversation, @message], local: true) do |form| %>
+  <div>
+    <%= form.text_area :body, placeholder: "Type your message..." %>
+  </div>
+  <div>
+    <%= form.submit "Send" %>
+  </div>
+<% end %>

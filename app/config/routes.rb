@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "messages/create"
+  get "conversations/index"
+  get "conversations/show"
+  get "conversations/create"
   devise_for :users#, controllers: { sessions: 'users/sessions' }
 
   # resources :profiles
@@ -21,8 +25,8 @@ Rails.application.routes.draw do
       get 'requests', to: 'matches#requests'   # For match requests
       get 'matched_profiles', to: 'matches#matched_profiles'   # For matched profiles
     end
-      post 'accept', on: :member  # POST /matches/:id/accept
-      post 'decline', on: :member  # POST /matches/:id/decline
+    post 'accept', on: :member  # POST /matches/:id/accept
+    post 'decline', on: :member  # POST /matches/:id/decline
   end
 
   # Route for matched profiles
@@ -52,6 +56,20 @@ Rails.application.routes.draw do
   # get 'edit_profile', to: "profiles#edit"
   # get 'show_profile', to: "profiles#show"
   # get 'index_profile', to: "profiles#index"
+
+  # Conversations and messages routes
+  resources :conversations, only: [:index, :show, :create] do
+    resources :messages, only: [:create]
+  end
+
+  # Route for starting a conversation
+  post '/conversations/start', to: 'conversations#create', as: 'start_conversation'
+
+  # Route for admins to start conversations
+  post '/admin/conversations', to: 'conversations#create', as: 'admin_conversations'
+
+  # Route for matched users to start conversations (passing match_id)
+  post '/matches/:match_id/conversations', to: 'conversations#create', as: 'match_conversations'
 
   root to: 'welcome_page#index'
 end

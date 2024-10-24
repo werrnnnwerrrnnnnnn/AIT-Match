@@ -1,0 +1,8 @@
+<h1>Your Conversations</h1>
+
+<% @conversations.each do |conversation| %>
+  <div>
+    <p>Conversation with: <%= conversation.receiver == current_user.profile ? conversation.sender.user_name : conversation.receiver.user_name %></p>
+    <%= link_to 'View Conversation', conversation_path(conversation) %>
+  </div>
+<% end %>

@@ -1,8 +1,14 @@
-<h1>Conversation with <%= @conversation.receiver == current_user.profile ? @conversation.sender.user_name : @conversation.receiver.user_name %></h1>
+<h1>Conversation with <%= @conversation.sender == current_user.profile ? @conversation.receiver.user_name : @conversation.sender.user_name %></h1>
 
 <div>
   <% @messages.each do |message| %>
-    <p><strong><%= message.profile.user_name %>:</strong> <%= message.body %></p>
+    <p>
+      <%# Check if the message belongs to the current user %>
+      <strong>
+        <%= message.profile == current_user.profile ? "Me" : message.profile.user_name %>:
+      </strong>
+      <%= message.body %>
+    </p>
   <% end %>
 </div>
 

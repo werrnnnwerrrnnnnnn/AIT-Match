@@ -3,11 +3,14 @@
 <div>
   <% @messages.each do |message| %>
     <p>
-      <%# Check if the message belongs to the current user %>
       <strong>
-        <%= message.profile == current_user.profile ? "Me" : message.profile.user_name %>:
+        <%= message.profile == current_user.profile ? "You" : message.profile.user_name %>:
       </strong>
       <%= message.body %>
+      <br>
+      <small>
+        <%= message.created_at.in_time_zone('Bangkok').strftime("%H:%M, %d %b %Y") %> <!-- Display in Thailand time -->
+      </small>
     </p>
   <% end %>
 </div>

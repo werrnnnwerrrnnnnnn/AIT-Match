@@ -47,7 +47,8 @@
         }
 
         ul li a, 
-        .right-buttons a {
+        .right-buttons a, 
+        .btn-logout {
             background-color: #F7DDE3;
             color: #617952;
             font-weight: bold;
@@ -63,7 +64,8 @@
         }
 
         ul li a:hover, 
-        .right-buttons a:hover {
+        .right-buttons a:hover, 
+        .btn-logout:hover {
             background-color: #FBCAD0;
             color: #617952;
             transform: translateY(-5px); /* Bounce effect */
@@ -219,7 +221,7 @@
                     <p>Alice Johnson viewed your profile.</p>
                 </div>
             </div>
-            <%= link_to 'Log out', destroy_user_session_path, method: :delete, data: { turbo: false } %>
+            <%= button_to 'Log out', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'btn-logout' %>
         </div>
     </nav>
 

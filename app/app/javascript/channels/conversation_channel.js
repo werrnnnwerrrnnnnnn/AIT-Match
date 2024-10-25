@@ -21,11 +21,23 @@ document.addEventListener("turbo:load", () => {
 
         received(data) {
           console.log("Received data:", data);
+
+          // Convert the timestamp to Bangkok timezone before appending
+          const formattedTime = new Date(data.created_at).toLocaleString('en-GB', {
+            timeZone: 'Asia/Bangkok',
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+          });
+
+          // Update the messages section with the new message
           const messagesElement = document.getElementById("messages");
           messagesElement.insertAdjacentHTML('beforeend', `
-            <div class="message">
+            <div class="message" id="message-${data.id}">
               <p><strong>${data.profile}:</strong> ${data.message}</p>
-              <small>${data.created_at}</small>
+              <small>Sent at: ${formattedTime}</small>
             </div>
           `);
         }

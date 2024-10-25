@@ -1,6 +1,15 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
 
+  # Index action to fetch messages in JSON format for a conversation
+  def index
+    @conversation = Conversation.find(params[:conversation_id])
+    @messages = @conversation.messages.order(created_at: :asc)
+    
+    render json: @messages.to_json(include: { profile: { only: :user_name } })
+  end
+
+  # Create action for sending a new message
   def create
     @conversation = Conversation.find(params[:conversation_id])
 
@@ -9,6 +18,12 @@ class MessagesController < ApplicationController
       @message.profile = current_user.profile
 
       if @message.save
+        # Broadcast the message to the conversation's channel
+        ActionCable.server.broadcast "conversation_#{@conversation.id}", {
+          profile: @message.profile.user_name,
+          message: @message.body,
+          created_at: @message.created_at.strftime("%H:%M, %d %b %Y")
+        }
         redirect_to conversation_path(@conversation)
       else
         redirect_to conversation_path(@conversation), alert: "Message could not be sent."

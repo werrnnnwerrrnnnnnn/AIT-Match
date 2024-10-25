@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Mount ActionCable server
+  mount ActionCable.server => '/cable'
+
   get "messages/create"
   get "conversations/index"
   get "conversations/show"
@@ -60,6 +63,10 @@ Rails.application.routes.draw do
   # Conversations and messages routes
   resources :conversations, only: [:index, :show, :create] do
     resources :messages, only: [:create]
+  end
+
+  resources :conversations do
+    resources :messages #, only: :index
   end
 
   # Route for starting a conversation

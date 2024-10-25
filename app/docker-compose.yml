@@ -9,13 +9,30 @@ services:
     environment:
       - GMAIL_USERNAME=swbt.tatiya@gmail.com  # Add your Gmail username
       - GMAIL_APP_PASSWORD=abxp btrh qmdc padd  # Add your Google App Password, wrapped in quotes
+      - REDIS_URL=redis://redis:6379/1  # Ensure Rails knows how to connect to Redis
+
     ports:
       - "3333:3000"
     networks:
       - match_network
     volumes:
       - ./:/rails
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - match_network
 
 networks:
   match_network:
     external: true
+
+volumes:
+  redis-data:

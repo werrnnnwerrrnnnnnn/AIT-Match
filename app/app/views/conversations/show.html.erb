@@ -1,24 +1,22 @@
-<h1>Conversation with <%= @conversation.sender == current_user.profile ? @conversation.receiver.user_name : @conversation.sender.user_name %></h1>
+<h2>Conversation with <%= @conversation.receiver.user_name %></h2>
 
-<div>
+<!-- Hidden div to store conversation ID -->
+<div id="conversation-id" data-conversation-id="<%= @conversation.id %>"></div>
+
+<!-- Messages list -->
+<div id="messages">
   <% @messages.each do |message| %>
-    <p>
-      <strong>
-        <%= message.profile == current_user.profile ? "You" : message.profile.user_name %>:
-      </strong>
-      <%= message.body %>
-      <br>
-      <small>
-        <%= message.created_at.in_time_zone('Bangkok').strftime("%H:%M, %d %b %Y") %> <!-- Display in Thailand time -->
-      </small>
-    </p>
+    <div>
+      <%= render partial: "messages/message", locals: { message: message } %>
+      <p><strong>Sent at:</strong> <%= message.created_at.in_time_zone('Bangkok').strftime("%H:%M, %d %b %Y") %> <!-- Display in Thailand time -->
+    </div>
   <% end %>
 </div>
 
-<h2>Send a Message</h2>
+<!-- Form to send new messages -->
 <%= form_with(model: [@conversation, @message], local: true) do |form| %>
   <div>
-    <%= form.text_area :body, placeholder: "Type your message..." %>
+    <%= form.text_area :body, placeholder: "Write your message..." %>
   </div>
   <div>
     <%= form.submit "Send" %>

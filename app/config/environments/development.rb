@@ -96,4 +96,10 @@ Rails.application.configure do
     user_name: ENV["GMAIL_USERNAME"],  # Use the environment variable for the Gmail username
     password: ENV["GMAIL_APP_PASSWORD"],  # Use the environment variable for the Gmail App Password
   }  
+  # Ensure ActionCable is working over WebSockets
+  config.action_cable.url = "ws://localhost:3333/cable"
+  config.action_cable.allowed_request_origins = ['http://localhost:3333', /http:\/\/localhost:.*/]
+
+  # Ensure Redis is used for ActionCable in development
+  config.cache_store = :redis_cache_store, { url: "redis://localhost:6379/1" }
 end

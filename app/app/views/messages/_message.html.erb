@@ -1,0 +1,7 @@
+<p>
+  <strong><%= message.profile == current_user.profile ? "You" : message.profile.user_name %>:</strong> 
+  <%= message.body %>
+  <br>
+  <small><%= message.created_at.strftime("%H:%M, %d %b %Y") %></small>
+</p>
+

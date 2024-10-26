@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
         ActionCable.server.broadcast "conversation_#{@conversation.id}", {
           profile: @message.profile.user_name,
           message: @message.body,
-          created_at: @message.created_at.strftime("%H:%M, %d %b %Y")
+          created_at: @message.created_at.in_time_zone("Bangkok").strftime("%H:%M, %d %b %Y") # Send formatted timestamp in Bangkok time
         }
         redirect_to conversation_path(@conversation)
       else

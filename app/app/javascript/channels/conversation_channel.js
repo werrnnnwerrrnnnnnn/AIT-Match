@@ -34,12 +34,15 @@ document.addEventListener("turbo:load", () => {
             messagesElement.insertAdjacentHTML('beforeend', `
               <div class="message" id="message-${data.id}">
                 <p><strong>${data.profile}:</strong> ${data.message}</p>
-                <small>Sent at: ${formattedTime}</small> <!-- This will now show the correct format -->
+                <small>Sent at: ${formattedTime}</small>
               </div>
             `);
           } else {
             console.log(`Message with ID ${data.id} already exists. Not adding again.`);
           }
+
+          // Scroll to the bottom when a new message is added
+          messagesElement.scrollTop = messagesElement.scrollHeight;
         }
       }
     );

@@ -18,11 +18,12 @@ class MessagesController < ApplicationController
       @message.profile = current_user.profile
 
       if @message.save
-        # Broadcast the message to the conversation's channel
+        # In MessagesController
         ActionCable.server.broadcast "conversation_#{@conversation.id}", {
+          id: @message.id,  # Add this line to send the message ID
           profile: @message.profile.user_name,
           message: @message.body,
-          created_at: @message.created_at.in_time_zone("Bangkok").strftime("%H:%M, %d %b %Y") # Send formatted timestamp in Bangkok time
+          created_at: @message.created_at.in_time_zone("Bangkok").strftime("%H:%M, %d %b %Y")
         }
         redirect_to conversation_path(@conversation)
       else

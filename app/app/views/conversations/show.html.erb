@@ -1,25 +1,166 @@
-<h1>Conversation with <%= @conversation.sender == current_user.profile ? @conversation.receiver.user_name : @conversation.sender.user_name %></h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Conversation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4; /* Background color */
+      color: #333; /* Text color */
+    }
 
-<!-- Hidden div to store conversation ID -->
-<div id="conversation-id" data-conversation-id="<%= @conversation.id %>"></div>
+    .chat-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 5rem 1rem 1rem; /* Add top margin to create space above the title */
+      text-align: center; /* Center the title */
+    }
 
-<!-- Messages list -->
-<div id="messages">
-  <% @messages.each do |message| %>
-    <div>
-      <%= render partial: "messages/message", locals: { message: message } %>
-      <!-- This line has been removed as requested -->
-      <!-- <p><strong>Sent at:</strong> <%= message.created_at.in_time_zone('Bangkok').strftime("%H:%M, %d %b %Y") %>--> <!-- Display in Thailand time -->
-    </div>
-  <% end %>
-</div>
+    .messages-container {
+      height: 400px; /* Set a fixed height */
+      overflow-y: auto; /* Enable scrolling */
+      border: 1px solid #ccc; /* Border to mimic a chat window */
+      padding: 1rem;
+      background-color: #ffffff; /* White background for messages */
+      border-radius: 8px; /* Rounded corners */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+      max-width: 600px; /* Limit width of the messages container */
+      margin: 1rem auto; /* Center the container with margin on top */
+    }
 
-<!-- Form to send new messages -->
-<%= form_with(model: [@conversation, @message], local: true) do |form| %>
-  <div>
-    <%= form.text_area :body, placeholder: "Write your message..." %>
+    .message {
+      margin-bottom: 0.5rem; /* Spacing between messages */
+      padding: 0.5rem;
+      border-radius: 10px; /* Rounded corners for messages */
+      max-width: 70%; /* Limit width for messages */
+    }
+
+    .message.sender {
+      background-color: #d4f8d4; /* Light green for sender messages */
+      align-self: flex-end; /* Align sender messages to the right */
+    }
+
+    .message.receiver {
+      background-color: #f0f0f0; /* Light gray for receiver messages */
+      align-self: flex-start; /* Align receiver messages to the left */
+    }
+
+    .message-input-container {
+      display: flex;
+      align-items: center; /* Center items vertically */
+      margin-top: 1rem;
+    }
+
+    .message-input {
+      flex: 1; /* Take available space */
+      padding: 0.5rem;
+      border: 1px solid #ccc; /* Border for the input */
+      border-radius: 8px; /* Rounded corners */
+      margin-right: 0.5rem; /* Spacing to the right of the input */
+    }
+
+    .send-button {
+      padding: 0.5rem 1rem; /* Padding for the button */
+      background-color: #007bff; /* Button color */
+      color: white; /* Text color */
+      border: none; /* No border */
+      border-radius: 8px; /* Rounded corners */
+      cursor: pointer; /* Pointer cursor on hover */
+    }
+
+    .send-button:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    /* New styles for the input container */
+    .input-container {
+      margin-top: 1rem; /* Add margin to separate from messages */
+      max-width: 600px; /* Match width with messages container */
+      margin: 0 auto; /* Center the input container */
+    }
+  </style>
+</head>
+<body>
+  <h1 class="chat-title">Conversation with <%= @conversation.sender == current_user.profile ? @conversation.receiver.user_name : @conversation.sender.user_name %></h1>
+
+  <!-- Hidden div to store conversation ID -->
+  <div id="conversation-id" data-conversation-id="<%= @conversation.id %>"></div>
+
+  <!-- Messages list -->
+  <div id="messages" class="messages-container">
+    <% @messages.each do |message| %>
+      <div class="message <%= message.profile == current_user.profile ? 'sender' : 'receiver' %>" id="message-<%= message.id %>">
+        <strong><%= message.profile.user_name %>:</strong> <%= message.body %>
+        <br>
+        <small>Sent at: <%= message.created_at.strftime("%H:%M, %d %b %Y") %></small>
+      </div>
+    <% end %>
   </div>
-  <div>
-    <%= form.submit "Send" %>
+
+  <!-- Separate container for message input and button -->
+  <div class="input-container">
+    <%= form_with(model: [@conversation, @message], local: true) do |form| %>
+      <div class="message-input-container">
+        <%= form.text_area :body, placeholder: "Write your message...", class: "message-input" %>
+        <%= form.submit "Send", class: "send-button" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+
+  <script type="module">
+    import consumer from "./consumer"; // Ensure the consumer is properly imported
+
+    document.addEventListener("turbo:load", () => {
+      const conversationElement = document.getElementById("conversation-id");
+
+      if (conversationElement) {
+        const conversationId = conversationElement.dataset.conversationId;
+
+        console.log("Attempting to subscribe to ConversationChannel with ID: " + conversationId);
+
+        consumer.subscriptions.create(
+          { channel: "ConversationChannel", conversation_id: conversationId },
+          {
+            connected() {
+              console.log("Connected to ConversationChannel with ID: " + conversationId);
+            },
+
+            disconnected() {
+              console.log("Disconnected from ConversationChannel with ID: " + conversationId);
+            },
+
+            received(data) {
+              console.log("Received data:", data);
+
+              // Use the formatted timestamp directly from the server
+              const formattedTime = data.created_at; // Directly use the formatted string received
+
+              // Update the messages section with the new message
+              const messagesElement = document.getElementById("messages");
+
+              // Check if the message with this ID already exists to avoid duplicates
+              const existingMessage = document.getElementById(`message-${data.id}`);
+              if (!existingMessage) {
+                messagesElement.insertAdjacentHTML('beforeend', `
+                  <div class="message" id="message-${data.id}">
+                    <p><strong>${data.profile}:</strong> ${data.message}</p>
+                    <small>Sent at: ${formattedTime}</small>
+                  </div>
+                `);
+              } else {
+                console.log(`Message with ID ${data.id} already exists. Not adding again.`);
+              }
+
+              // Scroll to the bottom when a new message is added
+              messagesElement.scrollTop = messagesElement.scrollHeight;
+            }
+          }
+        );
+      } else {
+        console.log("No conversation ID found.");
+      }
+    });
+  </script>
+</body>
+</html>

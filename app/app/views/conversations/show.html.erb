@@ -1,4 +1,4 @@
-<h2>Conversation with <%= @conversation.receiver.user_name %></h2>
+<h1>Conversation with <%= @conversation.sender == current_user.profile ? @conversation.receiver.user_name : @conversation.sender.user_name %></h1>
 
 <!-- Hidden div to store conversation ID -->
 <div id="conversation-id" data-conversation-id="<%= @conversation.id %>"></div>

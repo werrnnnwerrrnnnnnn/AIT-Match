@@ -9,7 +9,7 @@
     <div>
       <%= render partial: "messages/message", locals: { message: message } %>
       <!-- This line has been removed as requested -->
-      <!-- <p><strong>Sent at:</strong> <%= message.created_at.in_time_zone('Bangkok').strftime("%H:%M, %d %b %Y") %> <!-- Display in Thailand time --> -->
+      <!-- <p><strong>Sent at:</strong> <%= message.created_at.in_time_zone('Bangkok').strftime("%H:%M, %d %b %Y") %>--> <!-- Display in Thailand time -->
     </div>
   <% end %>
 </div>

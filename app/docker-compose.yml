@@ -5,7 +5,14 @@ services:
       dockerfile: Dockerfile.dev
     container_name: match_web
     image: match_web:0.1
-    command: bash -c "rm -f /rails/tmp/pids/server.pid && bundle exec rake db:create && bundle exec rake db:migrate && ./bin/rails server -b 0.0.0.0 -p 3000"
+    command: >
+      bash -c "
+        rm -f /rails/tmp/pids/server.pid &&
+        bundle exec rake db:create &&
+        bundle exec rake db:migrate &&
+        ./bin/rails assets:precompile &&
+        ./bin/rails server -b 0.0.0.0 -p 3000
+      "
     environment:
       - GMAIL_USERNAME=swbt.tatiya@gmail.com  # Add your Gmail username
       - GMAIL_APP_PASSWORD=abxp btrh qmdc padd  # Add your Google App Password, wrapped in quotes

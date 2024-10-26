@@ -1,9 +1,6 @@
-import "@hotwired/turbo-rails";
-import "controllers";
-import Rails from "@rails/ujs";
-import "channels";  // Ensure all ActionCable channels are loaded
-
-Rails.start();
+import "@hotwired/turbo-rails"; // Turbo for handling page loads
+import "controllers"; // Import Stimulus controllers
+import "channels"; // Ensure all ActionCable channels are loaded
 
 // Existing turbo:load event for handling filters and sidebar toggle
 document.addEventListener("turbo:load", function () {
@@ -17,5 +14,5 @@ document.addEventListener("turbo:load", function () {
   }
 });
 
-import consumer from "./channels/consumer";
-window.consumer = consumer;
+import consumer from "./channels/consumer"; // Import ActionCable consumer
+window.consumer = consumer; // Make it globally accessible

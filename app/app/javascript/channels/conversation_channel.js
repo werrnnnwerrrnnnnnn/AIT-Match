@@ -27,12 +27,19 @@ document.addEventListener("turbo:load", () => {
 
           // Update the messages section with the new message
           const messagesElement = document.getElementById("messages");
-          messagesElement.insertAdjacentHTML('beforeend', `
-            <div class="message" id="message-${data.id}">
-              <p><strong>${data.profile}:</strong> ${data.message}</p>
-              <small>Sent at: ${formattedTime}</small> <!-- This will now show the correct format -->
-            </div>
-          `);
+
+          // Check if the message with this ID already exists to avoid duplicates
+          const existingMessage = document.getElementById(`message-${data.id}`);
+          if (!existingMessage) {
+            messagesElement.insertAdjacentHTML('beforeend', `
+              <div class="message" id="message-${data.id}">
+                <p><strong>${data.profile}:</strong> ${data.message}</p>
+                <small>Sent at: ${formattedTime}</small> <!-- This will now show the correct format -->
+              </div>
+            `);
+          } else {
+            console.log(`Message with ID ${data.id} already exists. Not adding again.`);
+          }
         }
       }
     );

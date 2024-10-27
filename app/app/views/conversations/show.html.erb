@@ -6,7 +6,6 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4; /* Background color */
       color: #333; /* Text color */
     }
 
@@ -93,7 +92,7 @@
       <div class="message <%= message.profile == current_user.profile ? 'sender' : 'receiver' %>" id="message-<%= message.id %>">
         <strong><%= message.profile.user_name %>:</strong> <%= message.body %>
         <br>
-        <small>Sent at: <%= message.created_at.strftime("%H:%M, %d %b %Y") %></small>
+        <small>Sent at: <%= message.created_at.in_time_zone("Bangkok").strftime("%H:%M, %d %b %Y") %></small>
       </div>
     <% end %>
   </div>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Messages | AIT Match</title>
+  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -19,6 +20,7 @@
       background-color: #fff;
       border-radius: 15px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
     }
 
     h1 {
@@ -40,22 +42,45 @@
       margin-bottom: 10px;
       border-radius: 10px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
     }
 
     .conversation-item:hover {
-      background-color: #FBCAD0;
+      background-color: #F7DDE3;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
     }
 
     .conversation-item a {
-      text-decoration: none;
+      background-color: #F7DDE3;
       color: #617952;
       font-weight: bold;
+      font-size: 15px;
+      border: none;
+      padding: 5px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .conversation-item a:hover {
+      background-color: #FBCAD0;
+      color: #617952;
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
 
     .conversation-item .last-message {
       color: #888;
       font-size: 14px;
+    }
+
+    .no-conversations {
+      font-size: 1.2em;
+      color: #617952;
     }
   </style>
 </head>
@@ -83,7 +108,7 @@
         <% end %>
       </ul>
     <% else %>
-      <p>You have no conversations yet.</p>
+      <p class="no-conversations">You have no conversations yet.</p>
     <% end %>
   </div>
 </body>

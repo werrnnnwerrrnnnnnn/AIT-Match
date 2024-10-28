@@ -1,18 +1,138 @@
-<br><br><br><br><br>
-<h1>Matched Profiles</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matched Profiles | AIT Match</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #FFF0F4; /* Light pink background */
+      margin: 0;
+      padding: 0;
+    }
 
-<% if @matched_profiles.any? %>
-  <ul>
-    <% @matched_profiles.each do |profile| %>
-      <li>
-        <%= profile.user.email %>
-        <%= link_to 'View Profile', profile_path(profile), class: 'btn btn-secondary' %>
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: 80px auto;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
 
-        <!-- Add button to start conversation -->
-        <%= button_to 'Start Conversation', start_conversation_path(receiver_id: profile.id), method: :post, class: 'btn btn-primary' %>
-      </li>
+    .messages-page-title {
+      font-size: 2em;
+      color: #617952;
+      margin-bottom: 30px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .matched-profiles-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .profile-card {
+      background-color: #F7DDE3; /* Light pink card */
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+    }
+
+    .profile-card:hover {
+      background-color: #F7DDE3;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .profile-info {
+      text-align: left;
+    }
+
+    .profile-email {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .view-profile-btn,
+    .start-conversation-btn {
+      background-color: #F7DDE3;
+      color: #617952;
+      font-weight: bold;
+      font-size: 15px;
+      border: none;
+      padding: 5px 15px; /* Reduce padding inside buttons */
+      border-radius: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
+    }
+
+    .view-profile-btn:hover,
+    .start-conversation-btn:hover {
+      background-color: #FBCAD0;
+      color: #617952;
+      transform: translateY(-5px); /* Bounce effect */
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    }
+
+    .button-container {
+      display: flex;
+      gap: 10px; /* Space between buttons */
+      justify-content: flex-end; /* Align buttons to the right */
+    }
+
+    .no-matches-card {
+      background-color: #F7DDE3;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-matches-message {
+      font-size: 1.2em;
+      color: #617952;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="messages-page-title">Matched Profiles</h1>
+
+    <% if @matched_profiles.any? %>
+      <ul class="matched-profiles-list">
+        <% @matched_profiles.each do |profile| %>
+          <li class="profile-card">
+            <div class="profile-info">
+              <p class="profile-email"><strong><%= profile.user.email %></strong></p>
+            </div>
+
+            <div class="button-container">
+              <%= link_to 'View Profile', profile_path(profile), class: 'btn view-profile-btn' %>
+              <%= button_to 'Chat', start_conversation_path(receiver_id: profile.id), method: :post, class: 'btn start-conversation-btn' %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="no-matches-card">
+        <p class="no-matches-message">You have no matches yet.</p>
+      </div>
     <% end %>
-  </ul>
-<% else %>
-  <p>You have no matches yet.</p>
-<% end %>
+  </div>
+
+</body>
+</html>

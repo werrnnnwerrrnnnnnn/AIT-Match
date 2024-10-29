@@ -1,6 +1,7 @@
 # app/controllers/matches_controller.rb
 class MatchesController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_profile_completion
 
   def accept
     @match = Match.find(params[:id])
@@ -84,5 +85,14 @@ class MatchesController < ApplicationController
     @matched_profiles = @matches.map do |match|
       match.requestor_id == user_profile.id ? match.receiver : match.requestor
     end
+  end
+end
+
+#-----------------------------Private------------------------------------#
+private
+def check_profile_completion
+  if current_user.profile.nil?
+    flash[:alert] = "Please complete your profile before accessing this page."
+    redirect_to new_profile_path
   end
 end

@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_profile_completion
 
   # Index action to fetch messages in JSON format for a conversation
   def index
@@ -38,5 +39,14 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:body)
+  end
+
+  #-----------------------------Private------------------------------------#
+  private
+  def check_profile_completion
+    if current_user.profile.nil?
+      flash[:alert] = "Please complete your profile before accessing this page."
+      redirect_to new_profile_path
+    end
   end
 end

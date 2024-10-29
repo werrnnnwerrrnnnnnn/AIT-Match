@@ -1,6 +1,7 @@
 class PreferencesController < ApplicationController
   before_action :set_preference, only: [:edit, :update]
   before_action :authenticate_user!
+  before_action :check_profile_completion
 
   def new
     @preference = Preference.new
@@ -101,6 +102,15 @@ class PreferencesController < ApplicationController
     else
       # If no preferences are set, show random profiles
       @filtered_profiles = @filtered_profiles.order("RANDOM()").limit(10)
+    end
+  end
+
+  #-----------------------------Private------------------------------------#
+  private
+  def check_profile_completion
+    if current_user.profile.nil?
+      flash[:alert] = "Please complete your profile before accessing this page."
+      redirect_to new_profile_path
     end
   end
   

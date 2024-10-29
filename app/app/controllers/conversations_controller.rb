@@ -1,5 +1,6 @@
 class ConversationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_profile_completion
 
   def index
     # Fetch all conversations where the current user's profile is either the sender or receiver
@@ -30,5 +31,14 @@ class ConversationsController < ApplicationController
     else
       redirect_to conversations_path, alert: "You are not authorized to view this conversation."
     end
+  end
+end
+
+#-----------------------------Private------------------------------------#
+private
+def check_profile_completion
+  if current_user.profile.nil?
+    flash[:alert] = "Please complete your profile before accessing this page."
+    redirect_to new_profile_path
   end
 end

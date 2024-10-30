@@ -95,11 +95,12 @@ class ProfilesController < ApplicationController
   def create
     @profile = Profile.new(profile_params)
     @profile.user = current_user
-
+  
     if @profile.save
       redirect_to @profile, notice: 'Profile was successfully created.'
     else
-      render :new
+      # Render the new template with errors
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -109,11 +110,12 @@ class ProfilesController < ApplicationController
 
   def update
     @profile = current_user.profile
-
+  
     if @profile.update(profile_params)
       redirect_to @profile, notice: 'Profile was successfully updated.'
     else
-      render :edit
+      # Render the edit template with errors
+      render :edit, status: :unprocessable_entity
     end
   end
 

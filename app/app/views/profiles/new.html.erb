@@ -1,198 +1,367 @@
-<br><br><br><br><br><br>
-<h1>Welcome to Ait Match, create profile first</h1>
-<!-- Display user information -->
-<p>Your Email: <%= current_user.email %></p>
-
-<%= form_with(model: @profile, local: true) do |f| %>
-<!-- Display validation error messages -->
-<% if @profile.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
-    <!-- 
-        <ul>
-        <% @profile.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-        <% end %>
-        </ul>
-    -->
-  </div>
-<% end %>
-
-<div class="form-group">
-  <%= f.label :first_name %>
-  <%= f.text_field :first_name %>
-  <% if @profile.errors[:first_name].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:first_name].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<div class="form-group">
-  <%= f.label :last_name %>
-  <%= f.text_field :last_name %>
-  <% if @profile.errors[:last_name].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:last_name].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<div class="form-group">
-  <%= f.label :user_name %>
-  <%= f.text_field :user_name %>
-  <% if @profile.errors[:user_name].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:user_name].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<div class="form-group">
-  <%= f.label :birthday, "Birthday" %>
-  <%= f.date_select :birthday, 
-        start_year: Date.today.year - 100, 
-        end_year: Date.today.year, 
-        prompt: { day: 'Day', month: 'Month', year: 'Year' },
-        order: [:day, :month, :year] %>
-  <% if @profile.errors[:birthday].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:birthday].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<!-- MBTI Dropdown -->
-<div class="form-group">
-  <%= f.label :mbti_id %>
-  <%= f.collection_select :mbti_id, Mbti.all, :id, :combined_value_label, prompt: "Select your MBTI type" %>
-  <% if @profile.errors[:mbti_id].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:mbti_id].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<!-- Gender Dropdown -->
-<div class="form-group">
-  <%= f.label :gender_id %>
-  <%= f.collection_select :gender_id, Gender.all, :id, :label, prompt: "Select your gender" %>
-  <% if @profile.errors[:gender_id].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:gender_id].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<!-- Degree Dropdown -->
-<div class="form-group">
-  <%= f.label :degree_id %>
-  <%= f.collection_select :degree_id, Degree.all, :id, :label, prompt: "Select your degree" %>
-  <% if @profile.errors[:degree_id].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:degree_id].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<!-- School Dropdown -->
-<div class="form-group">
-  <%= f.label :school_id %>
-  <%= f.collection_select :school_id, School.all, :id, :combined_name_abbreviation, prompt: "Select your school" %>
-  <% if @profile.errors[:school_id].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:school_id].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<!-- Program Dropdown -->
-<div class="form-group">
-  <%= f.label :program_id %>
-  <%= f.collection_select :program_id, Program.all, :id, :combined_name_abbreviation, prompt: "Select your program" %>
-  <% if @profile.errors[:program_id].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:program_id].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<div class="form-group">
-  <%= f.label :educational_background %>
-  <%= f.text_area :educational_background %>
-  <% if @profile.errors[:educational_background].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:educational_background].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<div class="form-group">
-  <%= f.label :profile_picture_url %>
-  <%= f.text_field :profile_picture_url %>
-  <% if @profile.errors[:profile_picture_url].any? %>
-    <div class="error-message">
-      <%= @profile.errors[:profile_picture_url].join(", ") %>
-    </div>
-  <% end %>
-</div>
-
-<!-- Interests Section -->
-<div class="form-group">
-  <%= f.label :interest_ids, "Select your interests (up to 5)" %>
-  <button type="button" class="btn btn-primary" onclick="toggleDropdown('interestDropdown')">Select Interests</button>
-  <div id="interestDropdown" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background: white;">
-    <% Interest.all.each do |interest| %>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="interest_<%= interest.id %>" name="profile[interest_ids][]" value="<%= interest.id %>"
-               <%= @profile.interests.include?(interest) ? 'checked' : '' %>>
-        <label class="form-check-label" for="interest_<%= interest.id %>">
-          <%= interest.name %>
-        </label>
-      </div>
-    <% end %>
-    <% if @profile.errors[:interests].any? %>
-      <div class="error-message">
-        <%= @profile.errors[:interests].join(", ") %>
-      </div>
-    <% end %>
-  </div>
-</div>
-
-<!-- Relationship Section -->
-<div class="form-group">
-  <%= f.label :relationship_ids, "Select Your Preferred Relationship Type" %>
-  <button type="button" class="btn btn-primary" onclick="toggleDropdown('relationshipDropdown')">Select Preferred Relationship Type</button>
-  <div id="relationshipDropdown" style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background: white;">
-    <% Relationship.all.each do |relationship| %>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="relationship_<%= relationship.id %>" name="profile[relationship_ids][]" value="<%= relationship.id %>"
-               <%= @profile.relationships.include?(relationship) ? 'checked' : '' %>>
-        <label class="form-check-label" for="relationship_<%= relationship.id %>">
-          <%= relationship.name %>
-        </label>
-      </div>
-    <% end %>
-    <% if @profile.errors[:relationships].any? %>
-      <div class="error-message">
-        <%= @profile.errors[:relationships].join(", ") %>
-      </div>
-    <% end %>
-  </div>
-</div>
-
-<div class="form-group">
-  <%= f.submit "Update Profile", class: "btn btn-primary" %>
-</div>
-<% end %>
-
-<script>
-  function toggleDropdown(dropdownId) {
-    const dropdown = document.getElementById(dropdownId);
-    if (dropdown.style.display === "none" || dropdown.style.display === "") {
-      dropdown.style.display = "block";
-    } else {
-      dropdown.style.display = "none";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Profile | AIT Match</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #FDEDF1;
+      margin: 0;
+      padding: 0;
     }
-  }
-</script>
+
+    .profile-create-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 50px;
+      background-color: #FDEDF1;
+      margin-top: 40px;
+      margin-bottom: 100px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 20px;
+    }
+
+    .profile-create-card {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+    }
+
+    /* Wiggle effect on hover */
+    .profile-create-header {
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      margin: 0 auto;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .profile-create-header:hover {
+      animation: wiggle 0.9s infinite; /* Only wiggle effect on hover */
+    }
+
+    /* Keyframes for the wiggle effect */
+    @keyframes wiggle {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        10% { transform: translate(-1px, 1px) rotate(-2deg); }
+        20% { transform: translate(1px, -1px) rotate(2deg); }
+        30% { transform: translate(-1px, -1px) rotate(-2deg); }
+        40% { transform: translate(1px, 1px) rotate(2deg); }
+        50% { transform: translate(-1px, 1px) rotate(-2deg); }
+        60% { transform: translate(1px, -1px) rotate(2deg); }
+        70% { transform: translate(-1px, -1px) rotate(-2deg); }
+        80% { transform: translate(1px, 1px) rotate(2deg); }
+        90% { transform: translate(-1px, 1px) rotate(-2deg); }
+        100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    .profile-create-form-group {
+      margin-bottom: 15px;
+    }
+
+    .profile-create-form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .profile-create-form-group input[type="text"],
+    .profile-create-form-group input[type="date"],
+    .profile-create-form-group textarea,
+    .profile-create-form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .profile-create-error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+
+    .profile-create-btn {
+      background-color: #F7DDE3; /* Pink background before hover */
+      color: #617952;
+      padding: 10px 20px;
+      border: 0px solid #F7DDE3; /* White border */
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
+    }
+
+    .profile-create-btn:hover {
+      background-color: #617952; /* Green background on hover */
+      color: #F7DDE3;
+      border: 0px solid #617952; 
+      border-radius: 20px;
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    }
+
+    /* Confirm button style */
+    .profile-create-confirm {
+      background-color: #617952; /* Green before hover */
+      color: white;
+      padding: 10px 20px;
+      border: 0px solid white;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
+    }
+
+    .profile-create-confirm:hover {
+      background-color: #4a5c41; /* Darker green on hover */
+      transform: translateY(-5px); /* Bounce effect */
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    }
+
+    .profile-create-dropdown {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: white;
+    }
+
+    .profile-create-form-check {
+        margin-bottom: 5px;
+        display: flex; /* Align items in a row */
+        align-items: center; /* Vertically center align the checkbox and text */
+    }
+
+    .profile-create-form-check input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .profile-create-submit-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Center the email text */
+    .email-text {
+      text-align: center;
+      width: 100%; /* Make it full width to center properly */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-create-container">
+    <%= image_tag 'welcome-heading.png', alt: 'Welcome to AIT Match, Create Profile First', class: 'profile-create-header', style: 'width:100%; max-width:400px; display:block; margin:0 auto;' %>
+    <p class="email-text">Your Email: <%= current_user.email %></p>
+
+    <div class="profile-create-card">
+      <%= form_with(model: @profile, local: true) do |f| %>
+        <% if @profile.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+          </div>
+        <% end %>
+
+        <div class="profile-create-form-group">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name %>
+          <% if @profile.errors[:first_name].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:first_name].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="profile-create-form-group">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name %>
+          <% if @profile.errors[:last_name].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:last_name].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="profile-create-form-group">
+          <%= f.label :user_name %>
+          <%= f.text_field :user_name %>
+          <% if @profile.errors[:user_name].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:user_name].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="profile-create-form-group">
+          <%= f.label :birthday, "Birthday" %>
+          <%= f.date_select :birthday, 
+                start_year: Date.today.year - 100, 
+                end_year: Date.today.year, 
+                prompt: { day: 'Day', month: 'Month', year: 'Year' },
+                order: [:day, :month, :year] %>
+          <% if @profile.errors[:birthday].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:birthday].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- MBTI Dropdown -->
+        <div class="profile-create-form-group">
+          <%= f.label :mbti_id %>
+          <%= f.collection_select :mbti_id, Mbti.all, :id, :combined_value_label, prompt: "Select your MBTI type" %>
+          <% if @profile.errors[:mbti_id].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:mbti_id].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Gender Dropdown -->
+        <div class="profile-create-form-group">
+          <%= f.label :gender_id %>
+          <%= f.collection_select :gender_id, Gender.all, :id, :label, prompt: "Select your gender" %>
+          <% if @profile.errors[:gender_id].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:gender_id].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Degree Dropdown -->
+        <div class="profile-create-form-group">
+          <%= f.label :degree_id %>
+          <%= f.collection_select :degree_id, Degree.all, :id, :label, prompt: "Select your degree" %>
+          <% if @profile.errors[:degree_id].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:degree_id].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- School Dropdown -->
+        <div class="profile-create-form-group">
+          <%= f.label :school_id %>
+          <%= f.collection_select :school_id, School.all, :id, :combined_name_abbreviation, prompt: "Select your school" %>
+          <% if @profile.errors[:school_id].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:school_id].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Program Dropdown -->
+        <div class="profile-create-form-group">
+          <%= f.label :program_id %>
+          <%= f.collection_select :program_id, Program.all, :id, :combined_name_abbreviation, prompt: "Select your program" %>
+          <% if @profile.errors[:program_id].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:program_id].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="profile-create-form-group">
+          <%= f.label :educational_background %>
+          <%= f.text_area :educational_background %>
+          <% if @profile.errors[:educational_background].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:educational_background].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="profile-create-form-group">
+          <%= f.label :profile_picture_url %>
+          <%= f.text_field :profile_picture_url %>
+          <% if @profile.errors[:profile_picture_url].any? %>
+            <div class="profile-create-error-message">
+              <%= @profile.errors[:profile_picture_url].join(", ") %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Interests Section -->
+        <div class="profile-create-form-group">
+        <%= f.label :interest_ids, "Select your interests (up to 5)" %>
+        <button type="button" class="profile-create-btn" onclick="toggleDropdown('interestDropdown')">
+            Select Interests <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+        </button>
+        <div id="interestDropdown" class="profile-create-dropdown">
+            <% Interest.all.each do |interest| %>
+            <div class="profile-create-form-check">
+                <input type="checkbox" class="profile-create-form-check-input" id="interest_<%= interest.id %>" name="profile[interest_ids][]" value="<%= interest.id %>"
+                    <%= @profile.interests.include?(interest) ? 'checked' : '' %>>
+                <label class="profile-create-form-check-label" for="interest_<%= interest.id %>">
+                <%= interest.name %>
+                </label>
+            </div>
+            <% end %>
+        </div>
+        <!-- Move the error message outside the dropdown -->
+        <% if @profile.errors[:interests].any? %>
+            <div class="profile-create-error-message" style="margin-top: 5px;">
+            <%= @profile.errors[:interests].join(", ") %>
+            </div>
+        <% end %>
+        </div>
+
+        <!-- Relationship Section -->
+        <div class="profile-create-form-group">
+          <%= f.label :relationship_ids, "Select Your Preferred Relationship Type" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('relationshipDropdown')">
+            Select Preferred Relationship Type <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="relationshipDropdown" class="profile-create-dropdown">
+            <% Relationship.all.each do |relationship| %>
+              <div class="profile-create-form-check">
+                <input type="checkbox" class="profile-create-form-check-input" id="relationship_<%= relationship.id %>" name="profile[relationship_ids][]" value="<%= relationship.id %>"
+                       <%= @profile.relationships.include?(relationship) ? 'checked' : '' %>>
+                <label class="profile-create-form-check-label" for="relationship_<%= relationship.id %>">
+                  <%= relationship.name %>
+                </label>
+              </div>
+            <% end %>
+            <% if @profile.errors[:relationships].any? %>
+              <div class="profile-create-error-message">
+                <%= @profile.errors[:relationships].join(", ") %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="profile-create-submit-container">
+          <%= f.submit "Confirm", class: "profile-create-confirm" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown(dropdownId) {
+      const dropdown = document.getElementById(dropdownId);
+      if (dropdown.style.display === "none" || dropdown.style.display === "") {
+        dropdown.style.display = "block";
+      } else {
+        dropdown.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

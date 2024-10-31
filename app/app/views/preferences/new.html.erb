@@ -1,233 +1,348 @@
-<!-- Add CSS to style similar to your reference -->
-<style>
-  .profile-display-container {
-    background-color: white;
-    width: 800px;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 50px auto; /* Center the container */
-    margin-top: 80px; /* Adjust this value to create space below the navbar */
-}
-
-  .profile-display-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-
-  .profile-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-
-  .profile-section label {
-    width: 150px;
-    margin-right: 20px;
-    font-weight: bold;
-    color: #333;
-  }
-
-  .profile-section div {
-    width: calc(100% - 200px);
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-
-  .form-check {
-    margin-bottom: 10px;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .buttons .btn-primary {
-    background-color: #617952;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-  }
-
-  .buttons .btn-primary:hover {
-    background-color: #4a5e41;
-  }
-
-  /* Dropdown Styles for Checkbox Groups */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-  }
-
-  .dropdown-btn {
-    background-color: white;
-    color: #333;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    padding: 10px;
-    border-radius: 5px;
-  }
-
-  .dropdown-content input {
-    margin-right: 10px;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-</style>
-
-<!-- JavaScript to ensure minimum age is not greater than maximum age -->
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const minAgeInput = document.querySelector("#ageRangeMin");
-    const maxAgeInput = document.querySelector("#ageRangeMax");
-    const ageDisplay = document.querySelector("#ageRangeDisplay");
-
-    function updateAgeDisplay() {
-      const minAge = minAgeInput.value;
-      const maxAge = maxAgeInput.value;
-      ageDisplay.textContent = `${minAge} - ${maxAge}`;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Preferences | AIT Match</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #FDEDF1;
+      margin: 0;
+      padding: 0;
     }
 
-    minAgeInput.addEventListener("input", function() {
-      if (parseInt(minAgeInput.value) > parseInt(maxAgeInput.value)) {
-        minAgeInput.value = maxAgeInput.value;
+    .profile-display-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 50px;
+      background-color: #FDEDF1;
+      margin-top: 40px;
+      margin-bottom: 100px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 20px;
+    }
+
+    .profile-create-card {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+    }
+
+    .profile-create-header {
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      margin: 0 auto;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .profile-create-header:hover {
+      animation: wiggle 0.9s infinite;
+    }
+
+    @keyframes wiggle {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        10% { transform: translate(-1px, 1px) rotate(-2deg); }
+        20% { transform: translate(1px, -1px) rotate(2deg); }
+        30% { transform: translate(-1px, -1px) rotate(-2deg); }
+        40% { transform: translate(1px, 1px) rotate(2deg); }
+        50% { transform: translate(-1px, 1px) rotate(-2deg); }
+        60% { transform: translate(1px, -1px) rotate(2deg); }
+        70% { transform: translate(-1px, -1px) rotate(-2deg); }
+        80% { transform: translate(1px, 1px) rotate(2deg); }
+        90% { transform: translate(-1px, 1px) rotate(-2deg); }
+        100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    .profile-create-form-group {
+      margin-bottom: 15px;
+    }
+
+    .profile-create-form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .profile-create-error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+
+    .profile-create-btn {
+      background-color: #F7DDE3;
+      color: #617952;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-create-btn:hover {
+      background-color: #617952;
+      color: #F7DDE3;
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-create-confirm {
+      background-color: #617952;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-create-confirm:hover {
+      background-color: #4a5c41;
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: white;
+    }
+
+    .profile-create-form-check {
+      display: flex; /* Ensure items are in a row */
+      align-items: center; /* Vertically center align the checkbox and text */
+      margin-bottom: 5px; /* Space between checkbox items */
+    }
+
+    .profile-create-form-check input[type="checkbox"] {
+      margin-right: 10px; /* Space between checkbox and label */
+      vertical-align: middle; /* Ensures checkbox aligns with text */
+    }
+
+    .profile-create-submit-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .email-text {
+      text-align: center;
+      width: 100%;
+    }
+  </style>
+
+  <!-- JavaScript to ensure minimum age is not greater than maximum age and align checkboxes with labels -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Ensure minimum age is not greater than maximum age
+      const minAgeInput = document.querySelector("#ageRangeMin");
+      const maxAgeInput = document.querySelector("#ageRangeMax");
+      const ageDisplay = document.querySelector("#ageRangeDisplay");
+
+      function updateAgeDisplay() {
+        const minAge = minAgeInput.value;
+        const maxAge = maxAgeInput.value;
+        ageDisplay.textContent = `${minAge} - ${maxAge}`;
       }
+
+      minAgeInput.addEventListener("input", function() {
+        if (parseInt(minAgeInput.value) > parseInt(maxAgeInput.value)) {
+          minAgeInput.value = maxAgeInput.value;
+        }
+        updateAgeDisplay();
+      });
+
+      maxAgeInput.addEventListener("input", function() {
+        if (parseInt(maxAgeInput.value) < parseInt(minAgeInput.value)) {
+          maxAgeInput.value = minAgeInput.value;
+        }
+        updateAgeDisplay();
+      });
+
+      // Initialize display on load
       updateAgeDisplay();
+
+      // Align checkboxes with text in each row
+      const formChecks = document.querySelectorAll(".profile-create-form-check");
+      formChecks.forEach(check => {
+        check.style.display = "flex";
+        check.style.alignItems = "center";
+      });
     });
 
-    maxAgeInput.addEventListener("input", function() {
-      if (parseInt(maxAgeInput.value) < parseInt(minAgeInput.value)) {
-        maxAgeInput.value = minAgeInput.value;
+    function toggleDropdown(dropdownId) {
+      const dropdown = document.getElementById(dropdownId);
+      if (dropdown.style.display === "none" || dropdown.style.display === "") {
+        dropdown.style.display = "block";
+      } else {
+        dropdown.style.display = "none";
       }
-      updateAgeDisplay();
-    });
+    }
+  </script>
+</head>
+<body>
 
-    // Initialize display on load
-    updateAgeDisplay();
-  });
-</script>
+  <div class="profile-display-container">
+    <%= image_tag 'preference-heading.png', alt: 'Welcome to AIT Match, Edit Preferences', class: 'profile-create-header', style: 'width:100%; max-width:400px; display:block; margin:0 auto;' %>
+    <p class="email-text">Your Email: <%= current_user.email %></p>
 
-
-<div class="profile-display-container">
-  <%= form_with(model: @preference, local: true) do |form| %>
-
-    <h1>Edit Preferences</h1>
-    <!-- Preferred Age Range (Sliding Bar) -->
-    <div class="profile-section">
-      <%= form.label :preferred_min_age, "Age Range" %>
-      <div>
-        <input type="range" id="ageRangeMin" name="preference[preferred_min_age]" min="18" max="100" value="18" step="1">
-        <input type="range" id="ageRangeMax" name="preference[preferred_max_age]" min="18" max="100" value="100" step="1">
-        <span id="ageRangeDisplay">18 - 100+</span>
-      </div>
-    </div>
-
-    <!-- Preferred Genders (Dropdown with checkboxes) -->
-    <div class="profile-section">
-      <%= form.label :preferred_genders, "Preferred Genders" %>
-      <div class="dropdown">
-        <div class="dropdown-btn">Select Genders</div>
-        <div class="dropdown-content">
-          <%= form.collection_check_boxes :preferred_gender_ids, @preferred_genders, :id, :label %>
+    <div class="profile-create-card">
+      <%= form_with(model: @preference, local: true) do |form| %>
+        <!-- Preferred Age Range (Sliding Bar) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_min_age, "Age Range" %>
+          <div>
+            <input type="range" id="ageRangeMin" name="preference[preferred_min_age]" min="18" max="100" value="18" step="1">
+            <input type="range" id="ageRangeMax" name="preference[preferred_max_age]" min="18" max="100" value="100" step="1">
+            <span id="ageRangeDisplay">18 - 100+</span>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Preferred Interests (Dropdown with checkboxes) -->
-    <div class="profile-section">
-      <%= form.label :preferred_interests, "Preferred Interests" %>
-      <div class="dropdown">
-        <div class="dropdown-btn">Select Interests</div>
-        <div class="dropdown-content">
-          <%= form.collection_check_boxes :preferred_interest_ids, @preferred_interests, :id, :name %>
+        <!-- Preferred Genders (Dropdown with checkboxes) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_genders, "Preferred Genders" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('genderDropdown')">
+            Select Genders <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="genderDropdown" class="dropdown">
+            <%= form.collection_check_boxes :preferred_gender_ids, @preferred_genders, :id, :label do |b| %>
+              <div class="profile-create-form-check">
+                <%= b.check_box %>
+                <%= b.label %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Preferred Relationships (Dropdown with checkboxes) -->
-    <div class="profile-section">
-      <%= form.label :preferred_relationships, "Preferred Relationships" %>
-      <div class="dropdown">
-        <div class="dropdown-btn">Select Relationships</div>
-        <div class="dropdown-content">
-          <%= form.collection_check_boxes :preferred_relationship_ids, @preferred_relationships, :id, :name %>
+        <!-- Preferred Interests (Dropdown with checkboxes) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_interests, "Preferred Interests" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('interestDropdown')">
+            Select Interests <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="interestDropdown" class="dropdown">
+            <%= form.collection_check_boxes :preferred_interest_ids, @preferred_interests, :id, :name do |b| %>
+              <div class="profile-create-form-check">
+                <%= b.check_box %>
+                <%= b.label %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Preferred MBTI (Dropdown with checkboxes) -->
-    <div class="profile-section">
-      <%= form.label :preferred_mbti, "Preferred MBTI" %>
-      <div class="dropdown">
-        <div class="dropdown-btn">Select MBTI</div>
-        <div class="dropdown-content">
-          <%= form.collection_check_boxes :preferred_mbti_ids, @preferred_mbti, :id, :label %>
+        <!-- Preferred Relationships (Dropdown with checkboxes) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_relationships, "Preferred Relationships" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('relationshipDropdown')">
+            Select Relationships <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="relationshipDropdown" class="dropdown">
+            <%= form.collection_check_boxes :preferred_relationship_ids, @preferred_relationships, :id, :name do |b| %>
+              <div class="profile-create-form-check">
+                <%= b.check_box %>
+                <%= b.label %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Preferred Degrees (Dropdown with checkboxes) -->
-    <div class="profile-section">
-      <%= form.label :preferred_degrees, "Preferred Degrees" %>
-      <div class="dropdown">
-        <div class="dropdown-btn">Select Degrees</div>
-        <div class="dropdown-content">
-          <%= form.collection_check_boxes :preferred_degree_ids, @preferred_degrees, :id, :label %>
+        <!-- Preferred MBTI (Dropdown with checkboxes) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_mbti, "Preferred MBTI" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('mbtiDropdown')">
+            Select MBTI <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="mbtiDropdown" class="dropdown">
+            <%= form.collection_check_boxes :preferred_mbti_ids, @preferred_mbti, :id, :label do |b| %>
+              <div class="profile-create-form-check">
+                <%= b.check_box %>
+                <%= b.label %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Preferred Schools (Dropdown with checkboxes) -->
-    <div class="profile-section">
-      <%= form.label :preferred_schools, "Preferred Schools" %>
-      <div class="dropdown">
-        <div class="dropdown-btn">Select Schools</div>
-        <div class="dropdown-content">
-          <%= form.collection_check_boxes :preferred_school_ids, @preferred_schools, :id, :name %>
+        <!-- Preferred Degrees (Dropdown with checkboxes) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_degrees, "Preferred Degrees" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('degreeDropdown')">
+            Select Degrees <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="degreeDropdown" class="dropdown">
+            <%= form.collection_check_boxes :preferred_degree_ids, @preferred_degrees, :id, :label do |b| %>
+              <div class="profile-create-form-check">
+                <%= b.check_box %>
+                <%= b.label %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Preferred Programs (Dropdown with checkboxes) -->
-    <div class="profile-section">
-      <%= form.label :preferred_programs, "Preferred Programs" %>
-      <div class="dropdown">
-        <div class="dropdown-btn">Select Programs</div>
-        <div class="dropdown-content">
-          <%= form.collection_check_boxes :preferred_program_ids, @preferred_programs, :id, :name %>
+        <!-- Preferred Schools (Dropdown with checkboxes) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_schools, "Preferred Schools" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('schoolDropdown')">
+            Select Schools <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="schoolDropdown" class="dropdown">
+            <%= form.collection_check_boxes :preferred_school_ids, @preferred_schools, :id, :name do |b| %>
+              <div class="profile-create-form-check">
+                <%= b.check_box %>
+                <%= b.label %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Submit Button -->
-    <div class="buttons">
-      <%= form.submit "Save Preferences", class: "btn btn-primary" %>
+        <!-- Preferred Programs (Dropdown with checkboxes) -->
+        <div class="profile-create-form-group">
+          <%= form.label :preferred_programs, "Preferred Programs" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('programDropdown')">
+            Select Programs <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="programDropdown" class="dropdown">
+            <%= form.collection_check_boxes :preferred_program_ids, @preferred_programs, :id, :name do |b| %>
+              <div class="profile-create-form-check">
+                <%= b.check_box %>
+                <%= b.label %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="profile-create-submit-container">
+          <%= form.submit "Save Preferences", class: "profile-create-confirm" %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-</div>
+  </div>
+
+</body>
+</html>

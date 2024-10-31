@@ -78,9 +78,17 @@
       font-size: 14px;
     }
 
-    .no-conversations {
-      font-size: 1.2em;
+    .no-conversations-card {
+      background-color: #F3F6F1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       color: #617952;
+      font-size: 1.2em;
+    }
+
+    .no-conversations-message {
+      margin: 0;
     }
   </style>
 </head>
@@ -108,7 +116,9 @@
         <% end %>
       </ul>
     <% else %>
-      <p class="no-conversations">You have no conversations yet.</p>
+      <div class="no-conversations-card">
+        <p class="no-conversations-message">You have no conversations yet.</p>
+      </div>
     <% end %>
   </div>
 </body>

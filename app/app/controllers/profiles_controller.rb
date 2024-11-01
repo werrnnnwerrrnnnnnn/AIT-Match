@@ -7,8 +7,8 @@ class ProfilesController < ApplicationController
   skip_before_action :set_profile, only: [:index, :search, :show_all] # Skipping profile setting for search and show_all
 
   def index
-    # Fetch all profiles, excluding the current user's own profile
-    @profiles = Profile.where.not(user: current_user)
+    # Fetch all profiles, excluding the current user's own profile, with distinct
+    @profiles = Profile.where.not(user: current_user).distinct
   
     # Initialize @filtered_profiles as all profiles
     @filtered_profiles = @profiles
@@ -156,14 +156,14 @@ class ProfilesController < ApplicationController
   end
 
   def apply_filters(preference)
+    @filtered_profiles = @filtered_profiles.select('profiles.*').distinct
+
     # Calculate age range from birthday
     if preference.preferred_min_age.present? && preference.preferred_max_age.present?
       today = Date.today
-      # Calculate the minimum and maximum birthday dates based on the age range
       min_birthdate = today.years_ago(preference.preferred_max_age)
       max_birthdate = today.years_ago(preference.preferred_min_age)
   
-      # Use birthday range instead of age for filtering
       @filtered_profiles = @filtered_profiles.where("birthday >= ? AND birthday <= ?", min_birthdate, max_birthdate)
     end
   

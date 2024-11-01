@@ -7,8 +7,8 @@ class ProfilesController < ApplicationController
   skip_before_action :set_profile, only: [:index, :search, :show_all] # Skipping profile setting for search and show_all
 
   def index
-    # Fetch all profiles, excluding the current user's own profile, with distinct
-    @profiles = Profile.where.not(user: current_user).distinct
+    # Fetch all profiles, excluding the current user's own profile
+    @profiles = Profile.where.not(user: current_user)
   
     # Initialize @filtered_profiles as all profiles
     @filtered_profiles = @profiles
@@ -28,12 +28,13 @@ class ProfilesController < ApplicationController
     # Sorting logic: A-Z, Z-A, or random
     case params[:order]
     when 'asc'
-      @filtered_profiles = @filtered_profiles.order(user_name: :asc)
+      @filtered_profiles = @filtered_profiles.order(user_name: :asc).distinct
       @sorted_az = true
     when 'desc'
-      @filtered_profiles = @filtered_profiles.order(user_name: :desc)
+      @filtered_profiles = @filtered_profiles.order(user_name: :desc).distinct
       @sorted_za = true
     when 'random'
+      # Do not apply `distinct` when using random ordering
       @filtered_profiles = @filtered_profiles.order('RANDOM()')
       @showing_random = true
     end

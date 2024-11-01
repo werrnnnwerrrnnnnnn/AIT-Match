@@ -64,9 +64,9 @@
                 <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
                   <%= button_to 'Match', profile_matches_path(profile_id: profile.id), method: :post, class: 'match-btn' %>
                 <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
-                  <p>Match request sent 👻</p>
+                  <div class="match-request-sent">Match request sent ✓</div> <!-- Wrapped in a div with class -->
                 <% end %>
-                <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %> <!-- View Profile button moved here -->
+                <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %>
               </div>
             </div>
           <% end %>
@@ -360,5 +360,20 @@
     color: #617952;
     transform: translateY(-5px); /* Bounce effect */
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+  }
+
+  .match-request-sent {
+    background-color: #F5F5F5; /* Background color to match buttons */
+    color: #B2B2B2; /* Text color */
+    font-weight: bold;
+    font-size: 15px; /* Font size */
+    border: 2px; /* No border */
+    padding: 5px 15px; /* Padding for the appearance */
+    border-radius: 20px; /* Rounded corners */
+    cursor: default; /* Default cursor */
+    display: inline-block; /* To respect width and height */
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Transition effects */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    margin: 0; /* Remove any margin */
   }
 </style>

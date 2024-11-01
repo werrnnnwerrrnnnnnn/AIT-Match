@@ -55,18 +55,18 @@
                   <% end %>
                 </div>
                 <div class="profile-details">
-                  <p><strong><%= profile.first_name %> <%= profile.last_name %></strong></p>
+                  <p><strong><%= profile.user_name %></strong></p>
                   <p>Major: <%= profile.program.name %></p>
                   <p>Age: <%= profile.age %></p>
                 </div>
               </div>
               <div class="profile-actions">
-                <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %>
                 <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
                   <%= button_to 'Match', profile_matches_path(profile_id: profile.id), method: :post, class: 'match-btn' %>
                 <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
-                  <p>Match request already sent.</p>
+                  <p>Match request sent 👻</p>
                 <% end %>
+                <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %> <!-- View Profile button moved here -->
               </div>
             </div>
           <% end %>
@@ -257,14 +257,15 @@
   }
 
   body {
-    margin-top: 50px;
+    margin-top: 70px;
+    margin-bottom: 70px;
   }
 
   .main-content {
     padding-top: 80px;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 40px;
   }
 
   .profiles-section {
@@ -272,13 +273,13 @@
   }
 
   .sidebar {
-    flex: 1;
     padding: 20px;
-    background-color: #617952;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 300px;
-    margin-left: 20px;
+    margin-left: 20px; /* Ensure it stays to the right of the main content */
+    /* No fixed height; will grow based on content */
   }
 
   .sidebar h2 {
@@ -286,10 +287,11 @@
     color: #617952;
     padding: 10px;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .sidebar p {
-    color: white;
+    color: black;
     font-size: 16px;
   }
 
@@ -333,20 +335,30 @@
 
   .profile-actions {
     display: flex;
-    gap: 10px;
+    gap: 10px; /* Ensure buttons have a small gap if needed */
+    align-items: center; /* Align items vertically */
   }
 
   .view-profile-btn, .match-btn {
-    background-color: #617952;
-    color: white;
+    background-color: #F7DDE3; /* Ensure the background matches */
+    color: #617952; /* Text color */
+    font-weight: bold;
+    font-size: 15px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 5px 15px; /* Adjust padding as needed */
+    border-radius: 20px; /* Rounded corners */
     cursor: pointer;
     text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin: 0; /* Remove any margin */
   }
 
   .view-profile-btn:hover, .match-btn:hover {
-    background-color: #4a5e41;
+    background-color: #FBCAD0; /* Hover effect */
+    color: #617952;
+    transform: translateY(-5px); /* Bounce effect */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
   }
 </style>

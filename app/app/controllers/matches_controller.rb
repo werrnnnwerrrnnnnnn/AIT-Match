@@ -15,6 +15,18 @@ class MatchesController < ApplicationController
     end
   end
 
+  def destroy
+    @match = Match.find(params[:id])
+
+    # Ensure the current user is part of the match
+    if @match.requestor == current_user.profile || @match.receiver == current_user.profile
+      @match.destroy
+      redirect_to matches_matched_profiles_path, notice: "Match deleted successfully. You can send a match request again."
+    else
+      redirect_to matches_matched_profiles_path, alert: "You are not authorized to delete this match."
+    end
+  end
+
   def decline
     @match = Match.find(params[:id])
 

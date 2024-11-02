@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   # Matches routes with custom actions for accepting and declining matches
-  resources :matches, only: [:index, :create] do
+  resources :matches, only: [:index, :create, :destroy] do
     collection do
       get 'requests', to: 'matches#requests'   # For match requests
       get 'matched_profiles', to: 'matches#matched_profiles'   # For matched profiles

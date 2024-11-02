@@ -6,37 +6,34 @@
     <meta name="mobile-web-app-capable" content="yes"> <!-- Updated tag -->
     <meta name="csrf-param" content="authenticity_token" />
     <meta name="csrf-token" content="<%= form_authenticity_token %>" />
-    
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    
     <%= javascript_importmap_tags %>
     <script type="module" src="/assets/application.js"></script>
-    
     <style>
       .flash {
         margin-top: 100px;
       }
     </style>
   </head>
-
   <body>
     <% case show_navbar? %>
     <% when :navbar_welcome_page %>
       <%= render 'layouts/navbar_welcome_page' %>
     <% when :navbar %>
       <%= render 'layouts/navbar' %>
+    <% when :navbar_admin %>
+      <%= render 'layouts/navbar_admin' %>
     <% end %>
     
     <% flash.each do |key, value| %>
       <div class="flash <%= key %>">
         <%= value %>
       </div>
-    <% end %> 
-
+    <% end %>
     <%= yield %>
   </body>
 </html>

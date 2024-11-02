@@ -4,8 +4,8 @@
 
 - This project is developed to fulfill the requirements of the AT70.25 Full Stack Application Development course at the Asian Institute of Technology (AIT) for the August 2024 semester.
 - Admin account 
-    - Email :
-    - Password :
+    - Email : st123456@ait.<area>asia
+    - Password : admin123456
 
 ## Pre-requisites 
 - Docker, Ruby, Rails, Postgresql

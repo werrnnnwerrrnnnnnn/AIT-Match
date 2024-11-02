@@ -1,0 +1,53 @@
+<h1>Manage Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.profile&.user_name %></td> <!-- Display username if available -->
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+        <td>
+          <!-- Link to view user profile -->
+          <%= link_to 'View Profile', profile_path(user.profile), class: 'btn' if user.profile.present? %>
+
+          <!-- Delete button with username confirmation, but only if the user is not the current admin -->
+          <% unless user == current_user %>
+            <%= button_to 'Delete', admin_user_path(user), method: :delete, class: 'btn btn-danger delete-button', id: "delete-user-#{user.id}", data: { username: user.profile&.user_name, user_id: user.id } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  // Add event listeners to all delete buttons
+  document.addEventListener("DOMContentLoaded", function() {
+    const deleteButtons = document.querySelectorAll(".delete-button");
+
+    deleteButtons.forEach(button => {
+      button.addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent form submission until confirmed
+        const username = button.getAttribute("data-username");
+        const userId = button.getAttribute("data-user_id");
+
+        const input = prompt("Type the username to confirm deletion:");
+        if (input === username) {
+          // Proceed with deletion
+          button.closest("form").submit();
+        } else {
+          alert("Username does not match. Deletion canceled.");
+        }
+      });
+    });
+  });
+</script>

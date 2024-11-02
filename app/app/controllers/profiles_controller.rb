@@ -132,7 +132,14 @@ class ProfilesController < ApplicationController
   private
 
   def set_profile
-    @profile = Profile.find(params[:id])
+    # Admins should be able to access any profile by ID, while regular users can access only their own profile
+    if current_user.admin?
+      @profile = Profile.find_by(id: params[:id])
+      redirect_to admin_users_path, alert: "Profile not found." if @profile.nil?
+    else
+      @profile = Profile.find(params[:id])
+      redirect_to profile_path(current_user.profile) unless @profile.user == current_user
+    end
   end
 
   def authorize_user!
@@ -150,6 +157,9 @@ class ProfilesController < ApplicationController
   end
 
   def check_profile_completion
+    # Skip profile completion check for admin users
+    return if current_user.admin?
+
     if current_user.profile.nil?
       flash[:alert] = "Please complete your profile before accessing this page."
       redirect_to new_profile_path

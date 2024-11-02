@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   has_one :preference, dependent: :destroy
-  
+
   #Validates for Sign up form
   validates :email, format: { with: /\Ast\d{6}@(ait\.ac\.th|ait\.asia)\z/, message: "must follow AIT format" }
   
@@ -12,5 +12,9 @@ class User < ApplicationRecord
   
   def set_default_role
     self.role ||= 'user'
+  end
+
+  def admin?
+    role == "admin"
   end
 end

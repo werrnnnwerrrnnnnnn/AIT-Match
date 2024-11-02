@@ -339,3 +339,14 @@ end
   end
 end
 #------------------------------------------------------------------#
+
+# Seed an admin account
+[
+  { email: "st123456@ait.asia", password: "admin123456", password_confirmation: "admin123456", role: "admin" }
+].each do |admin|
+  User.find_or_create_by!(email: admin[:email]) do |u|
+    u.password = admin[:password]
+    u.password_confirmation = admin[:password_confirmation]
+    u.role = admin[:role]
+  end
+end

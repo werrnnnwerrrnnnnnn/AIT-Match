@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | AIT Match</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFF0F4;
+        }
+
+        .logo-img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        nav {
+            background-color: #617952;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+            height: 50px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        ul li a, 
+        .right-buttons a, 
+        .btn-logout {
+            background-color: #F7DDE3;
+            color: #617952;
+            font-weight: bold;
+            font-size: 15px;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        ul li a:hover, 
+        .right-buttons a:hover, 
+        .btn-logout:hover {
+            background-color: #FBCAD0;
+            color: #617952;
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .right-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .notification {
+            position: relative;
+        }
+
+        .notification-bell {
+            font-size: 15px;
+            cursor: pointer;
+            background-color: #F7DDE3;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: black;
+            border: none;
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification-bell:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 11px;
+            padding: 5px 8px;
+            border-radius: 50%;
+        }
+
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 35px;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            width: 300px;
+            z-index: 100;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 10px 0;
+        }
+
+        .notification-dropdown p {
+            margin: 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .notification-dropdown p:last-child {
+            border-bottom: none;
+        }
+
+        .notification-dropdown p:hover {
+            background-color: #f7f7f7;
+        }
+
+        .notification:hover .notification-dropdown {
+            display: block;
+        }
+
+        #page-title {
+            font-size: 16px;
+            color: white;
+        }
+
+        footer {
+            background-color: #617952;
+            color: white;
+            text-align: center;
+            padding: 0px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <%= image_tag 'logo-white.png', alt: 'AIT Match Logo', class: 'logo-img' %>
+            <ul>
+                <!-- Updated Dashboard link for admin -->
+                <li><%= link_to 'Dashboard', admin_users_path %></li>
+                
+                <!-- Admin profile link logic (display if needed for specific pages) -->
+                <li>
+                    <% if current_user.profile && current_user.profile.id.present? %>
+                        <%= link_to 'adminbtn2', profile_path(current_user.profile) %>
+                    <% else %>
+                        <%= link_to 'adminbtn3', new_profile_path %>
+                    <% end %>
+                </li>  
+                
+                <!-- Edit Preferences link -->
+                <li>
+                    <% if current_user.preference.present? %>
+                        <%= link_to 'adminbtn3', edit_preference_path(current_user.preference), class: 'btn btn-secondary' %>
+                    <% else %>
+                        <%= link_to 'adminbtn3', new_preference_path, class: 'btn btn-secondary' %>
+                    <% end %>
+                </li>
+                
+                <!-- Other navigation links -->
+                <li><%= link_to 'adminbtn4', matches_matched_profiles_path %></li>
+                <li><%= link_to 'adminbtn5', conversations_path %></li>
+                <li><%= link_to 'adminbtn6', welcome_path %></li>
+            </ul>
+        </div>
+        
+        <div class="right-buttons">
+            <!-- Notifications and Logout -->
+            <%= link_to '👥', matches_requests_path, class: 'notification-bell' %>
+            <div class="notification">
+                <span class="notification-bell">🔔</span>
+                <span class="notification-count">3</span>
+                <div class="notification-dropdown">
+                    <p>John Doe liked your profile.</p>
+                    <p>Jane Smith sent you a message.</p>
+                    <p>Alice Johnson viewed your profile.</p>
+                </div>
+            </div>
+            <%= button_to 'Log out', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'btn-logout' %>
+        </div>
+    </nav>
+
+    <footer>
+        <p>AIT Match © 2024</p>
+    </footer>
+
+</body>
+</html>

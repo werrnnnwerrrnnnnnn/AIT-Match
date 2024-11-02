@@ -90,6 +90,19 @@
     .no-conversations-message {
       margin: 0;
     }
+
+    .delete-conversation-btn {
+      background-color: #FF6347; /* A nice red color */
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete-conversation-btn:hover {
+      background-color: #FF4500; /* Darker red on hover */
+    }
   </style>
 </head>
 <body>
@@ -111,7 +124,10 @@
               </p>
             </div>
 
-            <%= link_to 'View', conversation_path(conversation) %>
+            <div>
+              <%= link_to 'View', conversation_path(conversation) %>
+              <%= button_to 'Delete Conversation', conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure you want to delete this conversation?' }, class: 'delete-conversation-btn' %>
+            </div>
           </li>
         <% end %>
       </ul>

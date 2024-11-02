@@ -60,13 +60,8 @@ Rails.application.routes.draw do
   # get 'show_profile', to: "profiles#show"
   # get 'index_profile', to: "profiles#index"
 
-  # Conversations and messages routes
-  resources :conversations, only: [:index, :show, :create] do
-    resources :messages, only: [:create]
-  end
-
   resources :conversations do
-    resources :messages #, only: :index
+    resources :messages
   end
 
   # Route for starting a conversation

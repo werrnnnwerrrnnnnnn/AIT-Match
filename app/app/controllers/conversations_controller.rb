@@ -9,16 +9,23 @@ class ConversationsController < ApplicationController
 
   def create
     receiver = Profile.find(params[:receiver_id])
-    
-    # Find the conversation between the current user and the receiver or create one
-    @conversation = Conversation.between(current_user.profile.id, receiver.id) || Conversation.new(sender_id: current_user.profile.id, receiver_id: receiver.id)
   
-    if @conversation.new_record?
-      @conversation.save
+    # Find the conversation between the current user and the receiver or create one
+    @conversation = Conversation.between(current_user.profile.id, receiver.id)
+  
+    if @conversation.nil?  # If no existing conversation found
+      @conversation = Conversation.new(sender_id: current_user.profile.id, receiver_id: receiver.id)
+  
+      if @conversation.save
+        # Successfully created new conversation
+      else
+        redirect_to profiles_path, alert: "Unable to create conversation."
+        return
+      end
     end
   
     # Redirect to the show page of the conversation
-    redirect_to conversation_path(@conversation)
+    redirect_to conversation_path(@conversation) # Ensure @conversation has an id
   end
   
   def show
@@ -30,6 +37,15 @@ class ConversationsController < ApplicationController
       @message = Message.new
     else
       redirect_to conversations_path, alert: "You are not authorized to view this conversation."
+    end
+  end
+
+  def destroy
+    @conversation = Conversation.find(params[:id])
+    if @conversation.destroy
+      redirect_to conversations_path, notice: 'Conversation deleted successfully.'
+    else
+      redirect_to conversations_path, alert: 'Unable to delete the conversation.'
     end
   end
 end

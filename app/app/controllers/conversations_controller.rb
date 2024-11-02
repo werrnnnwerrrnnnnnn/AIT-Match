@@ -29,7 +29,13 @@ class ConversationsController < ApplicationController
   end
   
   def show
-    @conversation = Conversation.find(params[:id])
+    @conversation = Conversation.find_by(id: params[:id])
+  
+    # Check if the conversation exists and the participants still exist
+    if @conversation.nil? || @conversation.sender.nil? || @conversation.receiver.nil?
+      redirect_to conversations_path, alert: "This conversation is no longer available."
+      return
+    end
   
     # Ensure that only participants in the conversation can view it
     if @conversation.sender == current_user.profile || @conversation.receiver == current_user.profile

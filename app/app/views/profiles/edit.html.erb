@@ -35,7 +35,6 @@
       width: 100%;
     }
 
-    /* Wiggle effect on hover */
     .profile-create-header {
       width: 100%;
       max-width: 400px;
@@ -47,10 +46,9 @@
     }
 
     .profile-create-header:hover {
-      animation: wiggle 0.9s infinite; /* Only wiggle effect on hover */
+      animation: wiggle 0.9s infinite;
     }
 
-    /* Keyframes for the wiggle effect */
     @keyframes wiggle {
         0% { transform: translate(0, 0) rotate(0deg); }
         10% { transform: translate(-1px, 1px) rotate(-2deg); }
@@ -93,29 +91,28 @@
     }
 
     .profile-create-btn {
-      background-color: #F7DDE3; /* Pink background before hover */
+      background-color: #F7DDE3;
       color: #617952;
       padding: 10px 20px;
-      border: 0px solid #F7DDE3; /* White border */
+      border: 0px solid #F7DDE3;
       border-radius: 20px;
       cursor: pointer;
       text-align: center;
       display: inline-block;
       transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     .profile-create-btn:hover {
-      background-color: #617952; /* Green background on hover */
+      background-color: #617952;
       color: #F7DDE3;
       border: 0px solid #617952; 
       border-radius: 20px;
-      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
 
-    /* Confirm button style */
     .profile-create-confirm {
-      background-color: #617952; /* Green before hover */
+      background-color: #617952;
       color: white;
       padding: 10px 20px;
       border: 0px solid white;
@@ -124,13 +121,13 @@
       text-align: center;
       display: inline-block;
       transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     .profile-create-confirm:hover {
-      background-color: #4a5c41; /* Darker green on hover */
-      transform: translateY(-5px); /* Bounce effect */
-      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+      background-color: #4a5c41;
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
 
     .profile-create-dropdown {
@@ -144,8 +141,8 @@
 
     .profile-create-form-check {
         margin-bottom: 5px;
-        display: flex; /* Align items in a row */
-        align-items: center; /* Vertically center align the checkbox and text */
+        display: flex;
+        align-items: center;
     }
 
     .profile-create-form-check input[type="checkbox"] {
@@ -157,10 +154,58 @@
       margin-top: 20px;
     }
 
-    /* Center the email text */
     .email-text {
       text-align: center;
-      width: 100%; /* Make it full width to center properly */
+      width: 100%;
+    }
+
+    .form-group {
+      margin-top: 0px;
+      font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 15px;
+        margin-bottom: 0px;
+    }
+
+    /* Styling for the delete button */
+    .btn-danger {
+      background-color: #FF6347;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-danger:hover {
+      background-color: #FF4500;
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Additional styling for delete container */
+    .delete-profile-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .delete-btn-container {
+      text-align: center;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -222,7 +267,6 @@
           <% end %>
         </div>
 
-        <!-- MBTI Dropdown -->
         <div class="profile-create-form-group">
           <%= f.label :mbti_id %>
           <%= f.collection_select :mbti_id, Mbti.all, :id, :combined_value_label, prompt: "Select your MBTI type" %>
@@ -233,7 +277,6 @@
           <% end %>
         </div>
 
-        <!-- Gender Dropdown -->
         <div class="profile-create-form-group">
           <%= f.label :gender_id %>
           <%= f.collection_select :gender_id, Gender.all, :id, :label, prompt: "Select your gender" %>
@@ -244,7 +287,6 @@
           <% end %>
         </div>
 
-        <!-- Degree Dropdown -->
         <div class="profile-create-form-group">
           <%= f.label :degree_id %>
           <%= f.collection_select :degree_id, Degree.all, :id, :label, prompt: "Select your degree" %>
@@ -255,7 +297,6 @@
           <% end %>
         </div>
 
-        <!-- School Dropdown -->
         <div class="profile-create-form-group">
           <%= f.label :school_id %>
           <%= f.collection_select :school_id, School.all, :id, :combined_name_abbreviation, prompt: "Select your school" %>
@@ -266,7 +307,6 @@
           <% end %>
         </div>
 
-        <!-- Program Dropdown -->
         <div class="profile-create-form-group">
           <%= f.label :program_id %>
           <%= f.collection_select :program_id, Program.all, :id, :combined_name_abbreviation, prompt: "Select your program" %>
@@ -297,32 +337,29 @@
           <% end %>
         </div>
 
-        <!-- Interests Section -->
         <div class="profile-create-form-group">
-        <%= f.label :interest_ids, "Select your interests (up to 5)" %>
-        <button type="button" class="profile-create-btn" onclick="toggleDropdown('interestDropdown')">
-            Select Interests <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
-        </button>
-        <div id="interestDropdown" class="profile-create-dropdown">
-            <% Interest.all.each do |interest| %>
-            <div class="profile-create-form-check">
-                <input type="checkbox" class="profile-create-form-check-input" id="interest_<%= interest.id %>" name="profile[interest_ids][]" value="<%= interest.id %>"
-                    <%= @profile.interests.include?(interest) ? 'checked' : '' %>>
-                <label class="profile-create-form-check-label" for="interest_<%= interest.id %>">
-                <%= interest.name %>
-                </label>
-            </div>
-            <% end %>
-        </div>
-        <!-- Move the error message outside the dropdown -->
-        <% if @profile.errors[:interests].any? %>
-            <div class="profile-create-error-message" style="margin-top: 5px;">
-            <%= @profile.errors[:interests].join(", ") %>
-            </div>
-        <% end %>
+          <%= f.label :interest_ids, "Select your interests (up to 5)" %>
+          <button type="button" class="profile-create-btn" onclick="toggleDropdown('interestDropdown')">
+              Select Interests <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
+          </button>
+          <div id="interestDropdown" class="profile-create-dropdown">
+              <% Interest.all.each do |interest| %>
+              <div class="profile-create-form-check">
+                  <input type="checkbox" class="profile-create-form-check-input" id="interest_<%= interest.id %>" name="profile[interest_ids][]" value="<%= interest.id %>"
+                      <%= @profile.interests.include?(interest) ? 'checked' : '' %>>
+                  <label class="profile-create-form-check-label" for="interest_<%= interest.id %>">
+                  <%= interest.name %>
+                  </label>
+              </div>
+              <% end %>
+          </div>
+          <% if @profile.errors[:interests].any? %>
+              <div class="profile-create-error-message" style="margin-top: 5px;">
+              <%= @profile.errors[:interests].join(", ") %>
+              </div>
+          <% end %>
         </div>
 
-        <!-- Relationship Section -->
         <div class="profile-create-form-group">
           <%= f.label :relationship_ids, "Select Your Preferred Relationship Type" %>
           <button type="button" class="profile-create-btn" onclick="toggleDropdown('relationshipDropdown')">
@@ -351,16 +388,43 @@
         </div>
       <% end %>
     </div>
+
+    <!-- Delete Profile Confirmation in a separate container -->
+    <div class="delete-profile-container">
+      <% if @profile.user == current_user %>
+        <%= form_with(url: profile_path(@profile), method: :delete, local: true, id: "profileDeletionForm") do %>
+          <div class="form-group">
+            <label for="username_confirmation">Type your username to permanently delete your account</label>
+            <%= text_field_tag :username_confirmation, nil, placeholder: "Enter your username", class: "form-control", required: true %>
+          </div>
+          <div class="delete-btn-container">
+            <%= submit_tag 'Delete Account', class: "btn btn-danger" %>
+          </div>
+        <% end %>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("profileDeletionForm");
+            form.addEventListener("submit", function(event) {
+              const usernameInput = event.target.querySelector("input[name='username_confirmation']");
+              const enteredUsername = usernameInput.value;
+              const currentUsername = "<%= current_user.profile.user_name %>";
+
+              if (enteredUsername !== currentUsername) {
+                alert("Username does not match. Please type your correct username to confirm.");
+                event.preventDefault();
+              }
+            });
+          });
+        </script>
+      <% end %>
+    </div>
   </div>
 
   <script>
     function toggleDropdown(dropdownId) {
       const dropdown = document.getElementById(dropdownId);
-      if (dropdown.style.display === "none" || dropdown.style.display === "") {
-        dropdown.style.display = "block";
-      } else {
-        dropdown.style.display = "none";
-      }
+      dropdown.style.display = dropdown.style.display === "none" || dropdown.style.display === "" ? "block" : "none";
     }
   </script>
 </body>

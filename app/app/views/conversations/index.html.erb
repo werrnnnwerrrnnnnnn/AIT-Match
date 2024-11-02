@@ -13,42 +13,70 @@
       background-color: #FFF0F4;
     }
 
-    .container {
-      padding: 20px;
-      max-width: 800px;
-      margin: 80px auto;
-      background-color: #fff;
-      border-radius: 15px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
+    .main-content {
+      padding: 40px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Profile header image styling with wiggle effect */
+    .profile-create-header {
+      display: block;
+      margin: 0 auto 20px;
+      width: 100%;
+      max-width: 400px;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .profile-create-header:hover {
+      animation: wiggle 0.9s infinite;
+    }
+
+    /* Keyframes for the wiggle effect */
+    @keyframes wiggle {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-1px, 1px) rotate(-2deg); }
+      20% { transform: translate(1px, -1px) rotate(2deg); }
+      30% { transform: translate(-1px, -1px) rotate(-2deg); }
+      40% { transform: translate(1px, 1px) rotate(2deg); }
+      50% { transform: translate(-1px, 1px) rotate(-2deg); }
+      60% { transform: translate(1px, -1px) rotate(2deg); }
+      70% { transform: translate(-1px, -1px) rotate(-2deg); }
+      80% { transform: translate(1px, 1px) rotate(2deg); }
+      90% { transform: translate(-1px, 1px) rotate(-2deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
     }
 
     h1 {
       text-align: center;
       color: #617952;
+      margin-bottom: 30px;
     }
 
     .conversation-list {
       list-style-type: none;
       padding: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
 
     .conversation-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px;
-      background-color: #F7DDE3;
-      margin-bottom: 10px;
+      background-color: #fff;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
       width: 100%;
-    }
-
-    .conversation-item:hover {
-      background-color: #F7DDE3;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
     }
 
     .conversation-item a {
@@ -57,7 +85,7 @@
       font-weight: bold;
       font-size: 15px;
       border: none;
-      padding: 5px 15px;
+      padding: 8px 15px;
       border-radius: 20px;
       cursor: pointer;
       text-decoration: none;
@@ -69,46 +97,80 @@
     .conversation-item a:hover {
       background-color: #FBCAD0;
       color: #617952;
-      transform: translateY(-5px);
+      transform: translateY(-3px);
       box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
 
-    .conversation-item .last-message {
-      color: #888;
-      font-size: 14px;
+    .conversation-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px; /* Adjust padding to reduce space */
+        margin: 0; /* Ensure no extra margin */
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .conversation-item:first-child {
+        margin-top: 30px; /* Adjust the value to your preference */
+    }
+
+    .last-message {
+        color: #888; /* Your desired text color */
+        font-size: 14px; /* Adjust font size if needed */
+        margin: 10px 0 0 0; /* Adds 10px top margin, adjust as necessary */
     }
 
     .no-conversations-card {
-      background-color: #F3F6F1;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      color: #617952;
-      font-size: 1.2em;
+      background-color: #F5F5F5;
+      color: #B2B2B2;
+      font-weight: bold;
+      font-size: 15px;
+      padding: 5px 15px;
+      border-radius: 20px;
+      cursor: default;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      margin: 20px auto;
+      text-align: center;
     }
 
     .no-conversations-message {
       margin: 0;
     }
 
+    .button-container {
+      display: flex;
+      gap: 10px; /* Adds space between the buttons */
+    }
+
     .delete-conversation-btn {
       background-color: #FF6347; /* A nice red color */
       color: white;
       border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
+      padding: 8px 15px;
+      border-radius: 20px;
       cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .delete-conversation-btn:hover {
       background-color: #FF4500; /* Darker red on hover */
+      transform: translateY(-3px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Messages Page</h1>
-
+  <div class="main-content">
+    <!-- Image at the top with wiggle effect -->
+    <%= image_tag 'conversation-heading.png', alt: 'Messages Heading', class: 'profile-create-header', style: 'width:100%; max-width:450px; display:block; margin:0 auto;' %>
     <% if @conversations.any? %>
       <ul class="conversation-list">
         <% @conversations.each do |conversation| %>
@@ -117,23 +179,23 @@
             <% other_user = conversation.sender == current_user.profile ? conversation.receiver : conversation.sender %>
 
             <div>
-              <strong><%= other_user.user_name %></strong>
+              <strong>@ <%= other_user.user_name %></strong>
               <p class="last-message">
                 <% last_message = conversation.messages.order(created_at: :desc).first %>
-                <%= last_message.present? ? last_message.body.truncate(50) : "No messages yet" %>
+                <%= last_message.present? ? last_message.body.truncate(50) : "No messages shown" %>
               </p>
             </div>
 
-            <div>
-              <%= link_to 'View', conversation_path(conversation) %>
-              <%= button_to 'Delete Conversation', conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure you want to delete this conversation?' }, class: 'delete-conversation-btn' %>
+            <div class="button-container">
+              <%= button_to 'Delete Chat', conversation_path(conversation), method: :delete, data: { confirm: 'Are you sure you want to delete this conversation?' }, class: 'delete-conversation-btn' %>
+              <%= link_to 'Chat', conversation_path(conversation), class: 'view-profile-btn' %>
             </div>
           </li>
         <% end %>
       </ul>
     <% else %>
       <div class="no-conversations-card">
-        <p class="no-conversations-message">You have no conversations yet.</p>
+        <p class="no-conversations-message">〰 No conversations yet.</p>
       </div>
     <% end %>
   </div>

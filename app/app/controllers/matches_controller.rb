@@ -80,6 +80,7 @@ class MatchesController < ApplicationController
 
     # Find all pending match requests where the user is the receiver
     @matches = Match.where(receiver_id: user_profile.id, status: 'pending')
+    @match_requests_count = @matches.count # Count pending requests
   end
 
   # Action to show matched profiles

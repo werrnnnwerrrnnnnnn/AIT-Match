@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
   helper_method :show_navbar?
+  before_action :set_match_requests_count
+
 
   def show_navbar?
     welcome_navbar_controllers = [
@@ -32,6 +34,11 @@ class ApplicationController < ActionController::Base
   
     Rails.logger.debug "No navbar to render"
     nil
+  end
+  
+  private
+  def set_match_requests_count
+    @match_requests_count = current_user.profile.received_matches.where(status: 'pending').count
   end
 
   protected

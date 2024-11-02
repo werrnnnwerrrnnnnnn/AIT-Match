@@ -13,14 +13,14 @@
         }
 
         .logo-img {
-            width: 35px; /* Smaller logo */
+            width: 35px;
             height: 35px;
-            object-fit: contain; /* Keeps the aspect ratio */
+            object-fit: contain;
         }
 
         nav {
             background-color: #617952;
-            padding: 5px 15px; /* Reduce padding */
+            padding: 5px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -29,13 +29,13 @@
             top: 0;
             z-index: 1000;
             box-sizing: border-box;
-            height: 50px; /* Reduce height */
+            height: 50px;
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 10px; /* Reduce gap */
+            gap: 10px;
         }
 
         ul {
@@ -54,13 +54,13 @@
             font-weight: bold;
             font-size: 15px;
             border: none;
-            padding: 5px 15px; /* Reduce padding inside buttons */
+            padding: 5px 15px;
             border-radius: 20px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
             transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         ul li a:hover, 
@@ -68,27 +68,24 @@
         .btn-logout:hover {
             background-color: #FBCAD0;
             color: #617952;
-            transform: translateY(-5px); /* Bounce effect */
-            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
         }
 
         .right-buttons {
             display: flex;
-            gap: 15px; /* Reduced gap */
+            gap: 15px;
             align-items: center;
             margin-left: auto;
             flex-shrink: 0;
         }
 
-        .notification {
-            position: relative;
-        }
-
         .notification-bell {
+            position: relative;
             font-size: 15px;
             cursor: pointer;
             background-color: #F7DDE3;
-            padding: 5px 15px; /* Reduce padding */
+            padding: 5px 15px;
             border-radius: 20px;
             color: black;
             border: none;
@@ -98,69 +95,30 @@
         }
 
         .notification-bell:hover {
-            transform: translateY(-5px); /* Bounce effect */
-            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
         }
 
         .notification-count {
             position: absolute;
-            top: 0;
-            right: -5px;
+            top: -5px;
+            right: -10px;
             background-color: red;
             color: white;
             font-size: 12px;
             padding: 3px 5px;
             border-radius: 50%;
-        }
-
-        .notification-dropdown {
-            display: none;
-            position: absolute;
-            top: 35px;
-            right: 0;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 15px;
-            width: 300px;
-            z-index: 100;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            padding: 10px 0;
-        }
-
-        .notification-dropdown p {
-            margin: 0;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #333;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.3s ease;
-        }
-
-        .notification-dropdown p:last-child {
-            border-bottom: none;
-        }
-
-        .notification-dropdown p:hover {
-            background-color: #f7f7f7;
-        }
-
-        /* Hover effect to show dropdown */
-        .notification:hover .notification-dropdown {
-            display: block;
-        }
-        .notification-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: red;
-            color: white;
-            font-size: 11px;
-            padding: 5px 8px;
-            border-radius: 50%;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         #page-title {
-            font-size: 16px; /* Slightly reduce font size */
+            font-size: 16px;
             color: white;
         }
 
@@ -180,54 +138,42 @@
 
     <nav>
         <div class="nav-left">
-    <%= image_tag 'logo-white.png', alt: 'AIT Match Logo', class: 'logo-img' %>
-    <ul>
-        <li><%= link_to 'Home', profiles_path %></li>
-        
-        <!-- Profile link logic -->
-        <li>
-            <% if current_user.profile && current_user.profile.id.present? %>
-                <%= link_to 'Profile', profile_path(current_user.profile) %>
-            <% else %>
-                <%= link_to 'Create Profile', new_profile_path %>
-            <% end %>
-        </li>  
-        
-        <!-- New button for 'Edit Preferences' -->
-        <li>
-            <% if current_user.preference.present? %>
-                <%= link_to 'Preferences', edit_preference_path(current_user.preference), class: 'btn btn-secondary' %>
-            <% else %>
-                <%= link_to 'Preferences', new_preference_path, class: 'btn btn-secondary' %>
-            <% end %>
-        </li>
-        
-        <!-- Other navigation links -->
-        <!-- Modify the Matches button to link to matched profiles -->
-        <li><%= link_to 'Matches', matches_matched_profiles_path %></li>
-        <li><%= link_to 'Messages', conversations_path %></li>
-        <li><%= link_to 'Events', welcome_path %></li>
-    </ul>
-</div>
+            <%= image_tag 'logo-white.png', alt: 'AIT Match Logo', class: 'logo-img' %>
+            <ul>
+                <li><%= link_to 'Home', profiles_path %></li>
+                <li>
+                    <% if current_user.profile && current_user.profile.id.present? %>
+                        <%= link_to 'Profile', profile_path(current_user.profile) %>
+                    <% else %>
+                        <%= link_to 'Create Profile', new_profile_path %>
+                    <% end %>
+                </li>
+                <li>
+                    <% if current_user.preference.present? %>
+                        <%= link_to 'Preferences', edit_preference_path(current_user.preference), class: 'btn btn-secondary' %>
+                    <% else %>
+                        <%= link_to 'Preferences', new_preference_path, class: 'btn btn-secondary' %>
+                    <% end %>
+                </li>
+                <li><%= link_to 'Matches', matches_matched_profiles_path %></li>
+                <li><%= link_to 'Messages', conversations_path %></li>
+                <li><%= link_to 'Events', welcome_path %></li>
+            </ul>
+        </div>
         <div class="right-buttons">
-            <!-- Modify the 👥 button to go to match requests -->
-            <%= link_to '👥', matches_requests_path, class: 'notification-bell' %>
-            <div class="notification">
-                <span class="notification-bell">🔔</span>
-                <span class="notification-count">3</span>
-                <div class="notification-dropdown">
-                    <p>John Doe liked your profile.</p>
-                    <p>Jane Smith sent you a message.</p>
-                    <p>Alice Johnson viewed your profile.</p>
-                </div>
-            </div>
+            <%= link_to matches_requests_path, class: 'notification-bell' do %>
+                👥
+                <% if @match_requests_count.positive? %>
+                    <span class="notification-count"><%= @match_requests_count %></span>
+                <% end %>
+            <% end %>
             <%= button_to 'Log out', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'btn-logout' %>
         </div>
     </nav>
 
-<footer>
-    <p>AIT Match © 2024</p>
-</footer>
+    <footer>
+        <p>AIT Match © 2024</p>
+    </footer>
 
 </body>
 </html>

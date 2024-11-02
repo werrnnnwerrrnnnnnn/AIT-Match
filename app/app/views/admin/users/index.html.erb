@@ -1,48 +1,50 @@
-<h1>Manage Users</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Role</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.profile&.user_name %></td> <!-- Display username if available -->
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
-        <td>
-          <!-- Link to view user profile -->
-          <%= link_to 'View Profile', profile_path(user.profile), class: 'btn' if user.profile.present? %>
-
-          <!-- Delete button with username confirmation, but only if the user is not the current admin -->
-          <% unless user == current_user %>
-            <%= button_to 'Delete', admin_user_path(user), method: :delete, class: 'btn btn-danger delete-button', id: "delete-user-#{user.id}", data: { username: user.profile&.user_name, user_id: user.id } %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<!-- User Management Container -->
+<div class="container">
+  <!-- User Management Table -->
+  <div class="user-management">
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>View Profile</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.profile&.user_name %></td> <!-- Display username if available -->
+            <td><%= user.email %></td>
+            <td><%= user.role %></td>
+            <td>
+              <% if user.profile.present? %>
+                <%= link_to 'View Profile', profile_path(user.profile), class: 'btn' %>
+              <% end %>
+            </td>
+            <td>
+              <% unless user == current_user %>
+                <%= button_to 'Delete', admin_user_path(user), method: :delete, class: 'btn btn-danger delete-button', id: "delete-user-#{user.id}", data: { username: user.profile&.user_name, user_id: user.id } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <script>
-  // Add event listeners to all delete buttons
   document.addEventListener("DOMContentLoaded", function() {
     const deleteButtons = document.querySelectorAll(".delete-button");
 
     deleteButtons.forEach(button => {
       button.addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent form submission until confirmed
+        event.preventDefault();
         const username = button.getAttribute("data-username");
-        const userId = button.getAttribute("data-user_id");
-
         const input = prompt("Type the username to confirm deletion:");
         if (input === username) {
-          // Proceed with deletion
           button.closest("form").submit();
         } else {
           alert("Username does not match. Deletion canceled.");
@@ -51,3 +53,116 @@
     });
   });
 </script>
+
+<!-- CSS Styling for User Management Table -->
+<style>
+  /* Main content styling to prevent overlap with navbar and footer */
+  .main-content {
+    padding-top: 100px; /* Adjust to add space below the navbar */
+    padding-bottom: 100px; /* Adjust to add space above the footer */
+    margin-top: 20px; /* Extra margin for spacing */
+    margin-bottom: 20px; /* Extra margin for spacing */
+  }
+
+  /* Optional additional styling to ensure responsiveness */
+  @media (max-width: 768px) {
+    .main-content {
+      padding-top: 80px; /* Slightly less space for smaller screens */
+      padding-bottom: 80px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+  
+  /* User Management Container Styling */
+  .container {
+    max-width: 1200px;
+    margin: 70px auto; /* Add top and bottom margin to prevent hiding by navbar and footer */
+    padding: 20px;
+    border-radius: 10px; /* Adjust this value for desired roundness */
+    background-color: transparent; /* Make container transparent */
+  }
+
+  /* User Management Table Styling */
+  .user-management {
+    width: 100%;
+    border-collapse: collapse; /* Ensures borders collapse */
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse; /* Collapses inner table borders */
+    border-radius: 10px; /* Adds rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensures rounded corners are visible */
+  }
+
+  /* Rounded corners for the table header and footer */
+  thead tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+  }
+
+  thead tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+  }
+
+  tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+
+  tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+  }
+
+  thead tr {
+    background-color: #617952;
+    color: white;
+    text-align: left;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd; /* Adds a border around each cell */
+  }
+
+  /* Center-align specific columns */
+  td:nth-child(3), td:nth-child(4), td:nth-child(5),
+  th:nth-child(3), th:nth-child(4), th:nth-child(5) {
+    text-align: center;
+  }
+
+  tr {
+    background-color: white; /* Ensures all rows are white */
+  }
+
+  .btn {
+    background-color: #F7DDE3;
+    color: #617952;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn:hover {
+    background-color: #FBCAD0;
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-danger {
+    background-color: #FF5252;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background-color: #ff3e3e;
+  }
+</style>

@@ -30,14 +30,23 @@ class MatchesController < ApplicationController
   def create
     # Find the receiver profile using the ID passed from the button
     @receiver = Profile.find(params[:profile_id])
-  
-    # Create a match request from the current user's profile
-    @match = current_user.profile.sent_matches.build(receiver: @receiver, status: 'pending')
-  
-    if @match.save
-      redirect_to profile_path(@receiver), notice: 'Match request sent.'
+
+    # Check if a declined match already exists between the sender and receiver
+    existing_match = current_user.profile.sent_matches.find_by(receiver: @receiver, status: 'declined')
+    
+    if existing_match
+      # Update the existing declined match back to pending
+      existing_match.update(status: 'pending')
+      redirect_to profile_path(@receiver), notice: 'Match request sent again.'
     else
-      redirect_to profile_path(@receiver), alert: 'Unable to send match request.'
+      # Otherwise, create a new match request
+      @match = current_user.profile.sent_matches.build(receiver: @receiver, status: 'pending')
+      
+      if @match.save
+        redirect_to profile_path(@receiver), notice: 'Match request sent.'
+      else
+        redirect_to profile_path(@receiver), alert: 'Unable to send match request.'
+      end
     end
   end
   

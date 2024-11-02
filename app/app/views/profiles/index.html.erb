@@ -63,11 +63,17 @@
                 </div>
               </div>
               <div class="profile-actions">
-                <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
-                  <%= button_to 'Match', profile_matches_path(profile_id: profile.id), method: :post, class: 'match-btn' %>
-                <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
+                <% existing_match = current_user.profile.sent_matches.find_by(receiver: profile) %>
+
+                <% if existing_match&.status == 'pending' %>
                   <div class="match-request-sent">Match request sent ✓</div>
+                <% elsif existing_match&.status == 'accepted' %>
+                  <div class="match-request-sent">You are matched ✓</div>
+                <% else %>
+                  <!-- Show "Match" button if no pending or accepted match exists -->
+                  <%= button_to 'Match', profile_matches_path(profile_id: profile.id), method: :post, class: 'match-btn' %>
                 <% end %>
+
                 <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %>
               </div>
             </div>

@@ -59,39 +59,47 @@
       list-style-type: none;
       padding: 0;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center align all items */
+      gap: 20px; /* Adds space between each card */
     }
 
     .profile-card {
       background-color: #fff;
       padding: 20px;
       border-radius: 10px;
-      margin: 30px auto 10px auto;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      width: 90%;
-      max-width: 600px;
+      width: 90%; /* Full width within the list */
+      max-width: 600px; /* Limit max width */
+      margin: 0 auto;
+    }
+
+    .matched-profiles-list li:first-child {
+      margin-top: 30px; /* Adds top margin only to the first card */
     }
 
     .profile-info {
       text-align: left;
-      margin-top: 0px;
     }
 
     .profile-username {
-        font-size: 1.1em;
-        color: #555;
-        margin: 0; /* Removes any default margin */
-        padding: 0; /* Removes any padding */
+      font-size: 1.1em;
+      color: #555;
+      margin: 0;
+      padding: 0;
     }
 
     .profile-email {
-      font-size: 1.1em;
-      color: #333;
-      margin: 0; /* Removes any default margin */
-        padding: 0; /* Removes any padding */
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 10px; /* Adjust the top margin as needed */
+    margin-bottom: 0;
+    padding: 0;
     }
 
     .view-profile-btn, .start-conversation-btn {
@@ -127,7 +135,7 @@
       color: #B2B2B2;
       font-weight: bold;
       font-size: 15px;
-      padding: 5px 15px;
+      padding: 8px 15px;
       border-radius: 20px;
       cursor: default;
       display: inline-block;
@@ -148,7 +156,7 @@
       <% @matched_profiles.each do |profile| %>
         <li class="profile-card">
           <div class="profile-info">
-            <p class="profile-username"><strong>@ <%= profile.user_name %></strong></p> <!-- Username added here -->
+            <p class="profile-username"><strong>@ <%= profile.user_name %></strong></p>
             <p class="profile-email"><%= profile.user.email %></p>
           </div>
 

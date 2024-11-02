@@ -1,8 +1,23 @@
 <!-- User Management Container -->
 <div class="container">
+  <!-- Search and Sort Controls -->
+<div class="container-box">
+  <!-- Search form with custom search bar and search button inside -->
+  <div class="custom-search-bar">
+    <input type="text" id="searchInput" placeholder="Search by Username" onkeyup="searchTable()" class="form-control" />
+    <button type="button" onclick="searchTable()">🔍</button>
+  </div>
+  
+  <!-- Sort Buttons Container with reduced gap -->
+  <div class="sort-buttons">
+    <button onclick="sortTable(true)" class="sort-btn">Sort A-Z</button>
+    <button onclick="sortTable(false)" class="sort-btn">Sort Z-A</button>
+  </div>
+</div>
+  
   <!-- User Management Table -->
   <div class="user-management">
-    <table>
+    <table id="userTable">
       <thead>
         <tr>
           <th>Username</th>
@@ -36,6 +51,35 @@
 </div>
 
 <script>
+  // JavaScript function to sort the table by username
+  function sortTable(ascending) {
+    const table = document.getElementById("userTable");
+    const rows = Array.from(table.rows).slice(1);
+    
+    rows.sort((a, b) => {
+      const usernameA = a.cells[0].textContent.toLowerCase();
+      const usernameB = b.cells[0].textContent.toLowerCase();
+      
+      if (usernameA < usernameB) return ascending ? -1 : 1;
+      if (usernameA > usernameB) return ascending ? 1 : -1;
+      return 0;
+    });
+    
+    rows.forEach(row => table.appendChild(row));
+  }
+
+  // JavaScript function to filter the table by username
+  function searchTable() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const table = document.getElementById("userTable");
+    const rows = table.getElementsByTagName("tr");
+    
+    for (let i = 1; i < rows.length; i++) {
+      const username = rows[i].cells[0].textContent.toLowerCase();
+      rows[i].style.display = username.includes(input) ? "" : "none";
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     const deleteButtons = document.querySelectorAll(".delete-button");
 
@@ -73,7 +117,7 @@
       margin-bottom: 10px;
     }
   }
-  
+
   /* User Management Container Styling */
   .container {
     max-width: 1200px;
@@ -83,21 +127,116 @@
     background-color: transparent; /* Make container transparent */
   }
 
+  /* Controls Styling */
+  .container-box {
+    border: 2px solid white;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    max-width: 605px;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Search Bar Styling */
+  .custom-search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #F5F5F5;
+    padding: 0px;
+    border-radius: 50px;
+    width: 60%;
+    height: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .custom-search-bar input[type="text"] {
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    padding: 6px 13px;
+    font-size: 14px;
+    border-radius: 50px;
+    outline: none;
+    padding-right: 30px;
+    color: #000;
+    margin: 10px 0px;
+  }
+
+  .custom-search-bar input[type="text"]::placeholder {
+    color: #bbb;
+    font-size: 14px;
+  }
+
+  .custom-search-bar button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #000;
+  }
+
+  .sort-buttons {
+    display: flex;
+    gap: 5px; /* Adjust gap here to reduce the space between Sort A-Z and Sort Z-A buttons */
+    }
+
+
+  /* Sort Button Styling */
+  .sort-btn {
+    background-color: #F5F5F5;
+    color: #617952;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-right: 5px;
+  }
+
+  .sort-btn:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+  }
+
   /* User Management Table Styling */
   .user-management {
     width: 100%;
     border-collapse: collapse; /* Ensures borders collapse */
-  }
+    margin-top: 30px; /* Adjust this value to add space above the table */
+    }
 
   table {
     width: 100%;
-    border-collapse: collapse; /* Collapses inner table borders */
-    border-radius: 10px; /* Adds rounded corners */
+    border-collapse: collapse;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Ensures rounded corners are visible */
+    overflow: hidden;
   }
 
-  /* Rounded corners for the table header and footer */
   thead tr:first-child th:first-child {
     border-top-left-radius: 10px;
   }
@@ -123,17 +262,16 @@
   th, td {
     padding: 12px;
     text-align: left;
-    border: 1px solid #ddd; /* Adds a border around each cell */
+    border: 1px solid #ddd;
   }
 
-  /* Center-align specific columns */
   td:nth-child(3), td:nth-child(4), td:nth-child(5),
   th:nth-child(3), th:nth-child(4), th:nth-child(5) {
     text-align: center;
   }
 
   tr {
-    background-color: white; /* Ensures all rows are white */
+    background-color: white;
   }
 
   .btn {

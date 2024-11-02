@@ -55,16 +55,18 @@
                   <% end %>
                 </div>
                 <div class="profile-details">
-                  <p><strong><%= profile.user_name %></strong></p>
-                  <p>Major: <%= profile.program.name %></p>
+                  <p><strong>@ <%= profile.user_name %></strong></p>
                   <p>Age: <%= profile.age %></p>
+                  <p>Gender: <%= profile.gender.label %></p> <!-- Display gender -->
+                  <p>Email: <%= profile.user.email %></p> <!-- Display email below username -->
+                  <p>Major: <%= profile.program.name %></p>
                 </div>
               </div>
               <div class="profile-actions">
                 <% if current_user.profile != profile && !current_user.profile.sent_matches.exists?(receiver: profile) %>
                   <%= button_to 'Match', profile_matches_path(profile_id: profile.id), method: :post, class: 'match-btn' %>
                 <% elsif current_user.profile.sent_matches.exists?(receiver: profile) %>
-                  <div class="match-request-sent">Match request sent ✓</div> <!-- Wrapped in a div with class -->
+                  <div class="match-request-sent">Match request sent ✓</div>
                 <% end %>
                 <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %>
               </div>
@@ -139,9 +141,9 @@
       <% end %>
 
     <% elsif @sorted_az %>
-      <h2>Showing all profiles by A-Z</h2>
+      <h2>Showing all profiles by A - Z</h2>
     <% elsif @sorted_za %>
-      <h2>Showing all profiles by Z-A</h2>
+      <h2>Showing all profiles by Z - A</h2>
     <% elsif @showing_random %>
       <h2>Showing all profiles by random</h2>
     <% else %>

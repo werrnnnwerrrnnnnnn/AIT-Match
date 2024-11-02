@@ -8,19 +8,43 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #FFF0F4; /* Light pink background */
+      background-color: #FFF0F4;
       margin: 0;
+      margin-top: 80px;
+      margin-bottom: 50px;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .container {
-      padding: 20px;
-      max-width: 800px;
-      margin: 80px auto;
-      background-color: #fff;
-      border-radius: 15px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
+    /* Profile header image styling with wiggle effect */
+    .profile-create-header {
+      display: block;
+      margin: 20px auto;
+      width: 100%;
+      max-width: 400px;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .profile-create-header:hover {
+      animation: wiggle 0.9s infinite;
+    }
+
+    /* Keyframes for the wiggle effect */
+    @keyframes wiggle {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-1px, 1px) rotate(-2deg); }
+      20% { transform: translate(1px, -1px) rotate(2deg); }
+      30% { transform: translate(-1px, -1px) rotate(-2deg); }
+      40% { transform: translate(1px, 1px) rotate(2deg); }
+      50% { transform: translate(-1px, 1px) rotate(-2deg); }
+      60% { transform: translate(1px, -1px) rotate(2deg); }
+      70% { transform: translate(-1px, -1px) rotate(-2deg); }
+      80% { transform: translate(1px, 1px) rotate(2deg); }
+      90% { transform: translate(-1px, 1px) rotate(-2deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
     }
 
     .messages-page-title {
@@ -34,105 +58,112 @@
     .matched-profiles-list {
       list-style-type: none;
       padding: 0;
+      width: 100%;
     }
 
     .profile-card {
-      background-color: #F7DDE3; /* Light pink card */
-      padding: 15px;
+      background-color: #fff;
+      padding: 20px;
       border-radius: 10px;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 30px auto 10px auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      width: 100%;
-    }
-
-    .profile-card:hover {
-      background-color: #F7DDE3;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 600px;
     }
 
     .profile-info {
       text-align: left;
+      margin-top: 0px;
+    }
+
+    .profile-username {
+        font-size: 1.1em;
+        color: #555;
+        margin: 0; /* Removes any default margin */
+        padding: 0; /* Removes any padding */
     }
 
     .profile-email {
       font-size: 1.1em;
       color: #333;
-      margin-bottom: 5px;
+      margin: 0; /* Removes any default margin */
+        padding: 0; /* Removes any padding */
     }
 
-    .view-profile-btn,
-    .start-conversation-btn {
+    .view-profile-btn, .start-conversation-btn {
       background-color: #F7DDE3;
       color: #617952;
       font-weight: bold;
       font-size: 15px;
       border: none;
-      padding: 5px 15px; /* Reduce padding inside buttons */
+      padding: 8px 15px;
       border-radius: 20px;
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
       transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add depth */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 
-    .view-profile-btn:hover,
-    .start-conversation-btn:hover {
+    .view-profile-btn:hover, .start-conversation-btn:hover {
       background-color: #FBCAD0;
       color: #617952;
-      transform: translateY(-5px); /* Bounce effect */
-      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+      transform: translateY(-3px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
 
     .button-container {
       display: flex;
-      gap: 10px; /* Space between buttons */
-      justify-content: flex-end; /* Align buttons to the right */
+      gap: 10px;
+      justify-content: flex-end;
     }
 
     .no-matches-card {
-      background-color: #F3F6F1;
-      padding: 1px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .no-matches-message {
-      font-size: 1.2em;
-      color: #617952;
+      background-color: #F5F5F5;
+      color: #B2B2B2;
+      font-weight: bold;
+      font-size: 15px;
+      padding: 5px 15px;
+      border-radius: 20px;
+      cursor: default;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      margin: 20px auto;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1 class="messages-page-title">Matched Profiles</h1>
+  <!-- Image at the top with wiggle effect -->
+  <%= image_tag 'matched-profiles-heading.png', alt: 'matched-profiles-heading.png', class: 'profile-create-header', style: 'width:100%; max-width:350px; display:block; margin:0 auto;' %>
 
-    <% if @matched_profiles.any? %>
-      <ul class="matched-profiles-list">
-        <% @matched_profiles.each do |profile| %>
-          <li class="profile-card">
-            <div class="profile-info">
-              <p class="profile-email"><strong><%= profile.user.email %></strong></p>
-            </div>
+  <% if @matched_profiles.any? %>
+    <ul class="matched-profiles-list">
+      <% @matched_profiles.each do |profile| %>
+        <li class="profile-card">
+          <div class="profile-info">
+            <p class="profile-username"><strong>@ <%= profile.user_name %></strong></p> <!-- Username added here -->
+            <p class="profile-email"><%= profile.user.email %></p>
+          </div>
 
-            <div class="button-container">
-              <%= link_to 'View Profile', profile_path(profile), class: 'btn view-profile-btn' %>
-              <%= button_to 'Chat', start_conversation_path(receiver_id: profile.id), method: :post, class: 'btn start-conversation-btn' %>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <div class="no-matches-card">
-        <p class="no-matches-message">You have no matches yet.</p>
-      </div>
-    <% end %>
-  </div>
+          <div class="button-container">
+            <%= link_to 'View Profile', profile_path(profile), class: 'view-profile-btn' %>
+            <%= button_to 'Chat', start_conversation_path(receiver_id: profile.id), method: :post, class: 'start-conversation-btn' %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="no-matches-card">
+      <p class="no-matches-message">You have no matches yet.</p>
+    </div>
+  <% end %>
 
 </body>
 </html>

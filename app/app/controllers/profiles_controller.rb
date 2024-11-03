@@ -132,13 +132,18 @@ class ProfilesController < ApplicationController
   private
 
   def set_profile
-    # Admins should be able to access any profile by ID, while regular users can access only their own profile
-    if current_user.admin?
-      @profile = Profile.find_by(id: params[:id])
-      redirect_to admin_users_path, alert: "Profile not found." if @profile.nil?
-    else
-      @profile = Profile.find(params[:id])
-      redirect_to profile_path(current_user.profile) unless @profile.user == current_user
+    @profile = Profile.find_by(id: params[:id])
+  
+    if @profile.nil?
+      # Redirect admins to the admin page if the profile is not found
+      if current_user.admin?
+        redirect_to admin_users_path, alert: "Profile not found."
+      else
+        redirect_to profiles_path, alert: "Profile not found."
+      end
+    elsif !current_user.admin? && action_name.in?(%w[edit update destroy]) && @profile.user != current_user
+      # Only redirect if a regular user tries to access restricted actions (edit, update, destroy) on another user's profile
+      redirect_to profile_path(current_user.profile), alert: "You are not authorized to perform this action."
     end
   end
 

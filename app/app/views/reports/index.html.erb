@@ -1,0 +1,265 @@
+<div class="container">
+  <div class="container-box">
+    <!-- Search form with custom search bar and search button inside -->
+    <div class="custom-search-bar">
+      <input type="text" id="searchInput" placeholder="Search by Username" onkeyup="searchTable()" class="form-control" />
+      <button type="button" onclick="searchTable()">🔍</button>
+    </div>
+    
+    <!-- Sort Buttons Container with reduced gap -->
+    <div class="sort-buttons">
+      <button onclick="sortByDate(false)" class="sort-btn">Newest</button>
+      <button onclick="sortByDate(true)" class="sort-btn">Oldest</button>
+    </div>
+  </div>
+
+  <!-- User Management Table for Reports -->
+  <div class="user-management">
+    <table id="reportTable">
+      <thead>
+        <tr>
+          <th>Reported User</th>
+          <th>Status</th>
+          <th>Submitted On</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reports.each do |report| %>
+          <tr>
+            <td><%= link_to report.reported_profile.user_name, profile_path(report.reported_profile) %></td>
+            <td><%= report.status %></td>
+            <td><%= report.created_at.in_time_zone('Bangkok').strftime('%d %b %Y, %I:%M %p') %></td>
+            <td><%= link_to 'View Details', report_path(report), class: 'btn' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // JavaScript function to sort the table by date
+  function sortByDate(ascending) {
+    const table = document.getElementById("reportTable");
+    const rows = Array.from(table.rows).slice(1);
+
+    rows.sort((a, b) => {
+      const dateA = new Date(a.cells[2].textContent);
+      const dateB = new Date(b.cells[2].textContent);
+
+      return ascending ? dateA - dateB : dateB - dateA;
+    });
+
+    rows.forEach(row => table.appendChild(row));
+  }
+
+  // JavaScript function to filter the table by both reporter and reported username
+  function searchTable() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const table = document.getElementById("reportTable");
+    const rows = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) {
+      const reportedUser = rows[i].cells[0].textContent.toLowerCase();
+      rows[i].style.display = reportedUser.includes(input) ? "" : "none";
+    }
+  }
+</script>
+
+<!-- CSS Styling for Report Table -->
+<style>
+  /* Main content styling to prevent overlap with navbar and footer */
+  .main-content {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Optional additional styling to ensure responsiveness */
+  @media (max-width: 768px) {
+    .main-content {
+      padding-top: 80px;
+      padding-bottom: 80px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* Report Container Styling */
+  .container {
+    max-width: 1200px;
+    margin: 70px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: transparent;
+  }
+
+  /* Controls Styling */
+  .container-box {
+    border: 2px solid white;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    max-width: 605px;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Search Bar Styling */
+  .custom-search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #F5F5F5;
+    padding: 0px;
+    border-radius: 50px;
+    width: 60%;
+    height: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .custom-search-bar input[type="text"] {
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    padding: 6px 13px;
+    font-size: 14px;
+    border-radius: 50px;
+    outline: none;
+    padding-right: 30px;
+    color: #000;
+    margin: 10px 0px;
+  }
+
+  .custom-search-bar input[type="text"]::placeholder {
+    color: #bbb;
+    font-size: 14px;
+  }
+
+  .custom-search-bar button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #000;
+  }
+
+  /* Sort Buttons */
+  .sort-buttons {
+    display: flex;
+    gap: 5px;
+  }
+
+  .sort-btn {
+    background-color: #F5F5F5;
+    color: #617952;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-right: 5px;
+  }
+
+  .sort-btn:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Report Table Styling */
+  .user-management {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  thead tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+  }
+
+  thead tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+  }
+
+  tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+
+  tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+  }
+
+  thead tr {
+    background-color: #617952;
+    color: white;
+    text-align: left;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+
+  td:nth-child(3), td:nth-child(4), td:nth-child(5),
+  th:nth-child(3), th:nth-child(4), th:nth-child(5) {
+    text-align: center;
+  }
+
+  tr {
+    background-color: white;
+  }
+
+  .btn {
+    background-color: #F7DDE3;
+    color: #617952;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn:hover {
+    background-color: #FBCAD0;
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+  }
+</style>

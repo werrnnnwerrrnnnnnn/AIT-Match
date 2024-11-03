@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     end
     
     # Controllers that should display the default navbar for all actions
-    navbar_controllers = ['profiles', 'preferences', 'matches', 'conversations', 'messages']
+    navbar_controllers = ['profiles', 'preferences', 'matches', 'conversations', 'messages', 'reports']
     
     if navbar_controllers.include?(controller_name)
       Rails.logger.debug "Rendering default navbar"

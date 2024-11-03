@@ -2,6 +2,15 @@ class ReportsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_profile_completion
 
+  def index
+    # Retrieve reports where the current user is the reporter
+    @reports = current_user.profile.reports_as_reporter
+  end
+
+  def show
+    @report = current_user.profile.reports_as_reporter.find(params[:id])
+  end
+
   def new
     @report = Report.new
     @reported_profile = Profile.find(params[:reported_profile_id])

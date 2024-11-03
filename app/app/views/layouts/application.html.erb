@@ -3,7 +3,7 @@
   <head>
     <title><%= content_for(:title) || "Students" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="mobile-web-app-capable" content="yes"> <!-- Updated tag -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="csrf-param" content="authenticity_token" />
     <meta name="csrf-token" content="<%= form_authenticity_token %>" />
     <link rel="manifest" href="/manifest.json">
@@ -14,9 +14,34 @@
     <%= javascript_importmap_tags %>
     <script type="module" src="/assets/application.js"></script>
     <style>
-      .flash {
-        margin-top: 100px;
-      }
+      /* Notification styling */
+      /* Notification styling */
+    .flash {
+      position: fixed;
+      top: 80px; /* Adjust this value to be just below your navbar */
+      right: 20px;
+      z-index: 1000;
+      padding: 15px 20px;
+      border-radius: 50px;
+      color: #fff;
+      font-weight: bold;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flash.notice {
+      background-color: #4CAF50; /* Green for success */
+    }
+
+    .flash.alert {
+      background-color: #FF5252; /* Red for error */
+    }
+
+    .flash.hidden {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
     </style>
   </head>
   <body>
@@ -28,12 +53,31 @@
     <% when :navbar_admin %>
       <%= render 'layouts/navbar_admin' %>
     <% end %>
-    
+
     <% flash.each do |key, value| %>
       <div class="flash <%= key %>">
         <%= value %>
       </div>
     <% end %>
+
     <%= yield %>
+
+    <script>
+      // Function to hide notifications after a few seconds
+      document.addEventListener("DOMContentLoaded", () => {
+        const flashes = document.querySelectorAll('.flash');
+        flashes.forEach(flash => {
+          // Hide flash message after 5 seconds
+          setTimeout(() => {
+            flash.classList.add('hidden');
+          }, 5000); // 5000ms = 5 seconds
+
+          // Allow user to manually close by clicking
+          flash.addEventListener('click', () => {
+            flash.classList.add('hidden');
+          });
+        });
+      });
+    </script>
   </body>
 </html>

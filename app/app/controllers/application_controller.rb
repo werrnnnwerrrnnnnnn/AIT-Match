@@ -1,44 +1,55 @@
+# app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
   helper_method :show_navbar?
-  before_action :set_match_requests_count
 
+  before_action :set_match_requests_count, unless: -> { request.path.start_with?('/admin') }
 
   def show_navbar?
+    # Check if the current user is an admin to render the admin navbar
+    if current_user&.admin? || controller_path.start_with?('admin/')
+      Rails.logger.debug "Rendering admin navbar"
+      return :navbar_admin
+    end
+  
     welcome_navbar_controllers = [
       'sessions', 'registrations', 'passwords', 
       'confirmations', 'unlocks', 'about_page', 
       'contact_page'
     ]
-  
+    
     # Controllers that should display the welcome navbar
     if welcome_navbar_controllers.include?(controller_name)
       Rails.logger.debug "Rendering welcome navbar"
       return :navbar_welcome_page
     end
-  
+    
     # Check if the controller is Admin::UsersController to render the admin navbar
     if controller_path == 'admin/users'
       Rails.logger.debug "Rendering admin navbar"
       return :navbar_admin
     end
-  
+    
     # Controllers that should display the default navbar for all actions
     navbar_controllers = ['profiles', 'preferences', 'matches', 'conversations', 'messages']
-  
+    
     if navbar_controllers.include?(controller_name)
       Rails.logger.debug "Rendering default navbar"
       return :navbar
     end
-  
+    
     Rails.logger.debug "No navbar to render"
     nil
   end
   
   private
   def set_match_requests_count
-    @match_requests_count = current_user.profile.received_matches.where(status: 'pending').count
+    if current_user&.profile
+      @match_requests_count = current_user.profile.received_matches.where(status: 'pending').count
+    else
+      @match_requests_count = 0
+    end
   end
 
   protected

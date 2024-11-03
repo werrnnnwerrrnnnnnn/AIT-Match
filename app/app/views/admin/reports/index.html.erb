@@ -1,0 +1,20 @@
+<h1>Reported Users</h1>
+
+<table>
+  <tr>
+    <th>Reporter</th>
+    <th>Reported User</th>
+    <th>Reason</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  <% @reports.each do |report| %>
+    <tr>
+      <td><%= report.reporter_profile.user_name %></td>
+      <td><%= link_to report.reported_profile.user_name, admin_report_path(report) %></td>
+      <td><%= report.reason %></td>
+      <td><%= report.status %></td>
+      <td><%= link_to 'View', admin_report_path(report) %></td>
+    </tr>
+  <% end %>
+</table>

@@ -22,7 +22,6 @@
       margin-left: auto;
       margin-right: auto;
       gap: 20px;
-      /* Remove any background color that makes it look like it’s showing between cards */
     }
 
     .profile-card, .academic-info, .preferences-container {
@@ -79,7 +78,8 @@
       color: white;
       border: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     .profile-card .btn:hover {
@@ -130,9 +130,51 @@
       color: #666;
     }
 
+    /* Back button styling with bounce animation */
     .btn-back {
       background-color: #4a5c41;
+      color: #fff;
+      font-weight: bold;
+      font-size: 15px;
+      border-radius: 50px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
       margin-top: 20px;
+    }
+
+    .btn-back:hover {
+      background-color: #3b4a32;
+      color: #fff;
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Report button styling with the exact bounce animation */
+    .report-btn {
+      background-color: #d9534f;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+      border-radius: 50px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .report-btn:hover {
+      background-color: #c9302c;
+      color: white;
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
 
     /* Ensure consistent backgrounds */
@@ -192,11 +234,14 @@
         </tr>
       </table>
 
-      <!-- Buttons for Back and Edit -->
+      <!-- Buttons for Back, Report, and Edit -->
       <div>
-        <%= link_to 'Back', profiles_path, class: "btn btn-back" %>
+        <%= link_to 'Back', current_user.admin? ? admin_users_path : profiles_path, class: "btn btn-back" %>
+        <% if !current_user.admin? %>
+            <%= link_to 'Report', new_report_path(reported_profile_id: @profile.id), class: 'report-btn' %>
+        <% end %>
         <% if @profile.user == current_user %>
-          <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn btn" %>
+            <%= link_to 'Edit Profile', edit_profile_path(@profile), class: "btn" %>
         <% end %>
       </div>
     </div>

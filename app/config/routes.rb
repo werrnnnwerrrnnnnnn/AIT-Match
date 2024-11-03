@@ -8,9 +8,12 @@ Rails.application.routes.draw do
   get "conversations/create"
   devise_for :users#, controllers: { sessions: 'users/sessions' }
 
+  resources :reports, only: [:new, :create]
+
   # Admin namespace for user management
   namespace :admin do
     resources :users, only: [:index, :edit, :update, :destroy]
+    resources :reports, only: [:index, :show, :update]
   end
 
   # resources :profiles

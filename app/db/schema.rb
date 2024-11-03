@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_24_032146) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_03_044954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -221,6 +221,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_032146) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reports", force: :cascade do |t|
+    t.bigint "reporter_profile_id", null: false
+    t.bigint "reported_profile_id", null: false
+    t.string "reason", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reported_profile_id"], name: "index_reports_on_reported_profile_id"
+    t.index ["reporter_profile_id"], name: "index_reports_on_reporter_profile_id"
+  end
+
   create_table "schools", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
@@ -330,6 +341,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_032146) do
   add_foreign_key "profiles", "programs"
   add_foreign_key "profiles", "schools"
   add_foreign_key "profiles", "users"
+  add_foreign_key "reports", "profiles", column: "reported_profile_id"
+  add_foreign_key "reports", "profiles", column: "reporter_profile_id"
   add_foreign_key "users_preferred_degrees", "preferences"
   add_foreign_key "users_preferred_degrees", "preferred_degrees"
   add_foreign_key "users_preferred_genders", "preferences"

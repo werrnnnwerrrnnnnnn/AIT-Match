@@ -174,14 +174,8 @@
                 <!-- Updated Dashboard link for admin -->
                 <li><%= link_to 'Dashboard', admin_users_path %></li>
                 
-                <!-- Admin profile link logic (display if needed for specific pages) -->
-                <li>
-                    <% if current_user.profile && current_user.profile.id.present? %>
-                        <%= link_to 'adminbtn2', profile_path(current_user.profile) %>
-                    <% else %>
-                        <%= link_to 'adminbtn3', new_profile_path %>
-                    <% end %>
-                </li>  
+                <!-- Button linking to report index for admin -->
+                <li><%= link_to 'Reports', admin_reports_path %></li>
                 
                 <!-- Edit Preferences link -->
                 <li>

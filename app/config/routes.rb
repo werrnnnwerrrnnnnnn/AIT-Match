@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # Admin namespace for user management
   namespace :admin do
     resources :users, only: [:index, :edit, :update, :destroy]
-    resources :reports, only: [:index, :show, :update]
+    resources :reports, only: [:index, :show, :update, :destroy]
   end
 
   # resources :profiles

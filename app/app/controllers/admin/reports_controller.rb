@@ -11,6 +11,12 @@ module Admin
       @report = Report.find(params[:id])
     end
 
+    def destroy
+      @report = Report.find(params[:id])
+      @report.destroy
+      redirect_to admin_reports_path, notice: 'Report was successfully deleted.'
+    end
+
     def update
       @report = Report.find(params[:id])
       if @report.update(report_params)

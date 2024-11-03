@@ -13,15 +13,19 @@ module Admin
 
     def update
       @report = Report.find(params[:id])
-      if @report.update(status: params[:status])
+      if @report.update(report_params)
         redirect_to admin_reports_path, notice: "Report status updated."
       else
-        render :show
+        render :show, alert: "Failed to update report status."
       end
     end
 
     #-----------------------------Private------------------------------------#
     private
+
+    def report_params
+      params.require(:report).permit(:status)
+    end
 
     def require_admin
       redirect_to root_path, alert: "Access Denied" unless current_user.admin?

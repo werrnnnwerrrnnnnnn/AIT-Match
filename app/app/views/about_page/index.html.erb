@@ -14,6 +14,8 @@
 
     .content-container {
       margin: 0;
+      margin-top: 80px;
+      margin-bottom: 80px;
       padding: 0;
     }
 
@@ -25,34 +27,80 @@
     }
 
     .image-section img {
-      width: 100%;
+      width: 90%;
       height: auto;
       margin: 0;
       padding: 0;
+      opacity: 0;
+      animation: fadeDown 1.5s ease forwards;
+      animation-delay: 0.5s;
     }
 
+    @keyframes fadeDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Change Background Color of Content Section */
     .content-section {
-    padding: 0 200px; /* Add padding to left and right */
-    margin-top: -220px; /* Negative margin to move it closer to the image */
-    text-align: left; /* Align text to the left */
-    position: relative; /* Position relative to allow z-index */
-    z-index: 1; /* Bring this section to the front */
+      padding: 20px 200px;
+      margin-top: 0px;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+      background-color: none; /* Light gray background color */
+      border-radius: 10px; /* Optional: rounded corners */
     }
 
+    /* Ribbon Animation */
+    .ribbon-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      position: relative;
+      z-index: 0;
+    }
 
-    .content-section p {
+    .ribbon {
+      position: relative;
+      padding: 10px 30px;
+      background-color: #DF9EB2;
+      color: white;
+      font-size: 2em;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+      clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+    }
+
+    /* Change Background Color of Text Container */
+    .text-container {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: white; /* Soft pink background color */
+      border-radius: 8px; /* Optional: rounded corners */
+    }
+
+    .text-container p {
       font-size: 1.2em;
       line-height: 1.8;
       margin: 0;
-    }
-
-    h1 {
-      text-align: center; /* Center the heading */
+      position: relative;
+      z-index: 2;
     }
 
     .read-more {
-      display: none; /* Initially hidden */
+      display: none;
       margin-top: 10px;
+      position: relative;
+      z-index: 2;
+      
     }
 
     .btn-get-started {
@@ -65,19 +113,21 @@
       border: 2px solid #617952;
       font-weight: bold;
       border-radius: 50px;
-      width: 150px; /* Increased width */
+      width: 150px;
       text-align: center;
       transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Depth */
-      margin: 20px auto; /* Center the button and add top/bottom margin */
-      display: block; /* Set to block for margin auto to work */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      margin: 20px auto;
+      display: block;
+      position: relative;
+      z-index: 2;
     }
 
     .btn-get-started:hover {
       transform: translateY(-5px);
       background-color: #FDEDF1;
       color: #617952;
-      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase depth on hover */
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
     }
   </style>
   <script>
@@ -86,10 +136,10 @@
       const readMoreButton = document.getElementById('read-more-button');
       if (readMoreContent.style.display === 'none') {
         readMoreContent.style.display = 'block';
-        readMoreButton.innerText = 'Read Less'; // Change button text when content is visible
+        readMoreButton.innerText = 'Read Less';
       } else {
         readMoreContent.style.display = 'none';
-        readMoreButton.innerText = 'Read More'; // Change button text when content is hidden
+        readMoreButton.innerText = 'Read More';
       }
     }
   </script>
@@ -99,34 +149,41 @@
 <div class="content-container">
   <!-- Image Section -->
   <div class="image-section">
-    <img src="<%= asset_path('about-test.png') %>" alt="Story Image">
+    <img src="<%= asset_path('about-page.png') %>" alt="Story Image">
   </div>
 
   <!-- Content Section -->
   <div class="content-section">
-    <h1>About Us</h1>
-    <p>
-      AIT Match is a unique platform designed exclusively for the students of the Asian Institute of Technology (AIT). 
-      With AIT's diverse and graduate-focused community, connecting with peers who share similar academic interests and backgrounds 
-      can be challenging. AIT Match aims to bridge this gap by fostering meaningful connections within the AIT student body, 
-      enhancing both social and academic engagement.
-    </p>
-    <button id="read-more-button" class="btn-get-started" onclick="toggleReadMore()">Read More</button>
-    
-    <div id="read-more-content" class="read-more">
+    <!-- Animated Ribbon Title -->
+    <div class="ribbon-container">
+      <div class="ribbon">About Us</div>
+    </div>
+
+    <!-- Text Container -->
+    <div class="text-container">
       <p>
-        Our platform offers a customized matching system that allows students to connect based on their academic programs, schools, 
-        majors, interests, and upcoming campus events. Whether you're looking to form study groups, collaborate on academic projects, 
-        or build lasting friendships, AIT Match helps you find like-minded peers. Additionally, for those interested in romantic connections, 
-        AIT Match provides a trusted environment to explore relationships within the AIT community, ensuring a balanced mix of social, academic, 
-        and romantic interactions.
-      </p><br>
-      <p>
-        AIT Match is specifically made for the needs of university students, combining social networking, academic collaboration, 
-        and romantic possibilities in one space. It is the ideal platform for AIT students seeking a community that supports both their personal 
-        and academic journeys. Our goal is to create an inclusive and vibrant community where students can connect, collaborate, and grow—both 
-        academically and personally.
+        AIT Match is a unique platform designed exclusively for the students of the Asian Institute of Technology (AIT). 
+        With AIT's diverse and graduate-focused community, connecting with peers who share similar academic interests and backgrounds 
+        can be challenging. AIT Match aims to bridge this gap by fostering meaningful connections within the AIT student body, 
+        enhancing both social and academic engagement.
       </p>
+      <button id="read-more-button" class="btn-get-started" onclick="toggleReadMore()">Read More</button>
+      
+      <div id="read-more-content" class="read-more">
+        <p>
+          Our platform offers a customized matching system that allows students to connect based on their academic programs, schools, 
+          majors, interests, and upcoming campus events. Whether you're looking to form study groups, collaborate on academic projects, 
+          or build lasting friendships, AIT Match helps you find like-minded peers. Additionally, for those interested in romantic connections, 
+          AIT Match provides a trusted environment to explore relationships within the AIT community, ensuring a balanced mix of social, academic, 
+          and romantic interactions.
+        </p><br>
+        <p>
+          AIT Match is specifically made for the needs of university students, combining social networking, academic collaboration, 
+          and romantic possibilities in one space. It is the ideal platform for AIT students seeking a community that supports both their personal 
+          and academic journeys. Our goal is to create an inclusive and vibrant community where students can connect, collaborate, and grow—both 
+          academically and personally.
+        </p>
+      </div>
     </div>
   </div>
 </div>

@@ -116,13 +116,13 @@
         }
 
         .right-section {
-            width: 40%;
-            background-color: #FDEDF1;
-            border-radius: 20px;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          width: 60%; /* Increase width from 40% to 50% */
+          background-color: #FDEDF1;
+          border-radius: 20px;
+          height: 500px; /* Increase height from 300px to 400px */
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
         .logo img {
@@ -239,7 +239,8 @@
 
         <!-- Right Section Placeholder -->
         <div class="right-section">
-            <!-- You can add an image or other content here -->
+              <img src="<%= asset_path('welcome-page.gif') %>" alt="Welcome GIF" style="width: 80%; height: auto; border-radius: 20px;">
+
         </div>
     </div>
 

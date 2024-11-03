@@ -237,7 +237,7 @@
       <!-- Buttons for Back, Report, and Edit -->
       <div>
         <%= link_to 'Back', current_user.admin? ? admin_users_path : profiles_path, class: "btn btn-back" %>
-        <% if !current_user.admin? %>
+        <% if @profile.user != current_user && !current_user.admin? %>
             <%= link_to 'Report', new_report_path(reported_profile_id: @profile.id), class: 'report-btn' %>
         <% end %>
         <% if @profile.user == current_user %>

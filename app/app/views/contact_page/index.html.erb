@@ -1,2 +1,137 @@
-<h1>ContactPage#index</h1>
-<p>Find me in app/views/contact_page/index.html.erb</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | AIT Match</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #FFF0F4;
+    }
+
+    .content-container {
+      margin: 0;
+      margin-top: 90px;
+      padding: 0;
+      text-align: center;
+    }
+
+    .image-section {
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .image-section img {
+      width: 90%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      animation: fadeDown 1.5s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes fadeDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .contact-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .contact-item {
+      background-color: #F5F5F5;
+      color: #5C5C5C;
+      font-weight: bold;
+      font-size: 15px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: 0px solid #617952;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-item:hover {
+      background-color: #FBCAD0;
+      color: #617952;
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Map Container Styling */
+    .mapouter {
+      width: 650px;
+      height: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #F7F7F7;
+      border-radius: 15px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+    }
+
+    .gmap_canvas {
+      overflow: hidden;
+      background: none !important;
+      width: 100%;
+      height: 100%;
+    }
+
+    .gmap_iframe {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="content-container">
+  <!-- Image Section -->
+  <div class="image-section">
+    <img src="<%= asset_path('contact.png') %>" alt="Contact Image">
+  </div>
+
+  <!-- Contact Section -->
+  <div class="contact-section">
+    <a href="mailto:st124875@ait.asia" class="contact-item">
+      📧  st124875@ait.asia
+    </a>
+    <a href="https://github.com/werrnnnwerrrnnnnnn/AIT-Match" target="_blank" class="contact-item">
+      👻  github.com/werrnnnwerrrnnnnnn
+    </a>
+  </div>
+
+  <!-- Map Container -->
+  <div class="mapouter">
+    <div class="gmap_canvas">
+        <iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+                src="https://maps.google.com/maps?width=650&amp;height=400&amp;hl=en&amp;q=Asian Institute of Technology, Thailand&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+        </iframe>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 @startuml
-hide members
+
 hide circle
 
 '----------------------User Table-----------------------------'
@@ -168,7 +168,7 @@ entity "Users_PreferredSchools" {
     * preferred_school_id : bigint (FK to PreferredSchools)
 }
 
-Users ||-down-|| Preferences
+Users ||--|| Preferences
 
 Preferences ||--o{ Users_PreferredGenders
 Users_PreferredGenders }o--|| PreferredGenders
@@ -199,8 +199,8 @@ entity Matches {
     * status : string  
 }
 
-Profiles ||--o{ Matches : "requestor_id"
-Profiles ||--o{ Matches : "receiver_id"
+Profiles ||-up-o{ Matches : "requestor_id"
+Profiles ||-up-o{ Matches : "receiver_id"
 
 '-----------------------Chat Table-----------------------------'
 entity "Conversations" {
@@ -217,19 +217,19 @@ entity "Messages" {
   * body : text
 }
 
-Profiles ||--o{ Conversations : "sender_id"
-Profiles ||--o{ Conversations : "receiver_id"
-Conversations ||--o{ Messages : "conversation_id"
-Profiles ||--o{ Messages : "profile_id"
+Profiles ||-up-o{ Conversations : "sender_id"
+Profiles ||-up-o{ Conversations : "receiver_id"
+Conversations ||-up-o{ Messages : "conversation_id"
+Profiles ||-up-o{ Messages : "profile_id"
 
 '-----------------------Report Table---------------------------'
-entity Reports {
-    * report_id (PK)
-    * reported_user_id (FK to Users)
-    * reporter_user_id (FK to Users)
-    * reason
-    * report_status
-    * timestamp
+entity "Reports" {
+    * id : bigint (PK)
+    * reporter_profile_id : bigint (FK to Profiles)
+    * reported_profile_id : bigint (FK to Profiles) 
+    * reason : string
+    * status : string
 }
-Users ||-right-o{ Reports
+Profiles ||-up-o{ Reports : "reporter_profile_id"
+Profiles ||-up-o{ Reports : "reported_profile_id"
 @enduml

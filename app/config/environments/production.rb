@@ -115,5 +115,5 @@ Rails.application.configure do
     password: ENV["GMAIL_APP_PASSWORD"]
   }
 
-  config.action_mailer.default_url_options = { host: "192.41.170.125", port: 3333 }
+  config.action_mailer.default_url_options = { host: "192.41.170.201", port: 3333 }
 end

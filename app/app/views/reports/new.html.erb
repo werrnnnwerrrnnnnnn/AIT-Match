@@ -1,6 +1,6 @@
-<h1>Report <%= @reported_profile.user_name %></h1>
+<h1>Report <%= @reported_user.user_name %></h1>
 
-<%= form_with model: @report, url: reports_path(reported_profile_id: @reported_profile.id), local: true do |f| %>
+<%= form_with model: @report, url: reports_path(reported_user_id: @reported_user.id), local: true do |f| %>
   <div class="field">
     <%= f.label :reason, "Reason for reporting" %><br>
     <%= f.text_area :reason, placeholder: "Describe why you're reporting this user" %>

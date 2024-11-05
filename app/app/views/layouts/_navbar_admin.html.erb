@@ -144,10 +144,6 @@
             background-color: #f7f7f7;
         }
 
-        .notification:hover .notification-dropdown {
-            display: block;
-        }
-
         #page-title {
             font-size: 16px;
             color: white;
@@ -176,35 +172,10 @@
                 
                 <!-- Button linking to report index for admin -->
                 <li><%= link_to 'Reports', admin_reports_path %></li>
-                
-                <!-- Edit Preferences link -->
-                <li>
-                    <% if current_user.preference.present? %>
-                        <%= link_to 'adminbtn3', edit_preference_path(current_user.preference), class: 'btn btn-secondary' %>
-                    <% else %>
-                        <%= link_to 'adminbtn3', new_preference_path, class: 'btn btn-secondary' %>
-                    <% end %>
-                </li>
-                
-                <!-- Other navigation links -->
-                <li><%= link_to 'adminbtn4', matches_matched_profiles_path %></li>
-                <li><%= link_to 'adminbtn5', conversations_path %></li>
-                <li><%= link_to 'adminbtn6', welcome_path %></li>
             </ul>
         </div>
         
         <div class="right-buttons">
-            <!-- Notifications and Logout -->
-            <%= link_to '👥', matches_requests_path, class: 'notification-bell' %>
-            <div class="notification">
-                <span class="notification-bell">🔔</span>
-                <span class="notification-count">3</span>
-                <div class="notification-dropdown">
-                    <p>John Doe liked your profile.</p>
-                    <p>Jane Smith sent you a message.</p>
-                    <p>Alice Johnson viewed your profile.</p>
-                </div>
-            </div>
             <%= button_to 'Log out', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'btn-logout' %>
         </div>
     </nav>

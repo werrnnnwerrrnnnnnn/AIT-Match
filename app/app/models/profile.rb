@@ -51,6 +51,9 @@ class Profile < ApplicationRecord
   has_many :matched_profiles, -> { where(matches: { status: 'accepted' }) }, through: :sent_matches, source: :receiver
   has_many :reports_as_reporter, class_name: 'Report', foreign_key: 'reporter_profile_id', dependent: :destroy
   has_many :reports_as_reported, class_name: 'Report', foreign_key: 'reported_profile_id', dependent: :destroy
+
+  has_many :sent_conversations, class_name: 'Conversation', foreign_key: 'sender_id', dependent: :destroy
+  has_many :received_conversations, class_name: 'Conversation', foreign_key: 'receiver_id', dependent: :destroy
   
   def age
     return "Birthday not provided" unless birthday.present?

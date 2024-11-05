@@ -28,9 +28,29 @@ module Admin
       if @user == current_user
         redirect_to admin_users_path, alert: "You cannot delete your own account."
       else
-        @user.destroy
-        redirect_to admin_users_path, notice: "User profile deleted successfully."
+        ActiveRecord::Base.transaction do
+          profile = @user.profile
+    
+          if profile
+            Rails.logger.info "Deleting all conversations related to profile ID: #{profile.id}"
+    
+            # Delete conversations where the profile is either the sender or receiver
+            profile.sent_conversations.destroy_all
+            profile.received_conversations.destroy_all
+    
+            Rails.logger.info "Deleting profile ID: #{profile.id}"
+            profile.destroy!
+          end
+    
+          Rails.logger.info "Deleting user ID: #{@user.id}"
+          @user.destroy!
+        end
+    
+        redirect_to admin_users_path, notice: "User and associated data have been deleted successfully."
       end
+    rescue ActiveRecord::InvalidForeignKey => e
+      Rails.logger.error "Foreign key constraint violation: #{e.message}"
+      redirect_to admin_users_path, alert: "Could not delete user due to foreign key constraints."
     end
 
     private

@@ -216,7 +216,7 @@
     <p class="email-text">Your Email: <%= current_user.email %></p>
 
     <div class="profile-create-card">
-      <%= form_with(model: @profile, local: true) do |f| %>
+      <%= form_with(model: @profile, local: true, html: { multipart: true }) do |f| %>
         <% if @profile.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
@@ -328,13 +328,13 @@
         </div>
 
         <div class="profile-create-form-group">
-          <%= f.label :profile_picture_url %>
-          <%= f.text_field :profile_picture_url %>
-          <% if @profile.errors[:profile_picture_url].any? %>
-            <div class="profile-create-error-message">
-              <%= @profile.errors[:profile_picture_url].join(", ") %>
-            </div>
-          <% end %>
+            <%= f.label :profile_picture, "Upload Profile Picture" %>
+            <%= f.file_field :profile_picture %>
+            <% if @profile.errors[:profile_picture].any? %>
+                <div class="profile-create-error-message">
+                <%= @profile.errors[:profile_picture].join(", ") %>
+                </div>
+            <% end %>
         </div>
 
         <div class="profile-create-form-group">

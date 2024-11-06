@@ -190,12 +190,11 @@
   <div class="profile-container">
     <!-- Left Side: Profile Information -->
     <div class="profile-card">
-      <!-- Display Profile Picture -->
-      <% if @profile.profile_picture_url.present? %>
-        <img src="<%= @profile.profile_picture_url %>" alt="Profile Picture" class="profile-picture" width="100" height="100">
-      <% else %>
-        <p>No profile picture provided.</p>
-      <% end %>
+        <% if @profile.profile_picture.attached? %>
+            <%= image_tag @profile.profile_picture, alt: 'Profile Picture', class: 'profile-picture', size: '120x120' %>
+        <% else %>
+            <%= image_tag 'default-profile-picture.png', alt: 'Default Profile Picture', class: 'profile-picture', size: '120x120' %>
+        <% end %>
 
       <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
 

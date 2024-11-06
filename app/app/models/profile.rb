@@ -9,7 +9,7 @@ class Profile < ApplicationRecord
   validates :school_id, presence: { message: "must be selected." }
   validates :program_id, presence: { message: "must be selected." }
   validates :educational_background, presence: { message: "cannot be blank." }
-  validates :profile_picture_url, presence: { message: "cannot be blank." }
+  # validates :profile_picture_url, presence: { message: "cannot be blank." }
   validates :birthday, presence: { message: "must be provided" }
   validate :single_profile_per_user   
   validate :interest_count_within_limit   
@@ -20,6 +20,8 @@ class Profile < ApplicationRecord
   belongs_to :degree, optional: true
   belongs_to :school, optional: true
   belongs_to :program, optional: true
+
+  has_one_attached :profile_picture
 
   # Direct associations with dependent destroy
   has_many :profile_interests, dependent: :destroy

@@ -157,8 +157,8 @@ class ProfilesController < ApplicationController
     params.require(:profile).permit(:first_name, :last_name, :user_name, 
                                     :mbti_id, :gender_id, :degree_id, 
                                     :school_id, :program_id, :educational_background, 
-                                    :profile_picture_url,
-                                    :birthday, interest_ids: [], relationship_ids: [])
+                                    :birthday, :profile_picture, 
+                                    interest_ids: [], relationship_ids: [])
   end
 
   def check_profile_completion

@@ -15,7 +15,6 @@
 
 ## Database Server
 - Start database server : `cd db` `docker compose up -d`
-- Local database server : http://localhost:8333
     - pgAdmin account
         - email : admin@admin.<area>com
         - password : password
@@ -23,6 +22,7 @@
         - name : match_development
         - username : admin
         - password : password
+- Local database server : http://localhost:8333
 - Production database server : http://192.41.170.201:8333/
 
 ## Rails Application Server

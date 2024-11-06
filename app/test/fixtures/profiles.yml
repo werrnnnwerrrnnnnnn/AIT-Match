@@ -12,7 +12,6 @@ one:
   school: one
   program: one
   educational_background: MyText
-  profile_picture_url: MyText
 
 two:
   user: two
@@ -26,4 +25,3 @@ two:
   school: two
   program: two
   educational_background: MyText
-  profile_picture_url: MyText

@@ -22,7 +22,7 @@ end
 [
   { value: "master", label: "Master's Degree" },
   { value: "doctoral", label: "Doctoral Degree" },
-  { value: "Open to all", label: "Open to all degrees" }
+  # { value: "Open to all", label: "Open to all degrees" }
 ].each do |degree|
   PreferredDegree.find_or_create_by!(value: degree[:value]) do |d|
     d.label = degree[:label]
@@ -44,7 +44,7 @@ end
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
   { value: "non-binary", label: "Non-binary" },
-  { value: "open-to-all", label: "Open to all genders" }
+  # { value: "open-to-all", label: "Open to all genders" }
 ].each do |preferred_gender|
   PreferredGender.find_or_create_by!(value: preferred_gender[:value]) do |pg|
     pg.label = preferred_gender[:label]
@@ -66,7 +66,7 @@ end
   { name: "School of Engineering and Technology", abbreviation: "SET" },
   { name: "School of Environment, Resources and Development", abbreviation: "SERD" },
   { name: "School of Management", abbreviation: "SOM" },
-  { name: "open-to-all", abbreviation: "Open to all schools" },
+  # { name: "open-to-all", abbreviation: "Open to all schools" },
 ].each do |school|
   PreferredSchool.find_or_create_by!(name: school[:name]) do |s|
     s.abbreviation = school[:abbreviation]
@@ -184,7 +184,7 @@ end
   { name: "Urban Innovation and Sustainability", abbreviation: "UIS" },
   { name: "Water Engineering and Management", abbreviation: "WEM" },
   { name: "Yunus Professional Master's in Social Business and Entrepreneurship", abbreviation: "YPM-SBE" },
-  { name: "open-to-all", abbreviation: "Open to all programs" }
+  # { name: "open-to-all", abbreviation: "Open to all programs" }
 ].each do |program|
   PreferredProgram.find_or_create_by!(name: program[:name]) do |p|
     p.abbreviation = program[:abbreviation]
@@ -209,7 +209,7 @@ end
   { name: "Serious Relationship", description: "Long-term Relationship" },
   { name: "Making Friends", description: "Friendship" },
   { name: "Study Buddy", description: "Study Partners" },
-  { name: "Open to all", description: "Open to all relationships" }
+  # { name: "Open to all", description: "Open to all relationships" }
 ].each do |relationship|
   PreferredRelationship.find_or_create_by!(name: relationship[:name]) do |r|
     r.description = relationship[:description]
@@ -285,7 +285,7 @@ end
   { name: "Tattoo Art" },
   { name: "Traveling" },
   { name: "Writing" },
-  { name: "Open to all" }
+  # { name: "Open to all" }
 ].each do |interest|
   PreferredInterest.find_or_create_by!(name: interest[:name])
 end
@@ -332,7 +332,7 @@ end
   { value: "ISFP", label: "Adventurer" },
   { value: "ESTP", label: "Entrepreneur" },
   { value: "ESFP", label: "Entertainer" },
-  { value: "open-to-all", label: "Open to All" }
+  # { value: "open-to-all", label: "Open to All" }
 ].each do |preferred_mbti|
   PreferredMbti.find_or_create_by!(value: preferred_mbti[:value]) do |pm|
     pm.label = preferred_mbti[:label]

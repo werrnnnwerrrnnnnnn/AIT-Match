@@ -42,16 +42,28 @@ class MatchesController < ApplicationController
   def create
     # Find the receiver profile using the ID passed from the button
     @receiver = Profile.find(params[:profile_id])
-
-    # Check if a declined match already exists between the sender and receiver
-    existing_match = current_user.profile.sent_matches.find_by(receiver: @receiver, status: 'declined')
-    
+  
+    # Check if a match already exists between the current user and the receiver in either direction
+    existing_match = Match.find_by(
+      "(requestor_id = :requestor_id AND receiver_id = :receiver_id) OR 
+       (requestor_id = :receiver_id AND receiver_id = :requestor_id)",
+      requestor_id: current_user.profile.id, receiver_id: @receiver.id
+    )
+  
     if existing_match
-      # Update the existing declined match back to pending
-      existing_match.update(status: 'pending')
-      redirect_to profile_path(@receiver), notice: 'Match request sent again.'
+      if existing_match.status == 'declined'
+        # Update the existing declined match back to pending
+        existing_match.update(status: 'pending')
+        redirect_to profile_path(@receiver), notice: 'Match request sent again.'
+      elsif existing_match.status == 'accepted'
+        # Prevent creating a duplicate match if already matched
+        redirect_to profile_path(@receiver), alert: 'You are already matched with this user.'
+      else
+        # If a pending match already exists, do not create a new one
+        redirect_to profile_path(@receiver), alert: 'You already have a pending match request with this user.'
+      end
     else
-      # Otherwise, create a new match request
+      # Create a new match request if no match exists in either direction
       @match = current_user.profile.sent_matches.build(receiver: @receiver, status: 'pending')
       
       if @match.save

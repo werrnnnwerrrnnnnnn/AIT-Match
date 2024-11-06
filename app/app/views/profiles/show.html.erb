@@ -254,7 +254,11 @@
         <p><strong>School:</strong> <%= @profile.program.combined_name_abbreviation %></p>
         <p><strong>Program:</strong> <%= @profile.school.combined_name_abbreviation %></p>
         <p><strong>Educational Background:</strong></p>
-        <p><%= @profile.educational_background %></p>
+            <% if @profile.educational_background.present? %>
+                <p><%= @profile.educational_background %></p>
+            <% else %>
+                <p class="no-data">〰 No background provided.</p>
+            <% end %>
       </div>
 
       <!-- Preferences and Interests Container -->

@@ -8,7 +8,7 @@ class Profile < ApplicationRecord
   validates :degree_id, presence: { message: "must be selected." }
   validates :school_id, presence: { message: "must be selected." }
   validates :program_id, presence: { message: "must be selected." }
-  validates :educational_background, presence: { message: "cannot be blank." }
+  # validates :educational_background, presence: { message: "cannot be blank." }
   validates :birthday, presence: { message: "must be provided" }
   validate :single_profile_per_user   
   validate :interest_count_within_limit   

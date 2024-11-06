@@ -24,6 +24,10 @@ class Preference < ApplicationRecord
   #---------------------------Private---------------------------#
   private
   def age_range_validations
+    if preferred_min_age.present? && preferred_min_age < 20
+      errors.add(:preferred_min_age, "must be at least 20")
+    end
+    
     if preferred_min_age.present? && preferred_min_age < 0
       errors.add(:preferred_min_age, "can't be negative")
     end

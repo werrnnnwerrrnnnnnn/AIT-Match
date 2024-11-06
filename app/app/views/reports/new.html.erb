@@ -1,11 +1,133 @@
-<h1>Report <%= @reported_profile&.user_name || "Profile Not Found" %></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Profile | AIT Match</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #FDEDF1;
+      margin: 0;
+      padding: 0;
+    }
 
-<%= form_with(model: @report, url: reports_path(reported_user_id: @reported_profile.id), local: true) do |f| %>
-  <div class="field">
-    <%= f.label :reason, "Reason for reporting" %><br>
-    <%= f.text_area :reason, placeholder: "Describe why you're reporting this profile" %>
+    .report-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+      background-color: #FDEDF1;
+      margin-top: 40px;
+      margin-bottom: 100px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 20px;
+    }
+
+    .report-card {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+    }
+
+    .report-header {
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      margin: 0 auto;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .report-header:hover {
+      animation: wiggle 0.9s infinite;
+    }
+
+    @keyframes wiggle {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        10% { transform: translate(-1px, 1px) rotate(-2deg); }
+        20% { transform: translate(1px, -1px) rotate(2deg); }
+        30% { transform: translate(-1px, -1px) rotate(-2deg); }
+        40% { transform: translate(1px, 1px) rotate(2deg); }
+        50% { transform: translate(-1px, 1px) rotate(-2deg); }
+        60% { transform: translate(1px, -1px) rotate(2deg); }
+        70% { transform: translate(-1px, -1px) rotate(-2deg); }
+        80% { transform: translate(1px, 1px) rotate(2deg); }
+        90% { transform: translate(-1px, 1px) rotate(-2deg); }
+        100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    .report-form-group {
+      margin-bottom: 15px;
+    }
+
+    .report-form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .report-submit-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .report-btn {
+      background-color: #F7DDE3;
+      color: #617952;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .report-btn:hover {
+      background-color: #617952;
+      color: #F7DDE3;
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-container">
+<%= image_tag 'report-heading.png', alt: 'Report a Profile', class: 'report-header', style: 'width:100%; max-width:350px; display:block; margin:0 auto;' %>
+
+    <div class="report-card">
+      <h1>‼️ Report <%= @reported_profile&.user_name || "Profile Not Found" %> ‼️</h1>
+      
+      <%= form_with(model: @report, url: reports_path(reported_profile_id: @reported_profile.id), local: true) do |f| %>
+        <div class="report-form-group">
+          <%= f.label :reason, "Reason for reporting" %><br>
+          <%= f.text_area :reason, placeholder: "Describe why you're reporting this profile", class: "form-control" %>
+        </div>
+        
+        <div class="report-submit-container">
+          <%= f.submit "Submit Report", class: "report-btn" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit "Submit Report" %>
-  </div>
-<% end %>
+
+</body>
+</html>

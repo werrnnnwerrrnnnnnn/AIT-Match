@@ -13,7 +13,11 @@ class ReportsController < ApplicationController
 
   def new
     @report = Report.new
-    @reported_profile = Profile.find(params[:reported_profile_id])
+    @reported_profile = Profile.find_by(id: params[:reported_profile_id])
+    
+    if @reported_profile.nil?
+      redirect_to profiles_path, alert: "Profile not found"
+    end
   end
 
   def create

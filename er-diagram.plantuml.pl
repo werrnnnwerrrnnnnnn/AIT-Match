@@ -25,9 +25,31 @@ entity "Profiles" {
     * school_id : bigint (FK to Schools)
     * program_id : bigint (FK to Programs)
     * educational_background : text
-    * profile_picture_url : text
     * birthday : date
 }
+
+entity "active_storage_blobs" {
+    * id : bigint (PK)
+    * key : string
+    * filename : string
+    * content_type : string
+    * metadata : jsonb
+    * byte_size : bigint
+    * checksum : string
+    * created_at : timestamp
+}
+
+entity "active_storage_attachments" {
+    * id : bigint (PK)
+    * name : string
+    * record_type : string
+    * record_id : bigint (FK to Profiles)
+    * blob_id : bigint (FK to active_storage_blobs)
+    * created_at : timestamp
+}
+
+Profiles ||--o{ active_storage_attachments : "profile_picture"
+active_storage_blobs ||--o{ active_storage_attachments : "blob"
 
 '----------------Preset Tables for Profiles Details------------'
 entity "Genders" {

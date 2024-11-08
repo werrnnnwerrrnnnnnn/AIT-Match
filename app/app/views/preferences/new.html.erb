@@ -263,7 +263,7 @@
             Select Relationships <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
           </button>
           <div id="relationshipDropdown" class="dropdown">
-            <%= form.collection_check_boxes :preferred_relationship_ids, @preferred_relationships, :id, :name do |b| %>
+              <%= form.collection_check_boxes :preferred_relationship_ids, @preferred_relationships, :id, :description do |b| %>
               <div class="profile-create-form-check">
                 <%= b.check_box %>
                 <%= b.label %>
@@ -274,15 +274,17 @@
 
         <!-- Preferred MBTI (Dropdown with checkboxes) -->
         <div class="profile-create-form-group">
-          <%= form.label :preferred_mbti, "Preferred MBTI" %>
+          <%= form.label :preferred_mbti_ids, "Preferred MBTI" %>
           <button type="button" class="profile-create-btn" onclick="toggleDropdown('mbtiDropdown')">
             Select MBTI <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
           </button>
           <div id="mbtiDropdown" class="dropdown">
-            <%= form.collection_check_boxes :preferred_mbti_ids, @preferred_mbti, :id, :label do |b| %>
+              <%= form.collection_check_boxes :preferred_mbti_ids, @preferred_mbti, :id, :value do |b| %>
               <div class="profile-create-form-check">
                 <%= b.check_box %>
-                <%= b.label %>
+                  <%= b.label do %>
+                  <%= b.object.label.present? ? "#{b.object.value} (#{b.object.label})" : b.object.value %>
+                <% end %>
               </div>
             <% end %>
           </div>
@@ -306,15 +308,17 @@
 
         <!-- Preferred Schools (Dropdown with checkboxes) -->
         <div class="profile-create-form-group">
-          <%= form.label :preferred_schools, "Preferred Schools" %>
+          <%= form.label :preferred_school_ids, "Preferred Schools" %>
           <button type="button" class="profile-create-btn" onclick="toggleDropdown('schoolDropdown')">
             Select Schools <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
           </button>
           <div id="schoolDropdown" class="dropdown">
-            <%= form.collection_check_boxes :preferred_school_ids, @preferred_schools, :id, :name do |b| %>
+              <%= form.collection_check_boxes :preferred_school_ids, PreferredSchool.all, :id, :name do |b| %>
               <div class="profile-create-form-check">
                 <%= b.check_box %>
-                <%= b.label %>
+                  <%= b.label do %>
+                    <%= b.object.abbreviation.present? ? "#{b.object.name} (#{b.object.abbreviation})" : b.object.name %>
+                  <% end %>
               </div>
             <% end %>
           </div>
@@ -322,15 +326,17 @@
 
         <!-- Preferred Programs (Dropdown with checkboxes) -->
         <div class="profile-create-form-group">
-          <%= form.label :preferred_programs, "Preferred Programs" %>
+          <%= form.label :preferred_program_ids, "Preferred Programs" %>
           <button type="button" class="profile-create-btn" onclick="toggleDropdown('programDropdown')">
             Select Programs <span style="font-size: 0.8em; margin-left: 5px;">▼</span>
           </button>
           <div id="programDropdown" class="dropdown">
-            <%= form.collection_check_boxes :preferred_program_ids, @preferred_programs, :id, :name do |b| %>
+              <%= form.collection_check_boxes :preferred_program_ids, PreferredProgram.all, :id, :name do |b| %>
               <div class="profile-create-form-check">
                 <%= b.check_box %>
-                <%= b.label %>
+                  <%= b.label do %>
+                    <%= b.object.abbreviation.present? ? "#{b.object.name} (#{b.object.abbreviation})" : b.object.name %>
+                  <% end %>
               </div>
             <% end %>
           </div>

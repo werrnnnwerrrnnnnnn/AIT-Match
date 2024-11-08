@@ -170,7 +170,7 @@ class ProfilesController < ApplicationController
     # Calculate age range from birthday
     if preference.preferred_min_age.present? && preference.preferred_max_age.present?
       today = Date.today
-      min_birthdate = today.years_ago(preference.preferred_max_age)
+      min_birthdate = today.years_ago(preference.preferred_max_age + 1) + 1.day
       max_birthdate = today.years_ago(preference.preferred_min_age)
   
       @filtered_profiles = @filtered_profiles.where("birthday >= ? AND birthday <= ?", min_birthdate, max_birthdate)

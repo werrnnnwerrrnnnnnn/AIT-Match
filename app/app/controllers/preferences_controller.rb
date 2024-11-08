@@ -57,49 +57,6 @@ class PreferencesController < ApplicationController
     )
   end
 
-  def apply_filters(preference)
-    # Start with filtered profiles
-    @filtered_profiles = @filtered_profiles.select('profiles.*').distinct
-
-    # Filter by age range
-    if preference.preferred_min_age.present? && preference.preferred_max_age.present?
-      today = Date.today
-      min_birthdate = today.years_ago(preference.preferred_max_age)
-      max_birthdate = today.years_ago(preference.preferred_min_age)
-      @filtered_profiles = @filtered_profiles.where("birthday >= ? AND birthday <= ?", min_birthdate, max_birthdate)
-    end
-
-    # Filter by gender preferences
-    if preference.preferred_genders.any?
-      @filtered_profiles = @filtered_profiles.joins(:gender).where(genders: { id: preference.preferred_gender_ids })
-    end
-
-    # Filter by interest preferences
-    if preference.preferred_interests.any?
-      @filtered_profiles = @filtered_profiles.joins(:interests).where(interests: { id: preference.preferred_interest_ids })
-    end
-
-    # Filter by relationship preferences
-    if preference.preferred_relationships.any?
-      @filtered_profiles = @filtered_profiles.joins(:relationships).where(relationships: { id: preference.preferred_relationship_ids })
-    end
-
-    # Filter by MBTI preferences
-    if preference.preferred_mbti.any?
-      @filtered_profiles = @filtered_profiles.joins(:mbti).where(mbtis: { id: preference.preferred_mbti_ids })
-    end
-
-    # Filter by school preferences
-    if preference.preferred_schools.any?
-      @filtered_profiles = @filtered_profiles.joins(:school).where(schools: { id: preference.preferred_school_ids })
-    end
-
-    # Filter by program preferences
-    if preference.preferred_programs.any?
-      @filtered_profiles = @filtered_profiles.joins(:program).where(programs: { id: preference.preferred_program_ids })
-    end
-  end
-
   #-----------------------------Private------------------------------------#
   private
   def check_profile_completion

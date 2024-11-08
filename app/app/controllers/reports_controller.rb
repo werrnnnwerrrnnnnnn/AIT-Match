@@ -9,6 +9,8 @@ class ReportsController < ApplicationController
 
   def show
     @report = current_user.profile.reports_as_reporter.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to reports_path, alert: "Report not found."
   end
 
   def new

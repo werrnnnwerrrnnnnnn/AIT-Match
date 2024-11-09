@@ -9,11 +9,24 @@
       color: #333; /* Text color */
     }
 
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 20vh; /* Adjust the height to center the title vertically */
+    }
+
     .chat-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 5rem 1rem 1rem; /* Add top margin to create space above the title */
-      text-align: center; /* Center the title */
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 5rem 0rem 0rem;
+        text-align: center;
+        padding: 10px 20px; /* Add padding for better spacing inside the border */
+        border: 0px solid #ccc; /* Border color and width */
+        border-radius: 50px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        display: inline-block; /* Ensures the title adjusts to its content width */
+        background-color: #ffffff; /* Optional: White background for contrast */
     }
 
     .messages-container {
@@ -81,7 +94,9 @@
   </style>
 </head>
 <body>
-  <h1 class="chat-title">Conversation with <%= @conversation.sender == current_user.profile ? @conversation.receiver.user_name : @conversation.sender.user_name %></h1>
+  <div class="title-container">
+    <h1 class="chat-title">Chat with <%= @conversation.sender == current_user.profile ? @conversation.receiver.user_name : @conversation.sender.user_name %></h1>
+  </div>
 
   <!-- Hidden div to store conversation ID -->
   <div id="conversation-id" data-conversation-id="<%= @conversation.id %>"></div>

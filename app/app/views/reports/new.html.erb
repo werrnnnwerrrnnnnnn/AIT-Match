@@ -17,29 +17,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 50px;
+      padding: 30px;
       background-color: #FDEDF1;
-      margin-top: 40px;
-      margin-bottom: 100px;
-      max-width: 800px;
+      margin-bottom: 60px;
+      margin-top: 60px;
+      max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      gap: 20px;
+      gap: 15px;
     }
 
     .report-card {
       background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
+      padding: 35px;
+      border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       width: 100%;
     }
 
     .report-header {
-      width: 100%;
-      max-width: 400px;
+      width: 80%;
+      max-width: 300px;
       display: block;
-      margin: 0 auto;
+      margin-top: 70px; /* Increased top margin */
+      margin-bottom: 20px;
       position: relative;
       cursor: pointer;
       transition: transform 0.2s ease-in-out;
@@ -64,57 +65,59 @@
     }
 
     .report-form-group {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .report-form-group label {
       display: block;
       font-weight: bold;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       color: #333;
+      font-size: 0.9rem;
     }
 
     .form-control {
       width: 100%;
-      padding: 10px;
+      padding: 8px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .report-submit-container {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 15px;
     }
 
     .report-btn {
       background-color: #F7DDE3;
       color: #617952;
-      padding: 10px 20px;
+      padding: 8px 16px;
       border: none;
-      border-radius: 20px;
+      border-radius: 18px;
       cursor: pointer;
       text-align: center;
       display: inline-block;
       transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+      font-size: 0.9rem;
     }
 
     .report-btn:hover {
       background-color: #617952;
       color: #F7DDE3;
-      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
-      transform: translateY(-5px);
+      box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
     }
   </style>
 </head>
 <body>
 
 <div class="report-container">
-<%= image_tag 'report-heading.png', alt: 'Report a Profile', class: 'report-header', style: 'width:100%; max-width:350px; display:block; margin:0 auto;' %>
+  <%= image_tag 'report-heading.png', alt: 'Report a Profile', class: 'report-header', style: 'width:100%; max-width:250px; display:block; margin:0 auto;' %>
 
     <div class="report-card">
-      <h1>‼️ Report <%= @reported_profile&.user_name || "Profile Not Found" %> ‼️</h1>
+      <h1 style="font-size: 1.2rem;">‼️ Report <%= @reported_profile&.user_name || "Profile Not Found" %> ‼️</h1>
       
       <%= form_with(model: @report, url: reports_path(reported_profile_id: @reported_profile.id), local: true) do |f| %>
         <div class="report-form-group">

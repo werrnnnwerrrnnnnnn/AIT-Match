@@ -48,8 +48,15 @@ entity "active_storage_attachments" {
     * created_at : timestamp
 }
 
+entity "active_storage_variant_records" {
+    * id : bigint (PK)
+    * blob_id : bigint (FK to active_storage_blobs)
+    * variation_digest : string
+}
+
 Profiles ||--o{ active_storage_attachments : "profile_picture"
 active_storage_blobs ||--o{ active_storage_attachments : "blob"
+active_storage_blobs ||--o{ active_storage_variant_records : "variants"
 
 '----------------Preset Tables for Profiles Details------------'
 entity "Genders" {

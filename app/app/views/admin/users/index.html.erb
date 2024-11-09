@@ -80,22 +80,53 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
+// Ensure deleteListenersApplied is declared only once
+if (typeof deleteListenersApplied === 'undefined') {
+  var deleteListenersApplied = false;
+}
+
+function applyDeleteConfirmation() {
+  // Check if listeners have been applied to prevent duplicate listeners
+  if (!deleteListenersApplied) {
     const deleteButtons = document.querySelectorAll(".delete-button");
 
     deleteButtons.forEach(button => {
-      button.addEventListener("click", function(event) {
-        event.preventDefault();
-        const username = button.getAttribute("data-username");
-        const input = prompt("Type the username to confirm deletion:");
-        if (input === username) {
-          button.closest("form").submit();
-        } else {
-          alert("Username does not match. Deletion canceled.");
-        }
-      });
+      // Remove any existing click listener to prevent duplication
+      button.removeEventListener("click", handleDeleteClick);
+
+      // Attach the click listener
+      button.addEventListener("click", handleDeleteClick);
     });
-  });
+
+    deleteListenersApplied = true; // Set flag to prevent re-adding listeners
+  }
+}
+
+function handleDeleteClick(event) {
+  event.preventDefault();
+  const button = event.currentTarget;
+  const username = button.getAttribute("data-username");
+
+  // Prompt for confirmation
+  const input = prompt("Type the username to confirm deletion:");
+
+  // Check if input is valid
+  if (input === username && input !== null && input.trim() !== "") {
+    deleteListenersApplied = false; // Reset flag before submitting
+    button.closest("form").submit();
+  } else if (input !== null) {
+    alert("Username does not match or input is empty. Deletion canceled.");
+  }
+}
+
+// Apply listeners on initial page load
+document.addEventListener("DOMContentLoaded", applyDeleteConfirmation);
+
+// Ensure listeners are reapplied after navigation without refreshing
+window.addEventListener("pageshow", () => {
+  deleteListenersApplied = false; // Reset flag on page re-show to reapply listeners
+  applyDeleteConfirmation();
+});
 </script>
 
 <!-- CSS Styling for User Management Table -->

@@ -212,7 +212,7 @@
           <%= f.label :birthday, "Birthday" %>
           <%= f.date_select :birthday, 
                 start_year: Date.today.year - 100, 
-                end_year: Date.today.year, 
+                end_year: Date.today.year - 20, 
                 prompt: { day: 'Day', month: 'Month', year: 'Year' },
                 order: [:day, :month, :year] %>
           <% if @profile.errors[:birthday].any? %>

@@ -9,9 +9,6 @@
 
 ## Pre-requisites 
 - Docker, Ruby, Rails, Postgresql
-- Build docker images : `docker-compose build`
-- Create docker container : `docker-compose up` `docker-compose up -d`
-- Stop and remove docker container : `docker-compose down`
 
 ## Database Server
 - Start database server : `cd db` `docker compose up -d`
@@ -31,7 +28,13 @@
 - Production rails server : http://192.41.170.201:3333/
 
 ## Docker Container
-- Access container to use rails command : `docker exec -it match_web bash`
-- Exit container : `exit`
-
-
+- Basic Docker Commands
+    - Build docker images : `docker-compose build`
+    - Create docker container : `docker-compose up` `docker-compose up -d`
+    - Stop and remove docker container : `docker-compose down`
+    - Access container to use rails command : `docker exec -it match_web bash`
+    - Exit container : `exit`
+- Docker Container in Production
+    - Remove Container: `sudo docker rm <container_ID>` 
+    - Remove Images: `sudo docker rmi <image_ID>`
+    - Create docker container : `sudo docker compose up`

@@ -1,0 +1,117 @@
+{
+    "AIT_Match_User_Evaluation_Survey_Feedback": {
+      "Survey_Responses": [
+        {
+          "Participant": "Participant1",
+          "Student_ID": "st124856",
+          "Major": "Information Management (IM)",
+          "Degree": "Master",
+          "Enrolled_in_AT70.25": "No",
+          "Consent": "Yes",
+          "Feedback": {
+            "Navigation_Difficulty": "Very Easy",
+            "Visual_Appeal": "Very Beautiful",
+            "First_Impression": "Very Welcoming",
+            "Security_of_Authentication": "Secure",
+            "Profile_Setup_Satisfaction": "Satisfied",
+            "Preference_Setup_Satisfaction": "Neutral",
+            "Real_time_Messaging_Satisfaction": "Very Satisfied",
+            "Report_System_Satisfaction": "Very Satisfied",
+            "Confidence_in_Data_Security": "Confident",
+            "Trust_in_Admin_Actions": "Strongly Trust",
+            "Bug_Frequency": "Sometimes",
+            "Speed_Rating": "Average",
+            "Recommendation_Likelihood": "Definitely",
+            "Overall_Satisfaction": "Very Satisfied",
+            "Suggestions": [
+              "The preference sliding bar does not update in real time; refreshing the page is necessary to see updates.",
+              "Consider adding a clear preference mode."
+            ]
+          }
+        },
+        {
+          "Participant": "Participant2",
+          "Student_ID": "st124845",
+          "Major": "Data Science and AI (DSAI)",
+          "Degree": "Doctoral",
+          "Enrolled_in_AT70.25": "No",
+          "Consent": "Yes",
+          "Feedback": {
+            "Navigation_Difficulty": "Very Easy",
+            "Visual_Appeal": "Neutral",
+            "First_Impression": "Welcoming",
+            "Security_of_Authentication": "Somewhat Insecure",
+            "Profile_Setup_Satisfaction": "Neutral",
+            "Preference_Setup_Satisfaction": "Satisfied",
+            "Real_time_Messaging_Satisfaction": "Satisfied",
+            "Report_System_Satisfaction": "Very Satisfied",
+            "Confidence_in_Data_Security": "Neutral",
+            "Trust_in_Admin_Actions": "Strongly Distrust",
+            "Bug_Frequency": "Never",
+            "Speed_Rating": "Fast",
+            "Recommendation_Likelihood": "Probably",
+            "Overall_Satisfaction": "Satisfied",
+            "Suggestions": [
+              "Add a calendar feature for setting the birthdate for ease.",
+              "Use more vibrant colors, as current ones look dull.",
+              "Improve the chat room interface, as it appears boring.",
+              "Increase security in user authentication for passwords.",
+              "Enhance admin features for better management."
+            ]
+          }
+        },
+        {
+          "Participant": "Participant3",
+          "Student_ID": "st121413",
+          "Major": "Data Science and AI (DSAI)",
+          "Degree": "Doctoral",
+          "Enrolled_in_AT70.25": "No",
+          "Consent": "Yes",
+          "Feedback": {
+            "Navigation_Difficulty": "Neutral",
+            "Visual_Appeal": "Neutral",
+            "First_Impression": "Welcoming",
+            "Security_of_Authentication": "Neutral",
+            "Profile_Setup_Satisfaction": "Dissatisfied",
+            "Preference_Setup_Satisfaction": "Neutral",
+            "Real_time_Messaging_Satisfaction": "Very Satisfied",
+            "Report_System_Satisfaction": "Satisfied",
+            "Confidence_in_Data_Security": "Very Unsure",
+            "Trust_in_Admin_Actions": "Neutral",
+            "Bug_Frequency": "Never",
+            "Speed_Rating": "Extremely Fast",
+            "Recommendation_Likelihood": "Not Sure",
+            "Overall_Satisfaction": "Neutral",
+            "Suggestions": [
+                "On the landing page, only the sign-up button should be displayed. If the user already has an account, provide an option 'Already have an account?' that reveals the sign-in option.",
+                "Authentication: If the user enters an incorrect password, it should remain in the form after the screen refreshes. This can be handled with JavaScript.",
+                "Add an eye icon to show or hide the password.",
+                "Clarify the format of an AIT email, as users may not be aware.",
+                "For Date of Birth, a calendar selection would be more user-friendly.",
+                "Store birthdays with a timestamp to make querying easier.",
+                "Filter programs by school. If a user selects SET, SOM, or SERD, display only the relevant programs for that school.",
+                "The dropdown selection in profile and preference setup looks dull and could be more visually engaging.",
+                "The learning curve is high. If the website isn't popular, users may not find it worth learning.",
+                "Provide feedback when using dropdown selections to make the interaction clearer.",
+                "There is too much information in the profile view, raising privacy concerns. Consider limiting visible details.",
+                "Add report topics to organize user reports by category.",
+                "In the chatroom, names should link to the profile of the user being chatted with.",
+                "The match and message buttons in the navigation bar feel redundant and make the interface cluttered.",
+                "Display the profile icon with an image on the sidebar.",
+                "The website looks unfinished in some areas.",
+                "The learning curve is very high.",
+                "The user evaluation survey should have a consistent scale for all questions.",
+                "Group each question by sentiment: positive questions and negative questions.",
+                "Use 'Welcome Page' instead of 'Homepage'.",
+                "Show more statistics on the landing page. Currently, only active users are displayed; consider adding metrics like the number of matches made.",
+                "Move the preference description sidebar on the homepage to the left instead of the right.",
+                "Excellent technical development for real-time messaging.",
+                "The report system is effective as it provides feedback to the admin.",
+                "Do not display the email in profiles to reduce privacy concerns."
+            
+            ]
+          }
+        }
+      ]
+    }
+  }

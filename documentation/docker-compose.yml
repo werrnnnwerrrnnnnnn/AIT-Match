@@ -1,5 +1,6 @@
-# For Production 'docker-compose.yml
-# bundle exec rake db:seed
+# For Production 'docker-compose.yml'
+# bundle exec rake db:seed                    ; Adds initial data to the database without deleting anything already there.
+# bundle exec rake db:seed:replant            ; Deletes all data in the database and then adds fresh data from the seed file.
 
 services:
   match_db:
@@ -33,7 +34,7 @@ services:
     command: >
       bash -c "rm -f /rails/tmp/pids/server.pid &&
                bundle exec rake db:migrate &&
-               bundle exec rake db:seed:replant &&
+               bundle exec rake db:seed &&
                ./bin/rails assets:precompile &&
                ./bin/rails server -b 0.0.0.0 -p 3333"
     container_name: match_web

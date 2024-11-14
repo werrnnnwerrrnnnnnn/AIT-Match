@@ -38,4 +38,4 @@
 - Docker Container in Production
     - Remove Container: `sudo docker rm <container_ID>` 
     - Remove Images: `sudo docker rmi <image_ID>`
-    - Create docker container : `sudo docker compose up`
+    - Create Container : `sudo docker compose up` `sudo docker compose up --build`

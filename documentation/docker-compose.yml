@@ -1,0 +1,68 @@
+# For Production 'docker-compose.yml
+# bundle exec rake db:seed
+
+services:
+  match_db:
+    image: postgres:latest
+    container_name: match_db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5433:5432"
+    networks:
+      - match_network
+
+  match_pgadmin:
+    image: dpage/pgadmin4
+    container_name: match_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+    ports:
+      - "8333:80"
+    depends_on:
+      - match_db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - match_network
+
+  match_web:
+    image: werrnnnwerrrnnnnnn/match_web:0.1
+    command: >
+      bash -c "rm -f /rails/tmp/pids/server.pid &&
+               bundle exec rake db:migrate &&
+               bundle exec rake db:seed:replant &&
+               ./bin/rails assets:precompile &&
+               ./bin/rails server -b 0.0.0.0 -p 3333"
+    container_name: match_web
+    environment:
+      - GMAIL_USERNAME=swbt.tatiya@gmail.com
+      - GMAIL_APP_PASSWORD=abxp btrh qmdc padd
+      - REDIS_URL=redis://redis:6379/1
+    ports:
+      - "3333:3333"
+    depends_on:
+      - match_db
+      - redis
+    networks:
+      - match_network
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - match_network
+
+volumes:
+  pgadmin_data:
+  redis-data:
+
+networks:
+  match_network:
+    external: true

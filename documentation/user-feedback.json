@@ -170,6 +170,60 @@
               "The design of the website looks really nice. The images also look cute."
             ]
           }
+        },
+        {
+          "Participant": "Participant6",
+          "Student_ID": "st124859",
+          "Major": "Data Science and AI (DSAI)",
+          "Degree": "Doctoral",
+          "Enrolled_in_AT70.25": "Yes",
+          "Group_Name": "TBA",
+          "Consent": "Yes",
+          "Feedback": {
+            "Navigation_Difficulty": "★★ (Difficult)",
+            "Visual_Appeal": "★★★★★ (Very Beautiful)",
+            "First_Impression": "★★★★ (Welcoming)",
+            "Security_of_Authentication": "★★ (Somewhat Insecure)",
+            "Profile_Setup_Satisfaction": "★★★ (Neutral)",
+            "Preference_Setup_Satisfaction": "★ (Very Dissatisfied)",
+            "Real_time_Messaging_Satisfaction": "★★★★ (Satisfied)",
+            "Report_System_Satisfaction": "★★★ (Neutral)",
+            "Confidence_in_Data_Security": "★★★★ (Confident)",
+            "Trust_in_Admin_Actions": "★★★ (Neutral)",
+            "Bug_Frequency": "★★ (Rarely)",
+            "Speed_Rating": "★★★★ (Fast)",
+            "Recommendation_Likelihood": "★★★ (Not Sure)",
+            "Overall_Satisfaction": "★★★★★ (Very Satisfied)",
+            "Suggestions": null
+          }
+        },
+        {
+          "Participant": "Participant7",
+          "Student_ID": "st125099",
+          "Major": "Computer Science (CS)",
+          "Degree": "Master",
+          "Enrolled_in_AT70.25": "Yes",
+          "Group_Name": "Ait-Chat",
+          "Consent": "Yes",
+          "Feedback": {
+            "Navigation_Difficulty": " ★ ★ ★ ★ ★ (Very Easy)",
+            "Visual_Appeal": "★★★★ (Beautiful)",
+            "First_Impression": "★★★★ (Welcoming)",
+            "Security_of_Authentication": "★★★★ (Secure)",
+            "Profile_Setup_Satisfaction": "★★★ (Neutral)",
+            "Preference_Setup_Satisfaction": "★★★★ (Satisfied)",
+            "Real_time_Messaging_Satisfaction": "★★★ (Neutral)",
+            "Report_System_Satisfaction": "★★★★ (Satisfied)",
+            "Confidence_in_Data_Security": "★★★★ (Confident)",
+            "Trust_in_Admin_Actions": "★★★★★ (Strongly Trust)",
+            "Bug_Frequency": "★ (Never)",
+            "Speed_Rating": "★★★★ (Fast)",
+            "Recommendation_Likelihood": "★★★★ (Probably)",
+            "Overall_Satisfaction": "★★★★ (Satisfied)",
+            "Suggestions": [
+              "I feel like some button animations should be faster, but that's just CSS taste."
+            ]
+          }
         }
       ]
     }

@@ -155,7 +155,7 @@
         <% end %>
 
         <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'login-form' }) do |f| %>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "AIT Email", class: "form-input" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "e.g., st123456@ait.asia or st123456@ait.ac.th", class: "form-input" %>
             <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "form-input" %>
 
             <div class="options">

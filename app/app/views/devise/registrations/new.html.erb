@@ -151,7 +151,7 @@
             <!-- Sign-Up Form -->
             <br>
             <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'signup-form' }) do |f| %>
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "AIT Email", class: "form-input" %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "e.g., st123456@ait.asia or st123456@ait.ac.th", class: "form-input" %>
                 
                 <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password", class: "form-input" %>
                 
